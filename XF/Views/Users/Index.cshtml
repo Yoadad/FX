@@ -1,0 +1,72 @@
+﻿@model XF.Models.UsersViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Register New user", "Register","Account")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Email
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Middle Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Roles
+        </th>
+    </tr>
+
+@foreach (var item in Model.Users) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @foreach (var role in Model.Roles)
+            {
+                <label>
+                    <input class="xf-chk-role" 
+                           data-userid="@item.Id" 
+                           data-roleid="@role.Id" 
+                           type="checkbox" 
+                           @(item.AspNetRoles.Any(r => r.Id == role.Id) ? "checked" : string.Empty)/>
+                    @role.Name
+                </label>
+                <br />
+            }
+
+
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        </td>
+    </tr>
+}
+
+</table>
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/UserRoles/UserRoles.js")
+    
+}

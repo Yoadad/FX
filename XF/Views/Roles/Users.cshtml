@@ -1,0 +1,38 @@
+﻿@model XF.Models.UserRolesViewModel
+@{
+    ViewBag.Title = "Users and Roles";
+}
+
+<h2>Users and Roles</h2>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <label>User:</label>
+        <select id="cmbUsers">
+            @foreach (var item in Model.Users)
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6 left">
+        <h5>Roles</h5>
+        <hr />
+        @foreach (var item in Model.Users)
+        {
+            <p>
+                <label>
+                    <input class="xf-chk-role" value="@item.Key" />
+                    @item.Value
+                </label>
+            </p>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12 right">
+            
+        </div>
+    </div>
+</div>
+
