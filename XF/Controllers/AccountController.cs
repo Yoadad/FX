@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using XF.Models;
 using System.Configuration;
+using XF.Entities;
+using Newtonsoft.Json;
 
 namespace XF.Controllers
 {
@@ -147,6 +149,7 @@ namespace XF.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -161,8 +164,21 @@ namespace XF.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    var db = new XFModel();
+                        db.Logs.Add(new Log()
+                        {
+                            UserId = User.Identity.GetUserId(),
+                            Created = DateTime.Now,
+                            Message = string.Format("Adding user | data: {0}",
+                            JsonConvert.SerializeObject(new
+                            {
+                                UserName = model.Email,
+                                Name = user.FullName
+                            })),
+                            Type = "success"
+                        });
+                    db.SaveChanges();
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

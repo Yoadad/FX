@@ -37,9 +37,14 @@ namespace XF.Entities
         public decimal? Subtotal { get; set; }
 
         [Column(TypeName = "numeric")]
+        public decimal? Tax { get; set; }
+
+        [Column(TypeName = "numeric")]
         public decimal? Total { get; set; }
 
         public int InvoiceStatusId { get; set; }
+
+        public string Comments { get; set; }
 
         public virtual Client Client { get; set; }
 

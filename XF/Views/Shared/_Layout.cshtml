@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/kendo")
+@*    @Styles.Render("~/Content/kendo")*@
     @Scripts.Render("~/bundles/modernizr")
   
 
@@ -20,7 +20,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Ximena's Furniture", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -32,17 +32,36 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
+    <div class="container-fluent body-content">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">@RenderBody()</div>
+            <div class="col-md-2">
+                <div id="info">
+
+                </div>
+                <div id="chat">
+
+                </div>
+            </div>
+        </div>
+        
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Ximena's Furniture</p>
         </footer>
     </div>
 
+    @Html.Partial("~/Views/Templates/Info.cshtml")
+    
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/doTjs")
+    @Scripts.Render("~/Scripts/main.js")
+    @RenderSection("templates", required: false)
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>

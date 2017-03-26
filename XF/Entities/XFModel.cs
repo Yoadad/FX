@@ -18,10 +18,12 @@ namespace XF.Entities
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Config> Configs { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<InvoiceStatu> InvoiceStatus { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
@@ -45,6 +47,12 @@ namespace XF.Entities
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId);
 
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.Logs)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Branch>()
                 .HasMany(e => e.Products)
                 .WithMany(e => e.Branches)
@@ -65,6 +73,10 @@ namespace XF.Entities
 
             modelBuilder.Entity<Invoice>()
                 .Property(e => e.Subtotal)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Invoice>()
+                .Property(e => e.Tax)
                 .HasPrecision(13, 2);
 
             modelBuilder.Entity<Invoice>()
@@ -119,6 +131,10 @@ namespace XF.Entities
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Subtotal)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.Tax)
                 .HasPrecision(13, 2);
 
             modelBuilder.Entity<PurchaseOrder>()

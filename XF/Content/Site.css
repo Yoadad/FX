@@ -22,3 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#info {
+    height: 144px;
+    overflow: auto;
+}

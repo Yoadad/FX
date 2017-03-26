@@ -11,6 +11,10 @@ namespace XF
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/doTjs").Include(
+            "~/Scripts/doT.min.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
                 "~/Scripts/kendo.all.min.js",
                 "~/Scripts/kendo.timezones.min.js"
