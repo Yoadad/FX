@@ -23,11 +23,11 @@
                 @Html.ActionLink("Ximena's Furniture", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                @*<ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+                </ul>*@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -35,10 +35,19 @@
     <div class="container-fluent body-content">
         <div class="row">
             <div class="col-md-2">
+
+                <div class="list-group">
+                    
+                    <a href="/Products" class="list-group-item">Products</a>
+                    @*<a href="/Products/Stock" class="list-group-item">Stock</a>*@
+                    <a href="/Users" class="list-group-item">Users</a>
+                </div>
+
             </div>
             <div class="col-md-8">@RenderBody()</div>
             <div class="col-md-2">
                 <div id="info">
+
 
                 </div>
                 <div id="chat">

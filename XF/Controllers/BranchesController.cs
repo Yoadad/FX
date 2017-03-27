@@ -10,7 +10,7 @@ using XF.Entities;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Super,Admin")]
     public class BranchesController : Controller
     {
         private XFModel db = new XFModel();

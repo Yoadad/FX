@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace XF.Controllers
 {
-    [Authorize(Roles = "Super,Owner,Admin")]
+    [Authorize(Roles = "Super,Admin")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -139,7 +139,6 @@ namespace XF.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -149,7 +148,6 @@ namespace XF.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
