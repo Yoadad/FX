@@ -24,10 +24,12 @@ namespace XF.Entities
         public virtual DbSet<InvoiceStatu> InvoiceStatus { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<PurchaseOrderStatu> PurchaseOrderStatus { get; set; }
+        public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -52,11 +54,6 @@ namespace XF.Entities
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Branch>()
-                .HasMany(e => e.Products)
-                .WithMany(e => e.Branches)
-                .Map(m => m.ToTable("ProductsBranch").MapLeftKey("BranchId").MapRightKey("ProductId"));
 
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.Invoices)
@@ -99,9 +96,14 @@ namespace XF.Entities
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Location>()
-                .HasMany(e => e.Products)
-                .WithMany(e => e.Locations)
-                .Map(m => m.ToTable("ProductsLocation").MapLeftKey("LocationId").MapRightKey("ProductId"));
+                .HasMany(e => e.Stocks)
+                .WithRequired(e => e.Location)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PaymentType>()
+                .HasMany(e => e.Invoices)
+                .WithRequired(e => e.PaymentType)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.SellPrice)
@@ -113,6 +115,11 @@ namespace XF.Entities
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.InvoiceDetails)
+                .WithRequired(e => e.Product)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Stocks)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 

@@ -13,8 +13,7 @@ namespace XF.Entities
         public Product()
         {
             InvoiceDetails = new HashSet<InvoiceDetail>();
-            Branches = new HashSet<Branch>();
-            Locations = new HashSet<Location>();
+            Stocks = new HashSet<Stock>();
         }
 
         public int Id { get; set; }
@@ -40,9 +39,6 @@ namespace XF.Entities
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Branch> Branches { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Stock> Stocks { get; set; }
     }
 }

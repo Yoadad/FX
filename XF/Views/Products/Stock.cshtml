@@ -1,0 +1,63 @@
+﻿
+@model XF.Models.StockViewModel
+
+<h2>Configure</h2>
+<div class="form-horizontal">
+    <h4>Location</h4>
+    <hr />
+    
+    <div class="form-group">
+        <label class="control-label col-md-2">Branch</label>
+        <div class="col-md-10">
+            <select id="cmdBranches">
+                @foreach (var item in Model.Branches)
+                {
+                    <option id="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Storage</label>
+        <div class="col-md-10">
+            <select id="cmdStorache">
+                @foreach (var item in Model.Storages)
+                {
+                    <option id="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Location</label>
+        <div class="col-md-10">
+            <select id="cmdLocations">
+                @foreach (var item in Model.Locations)
+                {
+                    <option id="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Product</label>
+        <div class="col-md-10">
+            <select id="cmdProducts">
+                @foreach (var item in Model.Products)
+                {
+                    <option id="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Stock</label>
+        <div class="col-md-10">
+            <input type="number" id="txtStock" />
+        </div>
+    </div>
+   

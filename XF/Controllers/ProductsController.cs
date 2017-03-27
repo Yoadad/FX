@@ -7,113 +7,129 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
+using XF.Models;
 
 namespace XF.Controllers
 {
-    [Authorize(Roles = "Super")]
-    public class PurchaseOrderStatusController : Controller
+    public class ProductsController : Controller
     {
         private XFModel db = new XFModel();
 
-        // GET: PurchaseOrderStatus
+        // GET: Products
         public ActionResult Index()
         {
-            return View(db.PurchaseOrderStatus.ToList());
+            return View(db.Products.ToList());
         }
 
-        // GET: PurchaseOrderStatus/Details/5
+        // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PurchaseOrderStatu purchaseOrderStatu = db.PurchaseOrderStatus.Find(id);
-            if (purchaseOrderStatu == null)
+            Product product = db.Products.Find(id);
+            if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(purchaseOrderStatu);
+            return View(product);
         }
 
-        // GET: PurchaseOrderStatus/Create
+        // GET: Products/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PurchaseOrderStatus/Create
+        // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] PurchaseOrderStatu purchaseOrderStatu)
+        public ActionResult Create([Bind(Include = "Id,Code,Name,SellPrice,PurchasePrice,Max,Min")] Product product)
         {
             if (ModelState.IsValid)
             {
-                db.PurchaseOrderStatus.Add(purchaseOrderStatu);
+                db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(purchaseOrderStatu);
+            return View(product);
         }
 
-        // GET: PurchaseOrderStatus/Edit/5
+        // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PurchaseOrderStatu purchaseOrderStatu = db.PurchaseOrderStatus.Find(id);
-            if (purchaseOrderStatu == null)
+            Product product = db.Products.Find(id);
+            if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(purchaseOrderStatu);
+            return View(product);
         }
 
-        // POST: PurchaseOrderStatus/Edit/5
+        // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] PurchaseOrderStatu purchaseOrderStatu)
+        public ActionResult Edit([Bind(Include = "Id,Code,Name,SellPrice,PurchasePrice,Max,Min")] Product product)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(purchaseOrderStatu).State = EntityState.Modified;
+                db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(purchaseOrderStatu);
+            return View(product);
         }
 
-        // GET: PurchaseOrderStatus/Delete/5
+        // GET: Products/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PurchaseOrderStatu purchaseOrderStatu = db.PurchaseOrderStatus.Find(id);
-            if (purchaseOrderStatu == null)
+            Product product = db.Products.Find(id);
+            if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(purchaseOrderStatu);
+            return View(product);
         }
 
-        // POST: PurchaseOrderStatus/Delete/5
+        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PurchaseOrderStatu purchaseOrderStatu = db.PurchaseOrderStatus.Find(id);
-            db.PurchaseOrderStatus.Remove(purchaseOrderStatu);
+            Product product = db.Products.Find(id);
+            db.Products.Remove(product);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Stock()
+        {
+            var branches = db.Branches.ToList();
+            var storages = db.Storages.Where(s => s.BranchId == branches.First().Id).ToList();
+            var locations = db.Locations.Where(l => l.StorageId == storages.First().Id).ToList();
+            var products = db.Products.ToList();
+            var model = new StockViewModel()
+            {
+                Branches = branches,
+                Storages = storages,
+                Locations = locations,
+                Products = products
+            };
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)
