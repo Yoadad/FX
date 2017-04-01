@@ -31,7 +31,7 @@
     };
 
     XF.getHtmlFromTemplate = function (selector, data) {
-        var template = doT.template($(selector).html());
+        var template = kendo.template($(selector).html());
         var html = template(data);
         return html;
     };
