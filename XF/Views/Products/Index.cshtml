@@ -10,7 +10,7 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-<table class="table">
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Product.Code)
@@ -77,5 +77,11 @@
         </td>
     </tr>
 }
+</table>*@
 
-</table>
+<div id="grid"></div>
+@section scripts
+    {
+@Scripts.Render("~/Scripts/ProductStock/ProductStock.js")
+    
+    }

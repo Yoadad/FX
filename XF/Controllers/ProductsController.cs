@@ -19,16 +19,22 @@ namespace XF.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Products
-                .ToList()
-                .Select(p => new ProductItemViewMOdel()
-                {
-                    Product = p,
-                    Stock = db.Stocks
-                                .Where(s => s.Id == p.Id)
-                                .Count()
-                })
-                );
+            return View();
+        }
+
+        public JsonResult Products()
+        {
+            var products = db.Products
+                .ToList();
+                //.Select(p => new ProductItemViewMOdel()
+                // {
+                //     Product = p,
+                //     Stock = db.Stocks
+                //                .Where(s => s.Id == p.Id)
+                //                .Count()
+                // });
+
+            return Json(products,JsonRequestBehavior.AllowGet);
         }
 
         // GET: Products/Details/5

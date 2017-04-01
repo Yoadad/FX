@@ -51,6 +51,7 @@ namespace XF.Controllers
             return View(model);
         }
 
+        
         // GET: Users/Details/5
         public ActionResult Details(string id)
         {
