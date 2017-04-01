@@ -19,18 +19,35 @@ namespace XF.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var model = new UsersViewModel()
+            UsersViewModel model = null;
+            if (User.IsInRole("Super"))
             {
-                Users = db.AspNetUsers
-                .Include(a => a.AspNetRoles)
-                .Where(u => u.AspNetRoles.Any(r => r.Name != "Super")
-                            || !u.AspNetRoles.Any())
-                            .ToList(),
-                Roles = db.AspNetRoles
-                            .Where(r=>r.Name != "Super")
-                            .ToList()
-            };
-            
+                 model = new UsersViewModel()
+                {
+                    Users = db.AspNetUsers
+                            .Include(a => a.AspNetRoles)
+                            //.Where(u => u.AspNetRoles.Any(r => r.Name == "Super")
+                            //            || u.AspNetRoles.Any())
+                                        .ToList(),
+                    Roles = db.AspNetRoles
+                               /*.Where(r => r.Name == "Super")*/
+                               .ToList()
+                };
+            }
+            else { 
+                 model = new UsersViewModel()
+                {
+                    Users = db.AspNetUsers
+                    .Include(a => a.AspNetRoles)
+                    .Where(u => u.AspNetRoles.Any(r => r.Name != "Super")
+                                || !u.AspNetRoles.Any())
+                                .ToList(),
+                    Roles = db.AspNetRoles
+                                .Where(r => r.Name != "Super")
+                                .ToList()
+                };
+            }
+
             return View(model);
         }
 
