@@ -8,8 +8,6 @@
     @Styles.Render("~/Content/kendo")
     @Scripts.Render("~/bundles/modernizr")
   
-
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -63,6 +61,11 @@
     </div>
 
     @Html.Partial("~/Views/Templates/Info.cshtml")
+    @Html.Partial("~/Views/Templates/Alert.cshtml")
+    @Html.Partial("~/Views/Templates/Confirm.cshtml")
+
+
+
     
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

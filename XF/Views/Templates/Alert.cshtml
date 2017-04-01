@@ -1,0 +1,16 @@
+﻿<div id="alert">
+    <div class="content"></div>
+    <hr />
+    <div class="text-right">
+        <input type="button" value="OK" class="btn btn-default" id="btnAlertOK" />
+    </div>
+</div>
+
+<script type="text/html" id="alertTemplate">
+    <p class="">        
+        <h5>
+            <span class="glyphicon #=data.icon#" aria-hidden="true"></span>
+            #=data.text#
+        </h5>
+    </p>
+</script>
