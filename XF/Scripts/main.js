@@ -39,12 +39,7 @@
     };
 
     XF.alert = function (text,type,icon) {
-        var html = XF.getHtmlFromTemplate('#alertTemplate',
-        {
-            text: text,
-            type: type || 'info',
-            icon: icon || 'glyphicon-info-sign'
-        });
+        var html = XF.getHtmlFromTemplate('#alertTemplate',{text: text});
         $('#alert .content').html(html);
         XF.alertWindow.center().open();
     };
@@ -92,18 +87,5 @@
         XF.confirmWindow.close();
         XF.confirmOnClose();
     });
-
-    //kendoWindow({
-    //    width: "600px",
-    //    title: "About Alvar Aalto",
-    //    visible: false,
-    //    actions: [
-    //        "Pin",
-    //        "Minimize",
-    //        "Maximize",
-    //        "Close"
-    //    ],
-    //    close: onClose
-    //}).data("kendoWindow").center().open();
 
 }(jQuery,XF));
