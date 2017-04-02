@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,6 +12,7 @@ using XF.Models;
 
 namespace XF.Controllers
 {
+
     [Authorize(Roles = "Super,Admin")]
     public class ProductsController : Controller
     {
@@ -23,19 +25,39 @@ namespace XF.Controllers
             return View();
         }
 
-        public JsonResult Products()
-        {
-            var products = db.Products
-                .ToList();
-                //.Select(p => new ProductItemViewMOdel()
-                // {
-                //     Product = p,
-                //     Stock = db.Stocks
-                //                .Where(s => s.Id == p.Id)
-                //                .Count()
-                // });
 
-            return Json(products,JsonRequestBehavior.AllowGet);
+        private ProductItemViewModel GetProductItemModel(Product p)
+        {
+            var itemModel = new ProductItemViewModel(p);
+            itemModel.Stock = db.Stocks
+                .Where(s => s.Id == p.Id)
+                .Count();
+            return itemModel;
+        }
+        public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
+        {
+            List<SortDescription> sortList = new List<SortDescription>();
+            FilterContainer container = new FilterContainer();
+            if (!string.IsNullOrEmpty(sorting))
+            {
+                sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
+            }
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                container = JsonConvert.DeserializeObject<FilterContainer>(filter);
+            }
+            
+            //TODO: Sorting
+            filter = string.IsNullOrWhiteSpace(filter) ? string.Empty : filter;
+            var querybase = db.Products
+                .Where(p => p.Code.Contains(filter) || p.Name.Contains(filter))
+                .OrderBy(p => p.Code)
+                .ToList()
+                .Select((p) => GetProductItemModel(p));
+
+            var products = querybase.Skip(skip).Take(pageSize);
+            return Json(new { total = products.Count(), data = products },JsonRequestBehavior.AllowGet);
         }
 
         // GET: Products/Details/5
@@ -137,9 +159,9 @@ namespace XF.Controllers
         {
             var product = db.Products.FirstOrDefault(p => p.Id == id);
             var stock = db.Stocks.FirstOrDefault(p => p.ProductId == id);
-            var model = new ProductItemViewMOdel()
+            var model = new ProductItemViewModel(product)
             {
-                Product = product,
+
                 Stock = stock == null ? 0 : stock.StockQuantity
             };
             return View(model);

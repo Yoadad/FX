@@ -6,23 +6,46 @@
 
     var _dataSource = new kendo.data.DataSource({
         transport: {
-            read:
-                {
-                    url: baseUrl + "/Products",
-                    dataType: "json"
-                }
+            read: function (option) {
+                console.log(JSON.stringify(option.data.sort));
+                $.ajax({
+                    url: baseUrl + '/Products',
+                    dataType: 'json',
+                    data:
+                        {
+                            skip: option.data.skip,
+                            take: option.data.take,
+                            pageSize: option.data.pageSize,
+                            page: option.data.page,
+                            sorting: JSON.stringify(option.data.sort),
+                            filter: JSON.stringify(option.data.filter)
+                        },
+                    success: function (result) {
+                        option.success(result);
+                    },
+                    error: function (result) {
+                        console.log('Error on server call.');
+                    }
+                });
+            }
         },
-        serverPagin: true,
+        serverFiltering: true,
         serverSorting: true,
-        pageSize: $('#hfPageSize').val()
+        serverPaging: true,
+        pageSize: $('#hfPageSize').val(),
+        schema:
+            {
+                data: "data",
+                total: "total"
+            }
+
     });
 
-    console.log(_dataSource);
-
+    
     $("#grid").kendoGrid({
         dataSource: _dataSource,
         sortable: true,
-        pageable: true,
+        pageable: {refresh:true, pageSizes: true},
         filterable: {
             extra: false,
             operators:
@@ -37,15 +60,13 @@
         //selectable: "multiple cell",
         columns:
             [
-                { field: "Id" },
-                {
-                    field: "Code"
-                },
+                { field: "Id" , hidden: true },
+                { field: "Code" },
                 { field: "Name" },
-                { field: "SellPrice" },
-                { field: "PurchasePrice" },
-                { field: "Max" },
-                { field: "Min" }
+                { field: "SellPrice", filterable: false },
+                { field: "PurchasePrice", filterable: false },
+                { field: "Max", filterable: false },
+                { field: "Min", filterable: false }
             ]
     });
 
