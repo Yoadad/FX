@@ -4,15 +4,15 @@
 
     var baseUrl = document.URL;
 
-    XF.SetStock = function (productId,stock) {
+    XF.SetStock = function (locationId, productId, stock) {
         var url = '/Products/SetStock';
-        var data = { productId: productId, stock: stock };
+        var data = XF.logData = { locationId: locationId, productId: productId, stock: stock };
         $.post(url,data, XF.SetStockResponse,'json');
     };
 
     XF.SetStockResponse = function (data) {
         if (data.Result) {
-            XF.addInfoMessage('Stock updated');
+            XF.addInfoMessage('Stock updated','success');
         }
         else {
             XF.addInfoMessage(data.Message,'danger');
@@ -20,13 +20,13 @@
     };
 
     $('#btnUpdate').on('click', function () {
-        if (confirm('This action is going to update the current product stock, are you sure that you want to continue?')) {
+        XF.confirm('This action will update the current product stock, are you sure that you want to continue?',
+        function () {
+            var locationId = $('#hfLocationId').val();
             var productId = $('#hfProductId').val();
             var stock = $('#txtStock').val();
-            console.log(productId + ','+ stock);
-            
-            XF.SetStock(productId, stock);
-        }
+            XF.SetStock(locationId,productId, stock);
+        });
     });
 
 }(jQuery, XF));
