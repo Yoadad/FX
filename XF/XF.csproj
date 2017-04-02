@@ -298,7 +298,8 @@
     <Content Include="Scripts\kendo.timezones.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\ProductStock\ProductStock.js" />
+    <Content Include="Scripts\Products\ProductsList.js" />
+    <Content Include="Scripts\Products\ProductStock.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
