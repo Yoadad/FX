@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -157,36 +158,42 @@ namespace XF.Controllers
 
         public ActionResult Stock(int id)
         {
-            var product = db.Products.FirstOrDefault(p => p.Id == id);
-            var stock = db.Stocks.FirstOrDefault(p => p.ProductId == id);
-            var model = new ProductItemViewModel(product)
+            var model = new ProductStockViewMOdel()
             {
-
-                Stock = stock == null ? 0 : stock.StockQuantity
+                Product = db.Products.FirstOrDefault(p => p.Id == id),
+                Location = db.Locations.FirstOrDefault(),
+                Stock = 0
             };
+
+            if (db.Stocks.Any(s=>
+                s.ProductId == model.Product.Id
+                && s.LocationId == model.Location.Id))
+            {
+                model.Stock = db.Stocks
+                        .FirstOrDefault( s => s.ProductId == model.Product.Id
+                                        && s.LocationId == model.Location.Id)
+                        .StockQuantity;
+            }
+
             return View(model);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public JsonResult SetStock(int productId, int stock)
+        [Authorize(Roles = "Admin,Super")]
+        public JsonResult SetStock(int productId,int locationId, int stock)
         {
             if (productId > 0)
             {
-                var stockRegister = db.Stocks.FirstOrDefault(s => s.ProductId == productId);
-                if (stockRegister == null)
-                {
-                    stockRegister = new Entities.Stock()
+                var product = db.Products.Find(productId);
+                var location = db.Locations.Find(locationId);
+                db.Stocks.AddOrUpdate(s => new {s.ProductId, s.LocationId},
+                    new Stock()
                     {
-                        Product = db.Products.FirstOrDefault(p => p.Id == productId),
-                        Location = db.Locations.First()
-                    };
-                }
-                else
-                {
-                    db.Entry(stockRegister).State = EntityState.Modified;
-                }
-                stockRegister.StockQuantity = stock;
+                        ProductId = product.Id,
+                        LocationId = location.Id,
+                        StockQuantity = stock
+                    }
+                );
                 db.SaveChanges();
                 return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
             }
