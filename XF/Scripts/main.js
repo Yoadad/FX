@@ -1,4 +1,13 @@
-﻿var XF = XF || {};
+﻿/*
+    Commont functions
+    
+    XF.addInfoMessage('action description','info');
+    XF.alert('Message');
+    XF.confirm('Message', function(){your code...});
+    XF.getHtmlFromTemplate('#selector',{data:data});
+*/
+
+var XF = XF || {};
 
 (function ($, XF) {
     XF.confirmResult = false; 

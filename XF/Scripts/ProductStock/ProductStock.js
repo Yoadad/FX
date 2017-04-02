@@ -39,7 +39,7 @@
         },
         serverPagin: true,
         serverSorting: true,
-        pageSize: 1
+        pageSize: $('#hfPageSize').val()
     });
 
     console.log(_dataSource);

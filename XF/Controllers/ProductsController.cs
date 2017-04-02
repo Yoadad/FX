@@ -19,6 +19,7 @@ namespace XF.Controllers
         // GET: Products
         public ActionResult Index()
         {
+            ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
             return View();
         }
 
