@@ -23,9 +23,9 @@ namespace XF.Models.Helpers
             return orderByExpr;
         }
 
-        public static List<T> OrderByDir<T>(IEnumerable<T> source, string dir, Func<T, object> OrderByColumn)
+        public static IQueryable<T> OrderByDir<T>(IQueryable<T> source, string dir, Func<T, object> OrderByColumn)
         {
-            return dir.ToUpper() == "ASC" ? source.OrderBy(OrderByColumn).ToList() : source.OrderByDescending(OrderByColumn).ToList();
+            return dir.ToUpper() == "ASC" ? source.OrderBy(OrderByColumn).AsQueryable() : source.OrderByDescending(OrderByColumn).AsQueryable();
         }
     }
 }

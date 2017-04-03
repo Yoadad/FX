@@ -43,29 +43,70 @@ namespace XF.Controllers
         {
             List<SortDescription> sortList = new List<SortDescription>();
             FilterContainer filterList = new FilterContainer();
-            var querybase = db.Products.ToList();
+            var querybase = db.Products;
+            IQueryable<Product> results = db.Products.AsQueryable();
 
             if (string.IsNullOrEmpty(sorting) && string.IsNullOrEmpty(filter))
             {
-                querybase
+               results = querybase
                 .OrderBy(p => p.Code)
                 .ToList()
-                .Select((p) => GetProductItemModel(p));
-            }
+                .Select((p) => GetProductItemModel(p)).Skip(skip).Take(pageSize).AsQueryable();
 
-         
-            if (!string.IsNullOrEmpty(sorting))
+            }
+            else
             {
-               
-                sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
-                var orderByExpression = OrderByHelper.GetOrderByExpression<Product>(sortList[0].field);
-                querybase = OrderByHelper.OrderByDir<Product>(querybase, sortList[0].dir, orderByExpression);
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    filterList = JsonConvert.DeserializeObject<FilterContainer>(filter);
+                    foreach (var f in filterList.filters)
+                    {
+                        string name = (filterList.filters.Any(item => item.field.Equals("Name"))) ? filterList.filters.FirstOrDefault(item => item.field.Equals("Name")).value :string.Empty
+                                        ;
+                        string code = (filterList.filters.Any(item => item.field.Equals("Code"))) ? filterList.filters.FirstOrDefault(item => item.field.Equals("Code")).value: string.Empty;
+                        if (f.@operator == "eq")
+                        {
+                            if (!string.IsNullOrEmpty(name))
+                                results = results.Where(p => p.Name == name);
+                            if (!string.IsNullOrEmpty(code))
+                                results = results.Where(p => p.Code == code);
+                        }
+                        if (f.@operator == "startstwith")
+                        {
+                            if (!string.IsNullOrEmpty(name))
+                                results = results.Where(p => p.Name.Contains(name));
+                            if (!string.IsNullOrEmpty(code))
+                                results = results.Where(p => p.Code.Contains(code));
+                        }
+                        if (f.@operator == "neq")
+                        {
+                            if (!string.IsNullOrEmpty(name))
+                                results = results.Where(p => p.Name != name);
+                            if (!string.IsNullOrEmpty(code))
+                                results = results.Where(p => p.Code != code);
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(sorting))
+                {
+
+                    sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
+                    var orderByExpression = OrderByHelper.GetOrderByExpression<Product>(sortList[0].field);
+                    results = OrderByHelper.OrderByDir<Product>(results, sortList[0].dir, orderByExpression);
+                }
+                else
+                {
+                    results = results.OrderBy(p => p.Code);
+                }
+                results = results.Skip(skip).Take(pageSize);
             }
 
-        
-            
-            var products = querybase.Skip(skip).Take(pageSize);
+           
+            var products = results.ToList();
+
             return Json(new { total = products.Count(), data = products }, JsonRequestBehavior.AllowGet);
+
         }
 
         // GET: Products/Details/5
