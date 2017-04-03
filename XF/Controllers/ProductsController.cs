@@ -5,11 +5,15 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Linq.Expressions;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
+using XF.Models.Helpers;
 
 namespace XF.Controllers
 {
@@ -38,27 +42,30 @@ namespace XF.Controllers
         public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
             List<SortDescription> sortList = new List<SortDescription>();
-            FilterContainer container = new FilterContainer();
-            if (!string.IsNullOrEmpty(sorting))
-            {
-                sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
-            }
+            FilterContainer filterList = new FilterContainer();
+            var querybase = db.Products.ToList();
 
-            if (!string.IsNullOrEmpty(filter))
+            if (string.IsNullOrEmpty(sorting) && string.IsNullOrEmpty(filter))
             {
-                container = JsonConvert.DeserializeObject<FilterContainer>(filter);
-            }
-            
-            //TODO: Sorting
-            filter = string.IsNullOrWhiteSpace(filter) ? string.Empty : filter;
-            var querybase = db.Products
-                .Where(p => p.Code.Contains(filter) || p.Name.Contains(filter))
+                querybase
                 .OrderBy(p => p.Code)
                 .ToList()
                 .Select((p) => GetProductItemModel(p));
+            }
 
+         
+            if (!string.IsNullOrEmpty(sorting))
+            {
+               
+                sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
+                var orderByExpression = OrderByHelper.GetOrderByExpression<Product>(sortList[0].field);
+                querybase = OrderByHelper.OrderByDir<Product>(querybase, sortList[0].dir, orderByExpression);
+            }
+
+        
+            
             var products = querybase.Skip(skip).Take(pageSize);
-            return Json(new { total = products.Count(), data = products },JsonRequestBehavior.AllowGet);
+            return Json(new { total = products.Count(), data = products }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Products/Details/5
@@ -158,20 +165,20 @@ namespace XF.Controllers
 
         public ActionResult Stock(int id)
         {
-            var model = new ProductStockViewMOdel()
+            var model = new ProductStockViewModel()
             {
                 Product = db.Products.FirstOrDefault(p => p.Id == id),
                 Location = db.Locations.FirstOrDefault(),
                 Stock = 0
             };
 
-            if (db.Stocks.Any(s=>
+            if (db.Stocks.Any(s =>
                 s.ProductId == model.Product.Id
                 && s.LocationId == model.Location.Id))
             {
                 model.Stock = db.Stocks
-                        .FirstOrDefault( s => s.ProductId == model.Product.Id
-                                        && s.LocationId == model.Location.Id)
+                        .FirstOrDefault(s => s.ProductId == model.Product.Id
+                                       && s.LocationId == model.Location.Id)
                         .StockQuantity;
             }
 
@@ -180,13 +187,13 @@ namespace XF.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin,Super")]
-        public JsonResult SetStock(int productId,int locationId, int stock)
+        public JsonResult SetStock(int productId, int locationId, int stock)
         {
             if (productId > 0)
             {
                 var product = db.Products.Find(productId);
                 var location = db.Locations.Find(locationId);
-                db.Stocks.AddOrUpdate(s => new {s.ProductId, s.LocationId},
+                db.Stocks.AddOrUpdate(s => new { s.ProductId, s.LocationId },
                     new Stock()
                     {
                         ProductId = product.Id,
