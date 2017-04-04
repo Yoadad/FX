@@ -1,17 +1,23 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Linq.Expressions;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
+using XF.Models.Helpers;
 
 namespace XF.Controllers
 {
+
     [Authorize(Roles = "Super,Admin")]
     public class ProductsController : Controller
     {
@@ -24,19 +30,83 @@ namespace XF.Controllers
             return View();
         }
 
-        public JsonResult Products()
-        {
-            var products = db.Products
-                .ToList();
-                //.Select(p => new ProductItemViewMOdel()
-                // {
-                //     Product = p,
-                //     Stock = db.Stocks
-                //                .Where(s => s.Id == p.Id)
-                //                .Count()
-                // });
 
-            return Json(products,JsonRequestBehavior.AllowGet);
+        private ProductItemViewModel GetProductItemModel(Product p)
+        {
+            var itemModel = new ProductItemViewModel(p);
+            itemModel.Stock = db.Stocks
+                .Where(s => s.Id == p.Id)
+                .Count();
+            return itemModel;
+        }
+        public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
+        {
+            List<SortDescription> sortList = new List<SortDescription>();
+            FilterContainer filterList = new FilterContainer();
+            var querybase = db.Products;
+            IQueryable<Product> results = db.Products.AsQueryable();
+
+            if (string.IsNullOrEmpty(sorting) && string.IsNullOrEmpty(filter))
+            {
+               results = querybase
+                .OrderBy(p => p.Code)
+                .ToList()
+                .Select((p) => GetProductItemModel(p)).Skip(skip).Take(pageSize).AsQueryable();
+
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    filterList = JsonConvert.DeserializeObject<FilterContainer>(filter);
+                    foreach (var f in filterList.filters)
+                    {
+                        string name = (filterList.filters.Any(item => item.field.Equals("Name"))) ? filterList.filters.FirstOrDefault(item => item.field.Equals("Name")).value :string.Empty
+                                        ;
+                        string code = (filterList.filters.Any(item => item.field.Equals("Code"))) ? filterList.filters.FirstOrDefault(item => item.field.Equals("Code")).value: string.Empty;
+                        if (f.@operator == "eq")
+                        {
+                            if (!string.IsNullOrEmpty(name))
+                                results = results.Where(p => p.Name == name);
+                            if (!string.IsNullOrEmpty(code))
+                                results = results.Where(p => p.Code == code);
+                        }
+                        if (f.@operator == "startstwith")
+                        {
+                            if (!string.IsNullOrEmpty(name))
+                                results = results.Where(p => p.Name.Contains(name));
+                            if (!string.IsNullOrEmpty(code))
+                                results = results.Where(p => p.Code.Contains(code));
+                        }
+                        if (f.@operator == "neq")
+                        {
+                            if (!string.IsNullOrEmpty(name))
+                                results = results.Where(p => p.Name != name);
+                            if (!string.IsNullOrEmpty(code))
+                                results = results.Where(p => p.Code != code);
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(sorting))
+                {
+
+                    sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
+                    var orderByExpression = OrderByHelper.GetOrderByExpression<Product>(sortList[0].field);
+                    results = OrderByHelper.OrderByDir<Product>(results, sortList[0].dir, orderByExpression);
+                }
+                else
+                {
+                    results = results.OrderBy(p => p.Code);
+                }
+                results = results.Skip(skip).Take(pageSize);
+            }
+
+           
+            var products = results.ToList();
+
+            return Json(new { total = products.Count(), data = products }, JsonRequestBehavior.AllowGet);
+
         }
 
         // GET: Products/Details/5
@@ -136,20 +206,20 @@ namespace XF.Controllers
 
         public ActionResult Stock(int id)
         {
-            var model = new ProductStockViewMOdel()
+            var model = new ProductStockViewModel()
             {
                 Product = db.Products.FirstOrDefault(p => p.Id == id),
                 Location = db.Locations.FirstOrDefault(),
                 Stock = 0
             };
 
-            if (db.Stocks.Any(s=>
+            if (db.Stocks.Any(s =>
                 s.ProductId == model.Product.Id
                 && s.LocationId == model.Location.Id))
             {
                 model.Stock = db.Stocks
-                        .FirstOrDefault( s => s.ProductId == model.Product.Id
-                                        && s.LocationId == model.Location.Id)
+                        .FirstOrDefault(s => s.ProductId == model.Product.Id
+                                       && s.LocationId == model.Location.Id)
                         .StockQuantity;
             }
 
@@ -158,13 +228,13 @@ namespace XF.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin,Super")]
-        public JsonResult SetStock(int productId,int locationId, int stock)
+        public JsonResult SetStock(int productId, int locationId, int stock)
         {
             if (productId > 0)
             {
                 var product = db.Products.Find(productId);
                 var location = db.Locations.Find(locationId);
-                db.Stocks.AddOrUpdate(s => new {s.ProductId, s.LocationId},
+                db.Stocks.AddOrUpdate(s => new { s.ProductId, s.LocationId },
                     new Stock()
                     {
                         ProductId = product.Id,
