@@ -47,11 +47,11 @@
         sortable: true,
         pageable: {refresh:true, pageSizes: true},
         filterable: {
-            extra: false,
-            operators:
+            extra:false,
+           operators:
                 {
                     string: {
-                        startstwith: "Starts with",
+                        contains: "Contains",
                         eq: "Is equal to",
                         neq: "Is not equal to"
                     }
