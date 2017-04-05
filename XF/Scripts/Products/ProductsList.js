@@ -44,7 +44,10 @@
     
     $("#grid").kendoGrid({
         dataSource: _dataSource,
-        sortable: true,
+        sortable:  {
+            mode: "single",
+            allowUnsort: false
+           },
         pageable: {refresh:true, pageSizes: true},
         filterable: {
             extra:false,
