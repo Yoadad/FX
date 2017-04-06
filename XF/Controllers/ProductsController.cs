@@ -268,7 +268,7 @@ namespace XF.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Super")]
         public JsonResult AddStock(int productId, int stock)
         {
             if (productId > 0)
@@ -283,7 +283,7 @@ namespace XF.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Super")]
         public JsonResult RemoveStock(int productId, int stock)
         {
             if (productId > 0)
@@ -297,7 +297,18 @@ namespace XF.Controllers
             return Json(new { Result = false, Message = "There is not product to update" }, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Super,Seller")]
+        public JsonResult ByName([Bind(Include = "filter[filters][0][value]")]string filter)
+        {
+            var x = this.Request.Params["filter[filters][0][value]"];
+            var name = filter ?? x;
 
+            var products = db.Products
+                .Where(p => p.Code.Contains(name) ||
+                            p.Name.Contains(name))
+                .ToList();
+            return Json(products,JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {

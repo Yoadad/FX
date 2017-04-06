@@ -225,6 +225,7 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\StoragesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Entities\AspNetRole.cs" />
@@ -307,6 +308,7 @@
     <Content Include="Scripts\Products\ProductStock.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Invoices\SalesPoint.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
@@ -394,6 +396,8 @@
     <Content Include="Views\Products\Stock.cshtml" />
     <Content Include="Views\Templates\Alert.cshtml" />
     <Content Include="Views\Templates\Confirm.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Templates\InvoiceConcept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
