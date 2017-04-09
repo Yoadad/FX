@@ -2,3 +2,6 @@
 /.vs/XF/v14
 /XF/bin
 /XF/obj/Debug
+/XF/obj/Release/AspnetCompileMerge/Source
+/XF/obj/Release/AspnetCompileMerge/TempBuildDir
+/XF/obj/Release
