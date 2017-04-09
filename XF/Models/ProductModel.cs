@@ -32,7 +32,7 @@ namespace XF.Models
         public int Stock { get; set; }
     }
 
-    public class ProductStockViewMOdel
+    public class ProductStockViewModel
     {
         public Product Product { get; set; }
         public Location Location { get; set; }
