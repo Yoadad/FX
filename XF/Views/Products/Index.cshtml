@@ -11,8 +11,11 @@
 </p>
 
 <div id="grid"></div>
-@section scripts
-    {
-@Scripts.Render("~/Scripts/Products/ProductsList.js")
-    
-    }
+
+<script type="text/html" id="stockTemplate">
+    <a href="/Products/Stock/#=data.Id#">#=data.Stock#</a>
+</script>
+@section scripts{
+    @Scripts.Render("~/Scripts/Products/ProductsList.js")
+}
+

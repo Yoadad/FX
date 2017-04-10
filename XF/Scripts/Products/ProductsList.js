@@ -69,7 +69,8 @@
                 { field: "SellPrice", filterable: false },
                 { field: "PurchasePrice", filterable: false },
                 { field: "Max", filterable: false },
-                { field: "Min", filterable: false }
+                { field: "Min", filterable: false },
+                { field: "Stock", filterable: false, template: $('#stockTemplate').html() },
             ]
     });
 

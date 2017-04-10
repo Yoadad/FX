@@ -14,7 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
-using XF.Models.Helpers;
+using XF.Services;
 
 namespace XF.Controllers
 {
@@ -36,96 +36,24 @@ namespace XF.Controllers
         {
             var itemModel = new ProductItemViewModel(p);
             itemModel.Stock = db.Stocks
-                .Where(s => s.Id == p.Id)
-                .Count();
+                .First(s => s.Id == p.Id)
+                .StockQuantity;
             return itemModel;
         }
-        
-        private IQueryable<Product> ApplyfilterToProducts(IQueryable<Product> results, string filter)
-        {
-            FilterContainer filterList = new FilterContainer();
-            filterList = JsonConvert.DeserializeObject<FilterContainer>(filter);
-            StringBuilder condition = new StringBuilder();
-            int count = 0;
-            var paramsArray = new ArrayList();
-            foreach (var f in filterList.filters)
-            {
-                var logic = filterList.logic;
-                if (f.@operator == "eq")
-                {
-                    condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
-                    paramsArray.Add(f.value);
-                }
-                if (f.@operator == "contains")
-                {
-                    condition.AppendLine(string.Format("{0}.Contains(@" + count + ") ", f.field));
-                    paramsArray.Add(f.value);
-                }
-                if (f.@operator == "neq")
-                {
-                    condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
-                    paramsArray.Add(f.value);
-                }
-                if (filterList.filters.Count - 1 > count)
-                {
 
-                    condition.AppendLine(logic);
-                    condition.AppendLine(" ");
-
-                }
-                count++;
-            }
-            return results.Where(condition.ToString(), paramsArray.ToArray());
-        }
-
-        private IQueryable<Product> SortListProducts(IQueryable<Product> results, string sorting)
-        {
-            List<SortDescription> sortList = new List<SortDescription>();
-            sortList = JsonConvert.DeserializeObject<List<SortDescription>>(sorting);
-            var orderByExpression = OrderByHelper.GetOrderByExpression<Product>(sortList[0].field);
-            return  OrderByHelper.OrderByDir<Product>(results, sortList[0].dir, orderByExpression);
-        }
         public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            
-           
-            var querybase = db.Products;
-            IQueryable<Product> results = db.Products.AsQueryable();
-            //first time when we draw the grid
-            if (string.IsNullOrEmpty(sorting) && string.IsNullOrEmpty(filter))
-            {
-                //for default we order using the code.
-               results = querybase
-                .OrderBy(p => p.Code)
+            var results = GridService.GetData(db.Products.OrderBy(p=>p.Code), 
+                                                sorting, 
+                                                filter, 
+                                                skip, 
+                                                take, 
+                                                pageSize, 
+                                                page);
+            var products = results
                 .ToList()
-                .Select((p) => GetProductItemModel(p)).Skip(skip).Take(pageSize).AsQueryable();
-
-            }
-            //another way we have a filter and maybe a sort order.
-            else
-            {
-                if (!string.IsNullOrEmpty(filter) && filter != "null")
-                {
-
-                    results = ApplyfilterToProducts(results, filter);
-                }
-
-                if (!string.IsNullOrEmpty(sorting))
-                {
-                    results = SortListProducts(results, sorting);
-                }
-                else
-                {
-                    results = results.OrderBy(p => p.Code);
-                }
-                results = results.Select((p) => GetProductItemModel(p)).Skip(skip).Take(pageSize);
-            }
-
-           
-            var products = results;
-
+                .Select(p => GetProductItemModel(p));
             return Json(new { total = products.Count(), data = products }, JsonRequestBehavior.AllowGet);
-
         }
 
         // GET: Products/Details/5

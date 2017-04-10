@@ -39,6 +39,9 @@
     <div class="container-fluent body-content">
         <div class="row">
             <div class="col-md-2">
+                @if (Request.IsAuthenticated)
+                {
+
 
                 <div class="list-group">
                     
@@ -47,7 +50,7 @@
                     <a href="/Users" class="list-group-item">Users</a>
                     <a href="/Sales" class="list-group-item">Sales</a>
                 </div>
-
+                }
             </div>
             <div class="col-md-8">@RenderBody()</div>
             <div class="col-md-2">
