@@ -216,8 +216,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\ConfigsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\InvoiceStatusController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
@@ -225,7 +227,6 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\StoragesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Entities\AspNetRole.cs" />
@@ -291,8 +292,10 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\XFPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\doT.min.js" />
+    <Content Include="Scripts\Invoices\InvoiceCreate.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -308,7 +311,6 @@
     <Content Include="Scripts\Products\ProductStock.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Invoices\SalesPoint.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
@@ -396,8 +398,16 @@
     <Content Include="Views\Products\Stock.cshtml" />
     <Content Include="Views\Templates\Alert.cshtml" />
     <Content Include="Views\Templates\Confirm.cshtml" />
-    <Content Include="Views\Sales\Index.cshtml" />
-    <Content Include="Views\Templates\InvoiceConcept.cshtml" />
+    <Content Include="Views\Invoices\Create.cshtml" />
+    <Content Include="Views\Invoices\Delete.cshtml" />
+    <Content Include="Views\Invoices\Details.cshtml" />
+    <Content Include="Views\Invoices\Edit.cshtml" />
+    <Content Include="Views\Invoices\Index.cshtml" />
+    <Content Include="Views\Clients\Create.cshtml" />
+    <Content Include="Views\Clients\Delete.cshtml" />
+    <Content Include="Views\Clients\Details.cshtml" />
+    <Content Include="Views\Clients\Edit.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

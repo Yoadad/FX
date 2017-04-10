@@ -15,7 +15,7 @@ namespace XF.Models
         public IEnumerable<Product> Products { get; set; }
     }
     [NotMapped]
-    public class ProductItemViewModel:Product
+    public class ProductItemViewModel : Product
     {
         public ProductItemViewModel()
         { }
@@ -35,7 +35,7 @@ namespace XF.Models
     public class ProductStockViewModel
     {
         public Product Product { get; set; }
-        public Location Location { get; set;}
+        public Location Location { get; set; }
         public int Stock { get; set; }
     }
 
