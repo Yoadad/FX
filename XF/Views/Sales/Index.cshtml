@@ -23,7 +23,58 @@
     <div class="col-md-12">
     </div>
     <div class="col-md-12">
-        <div id="grid"></div>
+        <table class="table table-striped" id="invoiceTable">
+            <thead>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" id="txtProduct" />
+                    </td>
+                    <td>
+                        <input type="number" min="1" class="form-control" id="txtUnits" />
+                    </td>
+                    <td>
+                        <label id="lblPrice"></label>
+                    </td>
+                    <td>
+                        <label id="lblTotal"></label>
+                    </td>
+                    <td>
+                        <input type="button" value="Add" id="btnAdd"/>
+                    </td>
+                </tr>
+            </tbody>
+            @*<tfooter>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Tax</td>
+                    <td>0.075</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Discount</td>
+                    <td>$10.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>TOTAL</td>
+                    <td>523.55</td>
+                </tr>
+
+            </tfooter>*@
+        </table>
+
+        <div id="grid">
+
+        </div>
     </div>
 </div>
 
@@ -40,5 +91,6 @@
 </script>
 
 @section scripts{
+    @Scripts.Render("~/Scripts/Invoices/SalesPoint.js")    
     @Scripts.Render("~/Scripts/Sales/SalesPoint.js")    
 }
