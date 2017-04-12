@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Linq;
-using System.Web;
+using System.Linq.Dynamic;
 using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
@@ -29,6 +28,30 @@ namespace XF.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private ProductItemViewModel GetProductItemModel(Product p)
+        {
+            var itemModel = new ProductItemViewModel(p);
+            itemModel.Stock = db.Stocks
+                .Where(s => s.Id == p.Id)
+                .Count();
+            return itemModel;
+        }
+
+        public JsonResult GetProduct(string Concept)
+        {
+            var Product = new ProductItemViewModel();
+            Concept = JsonConvert.DeserializeObject<string>(Concept);
+            if (string.IsNullOrEmpty(Concept))
+                return Json(new { }, JsonRequestBehavior.AllowGet);
+            var products = db.Products
+                        .Where(p => p.Name.Contains(Concept))
+                        .ToList()
+                        .Select((p) => GetProductItemModel(p)).FirstOrDefault();
+            return Json(new { products }, JsonRequestBehavior.AllowGet);
+
+        }
+
 
     }
 }
