@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
+using XF.Services;
 
 namespace XF.Controllers
 {
@@ -14,11 +17,32 @@ namespace XF.Controllers
         // GET: Sales
         public ActionResult Index()
         {
-            var model = new SalesModel() {
+            var model = new SalesViewModel() {
                 Clients = db.Clients.OrderBy(c => c.Name).ToList(),
-                Products = db.Products.OrderBy(p => p.Code)
+                Products = db.Products.OrderBy(p => p.Code),
+                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
+                Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
             return View(model);
+        }
+
+        public JsonResult Save(string data)
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
+                model.Invoice.UserId = User.Identity.GetUserId();
+                model.Invoice.Created = DateTime.Now;
+                model.Invoice.InvoiceStatusId = 1;
+                db.Invoices.Add(model.Invoice);
+                db.SaveChanges();
+                return Json(new { Result = true, Message = "New Invoice created successful",Data=model });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Result = false, Message = ex.Message });
+            }
         }
         protected override void Dispose(bool disposing)
         {

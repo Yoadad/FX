@@ -27,3 +27,7 @@ textarea {
     height: 144px;
     overflow: auto;
 }
+
+.xf-main-container {
+    min-height: 550px;
+}

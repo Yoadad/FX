@@ -1,10 +1,9 @@
-﻿@model XF.Models.SalesModel
+﻿@model XF.Models.SalesViewModel
 <h2>Sales</h2>
 <hr />
 
-
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <label>Client</label>
         <select class="form-control" id="cmbClient">
             @foreach (var item in Model.Clients)
@@ -13,17 +12,23 @@
             }
         </select>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+        <label>Payment Type</label>
+        <select class="form-control" id="cmbPaymentType">
+            @foreach (var item in Model.PaymentTypes)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>        
+    </div>
+    <div class="col-md-4">
         <label>Date</label>
-        <input type="date" id="txtDate" class="form-control" />
+        <input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
     </div>
 </div>
 <br />
 <div class="row">
     <div class="col-md-12">
-        <div class="text-right">
-            <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
-        </div>
         <table class="table table-striped" id="invoiceTable">
             <thead>
                 <tr>
@@ -39,9 +44,20 @@
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div class="text-right">
+                            <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
                     <td>Subtotal</td>
                     <td>
-                        <label id="lblSubtotal">0.00</label>
+                        <label id="lblSubtotal" data-value="0.0">0.00</label>
                     </td>
                     <td></td>
                 </tr>
@@ -50,7 +66,7 @@
                     <td></td>
                     <td>Tax</td>
                     <td>
-                        <label id="lblTax">0.075</label>
+                        <label id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}",Model.Tax)</label>
                     </td>
                     <td></td>
                 </tr>
@@ -59,7 +75,7 @@
                     <td></td>
                     <td>Discount</td>
                     <td>
-                        <input class="form-control" id="txtDiscount" type="number" min="0.0" value="0.0" />
+                        <input class="form-control" id="txtDiscount" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
                     </td>
                     <td></td>
                 </tr>
@@ -67,16 +83,18 @@
                     <td></td>
                     <td></td>
                     <td>TOTAL</td>
-                    <td>523.55</td>
+                    <td>
+                        <label id="lblTotal" data-value="0.0">$0.00</label>
+                    </td>
                     <td></td>
                 </tr>
 
             </tfoot>
         </table>
         <div class="text-right">
-            <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
+            <input type="button" value="Save" id="btnSaveInvoice" class="btn btn-primary" />
+            <input type="button" value="Cancel" id="btnCancelInvoice" class="btn btn-default" />
         </div>
-
     </div>
 </div>
 
@@ -94,10 +112,10 @@
             <input type="number" min="1" value="1" class="form-control txt-quantity"/>
         </td>
         <td>
-            <label class="lbl-price"></label>
+            <label class="lbl-price" data-value="0.0"></label>
         </td>
         <td>
-            <label class="lbl-total"></label>
+            <label class="lbl-total" data-value="0.0"></label>
         </td>
         <td>
             <a href="javascript:XF.removeItem(#=data.index#)">Remove</a>

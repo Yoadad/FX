@@ -5,10 +5,7 @@
 }
 
 <h2>Users</h2>
-
-<p>
-    @Html.ActionLink("Register New user", "Register","Account")
-</p>
+<hr />
 <table class="table table-striped">
     <tr>
         <th>
@@ -45,27 +42,31 @@
         <td>
             @foreach (var role in Model.Roles)
             {
-                <label>
-                    <input class="xf-chk-role" 
-                           data-userid="@item.Id" 
-                           data-roleid="@role.Id" 
-                           type="checkbox" 
-                           @(item.AspNetRoles.Any(r => r.Id == role.Id) ? "checked" : string.Empty)/>
-                    @role.Name
-                </label>
-                <br />
+                <div class="checkbox">
+                    <label>
+                        <input class="xf-chk-role"
+                               data-userid="@item.Id"
+                               data-roleid="@role.Id"
+                               type="checkbox"
+                               @(item.AspNetRoles.Any(r => r.Id == role.Id) ? "checked" : string.Empty) />
+                        @role.Name
+                    </label>
+                </div>
             }
 
-
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
-            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-        </td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+                    @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+</td>
     </tr>
 }
 
 </table>
-<div id="grid"></div>
+
+<p class="text-right">
+    @Html.ActionLink("Register New user", "Register", "Account",new {@class="btn btn-primary" })
+</p>
+
 @section Scripts
 {
     @Scripts.Render("~/Scripts/UserRoles/UserRoles.js")
