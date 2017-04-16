@@ -1,6 +1,9 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding:0;
+    margin:0;
+    padding-top: 55px;
+    background-color:#f0f0f0;
+    
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -24,10 +27,55 @@ textarea {
 }
 
 #info {
-    height: 144px;
+    height: 200px;
     overflow: auto;
 }
 
 .xf-main-container {
     min-height: 550px;
+    background-color:white;
+    
+}
+
+.xf-container {
+    
+}
+
+footer {
+    background-color:black;
+    color:white;
+    padding:21px;
+    margin:0;
+    min-height:34px;
+}
+.xf-btn-right{
+    float:right;
+
+}
+.xf-btn-left {
+    float: left;
+}
+
+.xf-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top:21px;
+}
+
+.xf-menu li {
+    margin-top:13px;
+    border-bottom:solid 1px #dfdfdf;
+}
+
+.xf-menu li span {
+    margin:13px;
+}
+
+.xf-menu-col {
+
+}
+
+.xf-list-item span {
+    min-width:25px;
 }

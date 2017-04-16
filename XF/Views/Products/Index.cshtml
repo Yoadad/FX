@@ -3,13 +3,14 @@
 }
 
 <input type="hidden" id="hfPageSize" value="@ViewBag.PageSize" />
-
-<h2>Products</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
+<br />
+<h2>
+    Products
+    <span class="xf-btn-right">
+        <a href="/Products/Create" class="btn btn-primary">Add New Product</a>
+    </span>
+</h2>
+<br />
 <div id="grid"></div>
 
 <script type="text/html" id="stockTemplate">

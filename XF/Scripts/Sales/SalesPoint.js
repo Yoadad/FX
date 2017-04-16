@@ -60,8 +60,8 @@
 
     XF.saveInvoiceResponse = function(data) {
         if (data.Result) {
-            XF.addInfoMessage('Invoice created','success');
-            XF.CurrentInvoiceId = data.Data.Invoice.Id;
+            XF.addInfoMessage(data.Message,'success');
+            XF.CurrentInvoiceId = data.Data.InvoiceId;
             location.href = '/Invoices';
         }
         else {

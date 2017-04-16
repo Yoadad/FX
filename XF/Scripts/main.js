@@ -61,6 +61,15 @@ var XF = XF || {};
 
     };
 
+    XF.format = function (text) {
+        var args = arguments;
+        return text.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
+            if (m === "{{") { return "{"; }
+            if (m === "}}") { return "}"; }
+            return args[n];
+        });
+    };
+
     //Common controlls
 
     //Alert window

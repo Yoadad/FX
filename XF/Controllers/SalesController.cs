@@ -36,7 +36,7 @@ namespace XF.Controllers
                 model.Invoice.InvoiceStatusId = 1;
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
-                return Json(new { Result = true, Message = "New Invoice created successful",Data=model });
+                return Json(new { Result = true, Message = "New Invoice created successful",Data=new { InvoiceId=model.Invoice.Id} });
             }
             catch (Exception ex)
             {

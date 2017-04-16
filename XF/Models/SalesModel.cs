@@ -18,6 +18,5 @@ namespace XF.Models
     public class SalesDetailViewModel
     {
         public Invoice Invoice { get; set; }
-        public IEnumerable<InvoiceDetail> InvoiceDetail {get;set;}
     }
 }

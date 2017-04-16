@@ -36,18 +36,38 @@
             </div>
         </div>
     </div>
-    <div class="container-fluent body-content">
+    <div class="container-fluent body-content xf-container">
         <div class="row">
-            <div class="col-md-2 highlight">
+            <div class="col-md-2 xf-menu-col">
                 @if (Request.IsAuthenticated)
-                {
-                    <br /><br />
-                    <div class="list-group">
-                        <a href="/Products" class="list-group-item">Products</a>
-                        @*<a href="/Products/Stock" class="list-group-item">Stock</a>*@
-                        <a href="/Users" class="list-group-item">Users</a>
-                        <a href="/Sales" class="list-group-item">Sales</a>
-                    </div>
+                {                    
+                    <ul class="xf-menu">
+
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="/Products">
+                                    <span class="glyphicon glyphicon-barcode"></span>Products
+                                </a>
+                            </h3>
+                            
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="/Users">
+                                    <span class="glyphicon glyphicon-user"></span>Users
+                                </a>
+                            </h3>
+                            
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="/Sales">
+                                    <span class="glyphicon glyphicon-tags"></span>Sales
+                                </a>
+                            </h3>
+                            
+                        </li>
+                    </ul>
                 }
             </div>
             <div class="col-md-8 xf-main-container">
@@ -64,11 +84,11 @@
             </div>
         </div>
         
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Ximena's Furniture</p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Ximena's Furniture</p>
+    </footer>
 
     @Html.Partial("~/Views/Templates/Info.cshtml")
     @Html.Partial("~/Views/Templates/Alert.cshtml")
