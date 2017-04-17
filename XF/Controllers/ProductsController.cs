@@ -47,17 +47,18 @@ namespace XF.Controllers
 
         public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var results = GridService.GetData(db.Products.OrderBy(p=>p.Code), 
-                                                sorting, 
-                                                filter, 
-                                                skip, 
-                                                take, 
-                                                pageSize, 
+            var count = db.Products.Count();
+            var results = GridService.GetData(db.Products.OrderBy(p=>p.Code),
+                                                sorting,
+                                                filter,
+                                                skip,
+                                                take,
+                                                pageSize,
                                                 page);
             var products = results
                 .ToList()
                 .Select(p => GetProductItemModel(p));
-            return Json(new { total = products.Count(), data = products }, JsonRequestBehavior.AllowGet);
+            return Json(new { total = count, data = products }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Products/Details/5

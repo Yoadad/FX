@@ -173,7 +173,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>04/16/2017 02:44:53</publishTime>
+      <publishTime>04/16/2017 22:20:55</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -233,7 +233,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>04/16/2017 02:39:57</publishTime>
+      <publishTime>04/16/2017 16:35:37</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -323,7 +323,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesPoint.js">
-      <publishTime>04/15/2017 18:32:22</publishTime>
+      <publishTime>04/16/2017 12:47:08</publishTime>
     </File>
     <File Include="Scripts/UserRoles/UserRoles.js">
       <publishTime>03/26/2017 02:58:36</publishTime>
@@ -497,7 +497,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/26/2017 17:45:16</publishTime>
     </File>
     <File Include="Views/Products/Index.cshtml">
-      <publishTime>04/16/2017 02:30:01</publishTime>
+      <publishTime>04/16/2017 22:04:02</publishTime>
     </File>
     <File Include="Views/Products/Stock.cshtml">
       <publishTime>04/15/2017 16:09:55</publishTime>
@@ -536,7 +536,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Views/Sales/Index.cshtml">
-      <publishTime>04/16/2017 02:34:51</publishTime>
+      <publishTime>04/16/2017 13:29:12</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>03/25/2017 17:26:05</publishTime>

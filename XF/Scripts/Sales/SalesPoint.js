@@ -1,6 +1,7 @@
 ﻿var XF = XF || {};
 
 (function ($, XF) {
+    
     XF.InvoiceId = 0;
     XF.addItem = function () {
         var itemIndex = $('.item').size();
@@ -40,8 +41,10 @@
         $('.item').each(function (index) {
             subtotal += (parseFloat( $(this).find('.lbl-total').data('value')) || 0.00);
         });
-        var total = subtotal * (1 + tax)-discount;
+        var total = subtotal * (1 + tax) - discount;
+        var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
+        $('#txtDiscountPercent').val(discountPercent);
         $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({value:subtotal});
         $('#lblTotal').text(kendo.format('{0:C}', total)).data({value:total});
     };
@@ -103,6 +106,14 @@
             var data = { Invoice: XF.getInvoice() };
             XF.saveInvoice(data);
         });
+    });
+
+    $('#txtDiscountPercent').on('change unfocus', function (e) {
+        var discountPercent = parseFloat($(this).val()).toFixed(2);
+        var subtotal = $('#lblSubtotal').data('value');
+        var discount = discountPercent*subtotal/100;
+        $('#txtDiscount').val(discount.toFixed(2))
+                        .trigger('change');
     });
 
 })(jQuery, XF);

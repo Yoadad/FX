@@ -79,3 +79,7 @@ footer {
 .xf-list-item span {
     min-width:25px;
 }
+
+.btn {
+    min-width:100px;
+}
