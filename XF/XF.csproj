@@ -226,6 +226,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
+    <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\StoragesController.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\RolesModel.cs" />
     <Compile Include="Models\SalesModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
@@ -313,6 +315,7 @@
     <Content Include="Scripts\Products\ProductsList.js" />
     <Content Include="Scripts\Products\ProductStock.js" />
     <Content Include="Scripts\jquery.reporting.js" />
+    <Content Include="Scripts\PurchaseOrders\PurchaseOrders.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Sales\SalesPoint.js" />
@@ -414,6 +417,7 @@
     <Content Include="Views\Clients\Edit.cshtml" />
     <Content Include="Views\Clients\Index.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Purchases\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
