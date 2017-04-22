@@ -7,9 +7,8 @@
     var _dataSource = new kendo.data.DataSource({
         transport: {
             read: function (option) {
-                console.log(JSON.stringify(option.data.sort));
                 $.ajax({
-                    url: baseUrl + '/Products',
+                    url: baseUrl + '/Invoices',
                     dataType: 'json',
                     data:
                         {
@@ -36,13 +35,18 @@
         schema:
             {
                 data: "data",
-                total: "total"
+                total: "total",
+                model: {
+                    fields: {
+                        Date: { type: "date" }
+                    }
+                }
             }
 
     });
 
     
-    $("#grid").kendoGrid({
+    $("#grid").kendoGrid({  
         dataSource: _dataSource,
         sortable:  {
             mode: "single",
@@ -63,14 +67,14 @@
         //selectable: "multiple cell",
         columns:
             [
-                { field: "Id" , hidden: true },
-                { field: "Code" },
-                { field: "Name" },
-                { field: "SellPrice",title:"Sell Price", filterable: false },
-                { field: "PurchasePrice",title:"Puchase Price", filterable: false },
-                { field: "Max", filterable: false },
-                { field: "Min", filterable: false },
-                { field: "Stock", filterable: false, template: $('#stockTemplate').html() },
+                { field: "Id", template: $('#invoiceDetailTemplate').html() },
+                { field: "Date",  format: "{0:MM/dd/yyyy}" },
+                { field: "ClientName", filterable: false },
+                { field: "PaymentType", filterable: false },
+                { field: "Subtotal", filterable: false },
+                { field: "Tax", filterable: false },
+                { field: "Discount", filterable: false },
+                { field: "Total", filterable: false },
             ]
     });
 

@@ -255,7 +255,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GridViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InvoiceItemViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
@@ -318,6 +320,7 @@
     <Content Include="Scripts\PurchaseOrders\PurchaseOrders.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Sales\InvoicesList.js" />
     <Content Include="Scripts\Sales\SalesPoint.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
     <Content Include="Scripts\_references.js" />

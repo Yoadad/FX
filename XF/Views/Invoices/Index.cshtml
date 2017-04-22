@@ -1,94 +1,21 @@
-﻿@model IEnumerable<XF.Entities.Invoice>
-
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Invoices";
 }
 
-<h2>Index</h2>
+<input type="hidden" id="hfPageSize" value="@ViewBag.PageSize" />
+<br />
+<h2>
+    Invoices
+    <span class="xf-btn-right">
+        <a href="/Sales" class="btn btn-primary">Go Sales page</a>
+    </span>
+</h2>
+<br />
+<div id="grid"></div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Client
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Payment Type
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Discount)
-        </th>
-        <th>
-            Percent Discount
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Subtotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tax)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Total)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comments)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Client.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InvoiceStatu.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentType.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Discount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PercentDiscount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Subtotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tax)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+<script type="text/html" id="invoiceDetailTemplate">
+    <a href="/Invoices/Detail/#=data.InvoiceId#">#=data.InvoiceId#</a>
+</script>
+@section scripts{
+    @Scripts.Render("~/Scripts/Sales/InvoicesList.js")
 }
-
-</table>
-

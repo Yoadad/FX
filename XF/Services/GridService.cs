@@ -77,20 +77,30 @@ namespace XF.Services
             }
             return results;
         }
-        public static IQueryable<T> GetData<T>(IQueryable<T> results, string sorting, string filter, int skip, int take, int pageSize, int page)
+        public static ResultViewModel<T> GetData<T>(IQueryable<T> results, string sorting, string filter, int skip, int take, int pageSize, int page)
         {
             if (!string.IsNullOrEmpty(filter) && filter != "null")
             {
                 results = GridService.ApplyfilterToProducts(results, filter);
             }
+
             if (!string.IsNullOrEmpty(sorting) && sorting != "null")
             {
                 results = GridService.SortListProducts(results, sorting);
             }
-            results = results
+
+            var data = results
                 .Skip(skip)
                 .Take(pageSize);
-            return results;
+
+            var result = new ResultViewModel<T>()
+            {
+                Data = data,
+                Count = string.IsNullOrWhiteSpace(filter) 
+                        ? results.Count()
+                        : data.Count()
+            };
+            return result;
         }
     }
 }
