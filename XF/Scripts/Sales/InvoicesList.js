@@ -38,7 +38,7 @@
                 total: "total",
                 model: {
                     fields: {
-                        Date: { type: "date" }
+                        Date: { type: "date"}
                     }
                 }
             }
@@ -58,7 +58,7 @@
            operators:
                 {
                     string: {
-                        contains: "Contains",
+                        //contains: "Contains",
                         eq: "Is equal to",
                         neq: "Is not equal to"
                     }
@@ -68,7 +68,8 @@
         columns:
             [
                 { field: "Id", template: $('#invoiceDetailTemplate').html() },
-                { field: "Date",  format: "{0:MM/dd/yyyy}" },
+                //{ field: "Date", template: '#=kendo.toString(Date, \"MM/dd/yyyy\")#', filterable:true },
+                { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
                 { field: "ClientName", filterable: false },
                 { field: "PaymentType", filterable: false },
                 { field: "Subtotal", filterable: false },

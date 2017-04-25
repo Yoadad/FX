@@ -41,21 +41,81 @@ namespace XF.Services
             foreach (var f in filterList.filters)
             {
                 var logic = filterList.logic;
-                if (f.@operator == "eq")
+                if (f.@operator == "lte")
                 {
-                    condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
-                    paramsArray.Add(f.value);
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} <= @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
                 }
-                if (f.@operator == "contains")
-                {
-                    condition.AppendLine(string.Format("{0}.Contains(@" + count + ") ", f.field));
-                    paramsArray.Add(f.value);
-                }
+
                 if (f.@operator == "neq")
                 {
-                    condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
-                    paramsArray.Add(f.value);
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                    else
+                    {
+                        condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                        paramsArray.Add(int.Parse(f.value));
+                    }
                 }
+
+                if (f.@operator == "gte")
+                {
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} >= @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                }
+
+                if (f.@operator == "gt")
+                {
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} > @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                }
+
+                if (f.@operator == "lt")
+                {
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} < @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                }
+
+
+                if (f.@operator == "eq")
+                {
+
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+
+                    }
+                    else
+                    {
+                        condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
+                        paramsArray.Add(int.Parse(f.value));
+                        
+                    }
+                }
+              
+             
                 if (filterList.filters.Count - 1 > count)
                 {
 
@@ -66,6 +126,7 @@ namespace XF.Services
                 count++;
             }
             return results.Where(condition.ToString(), paramsArray.ToArray());
+
         }
         public static IQueryable<T> SortListProducts<T>(IQueryable<T> results, string sorting)
         {
