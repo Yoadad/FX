@@ -41,7 +41,7 @@ namespace XF.Controllers
             catch (Exception ex)
             {
 
-                return Json(new { Result = false, Message = ex.Message });
+                return Json(new { Result = false, Message = string.Format("{0} ({1})", ex.Message,ex.InnerException.Message) });
             }
         }
         protected override void Dispose(bool disposing)
