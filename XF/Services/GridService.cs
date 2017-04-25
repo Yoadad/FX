@@ -53,17 +53,26 @@ namespace XF.Services
 
                 if (f.@operator == "neq")
                 {
-                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    switch (f.field.ToLower())
                     {
-                        condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
-                        var date = DateTime.Parse(f.value);
-                        paramsArray.Add(date);
+                        case "date":
+                                condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                                var date = DateTime.Parse(f.value);
+                                paramsArray.Add(date);
+                            break;
+                        case "code":
+                                condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                                paramsArray.Add(f.value);
+                            break;
+                        
+                        default:
+                                condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                                int value = 0;
+                                int.TryParse(f.value, out value);
+                                paramsArray.Add(value);
+                            break;
                     }
-                    else
-                    {
-                        condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
-                        paramsArray.Add(int.Parse(f.value));
-                    }
+                    
                 }
 
                 if (f.@operator == "gte")
@@ -100,19 +109,32 @@ namespace XF.Services
                 if (f.@operator == "eq")
                 {
 
-                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    switch (f.field.ToLower())
                     {
-                        condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
-                        var date = DateTime.Parse(f.value);
-                        paramsArray.Add(date);
+                        case "date":
+                                condition.AppendLine(string.Format("{0} >= @" + count + " AND {0} <= @" + (count + 1), f.field));
+                                var dateInit = DateTime.Parse(f.value);
+                                var dateEnd = dateInit.AddHours(23).AddMinutes(59).AddSeconds(29);
+                                paramsArray.Add(dateInit);
+                                paramsArray.Add(dateEnd);
+                            break;
+                        case "code":
+                                condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
+                                paramsArray.Add(f.value);
+                            break;
+                        default:
+                                condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
+                                int value = 0;
+                                int.TryParse(f.value, out value);
+                                paramsArray.Add(value);
+                            break;
+                    }                    
+                }
 
-                    }
-                    else
-                    {
-                        condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
-                        paramsArray.Add(int.Parse(f.value));
-                        
-                    }
+                if (f.@operator == "contains")
+                {
+                    condition.AppendLine(string.Format("{0}.Contains(@" + count + ")", f.field));
+                    paramsArray.Add(f.value);
                 }
               
              
