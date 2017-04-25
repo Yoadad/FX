@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Text;
 using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
@@ -30,6 +31,7 @@ namespace XF.Controllers
         {
             try
             {
+                throw new Exception("Test");
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
@@ -41,7 +43,17 @@ namespace XF.Controllers
             catch (Exception ex)
             {
 
-                return Json(new { Result = false, Message = ex.Message });
+                var message = new StringBuilder();
+                message.AppendLine(ex.Message);
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    message.AppendLine(string.IsNullOrWhiteSpace(innerException.Message)
+                                        ? string.Empty
+                                        : innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return Json(new { Result = false, Message = message.ToString() });
             }
         }
         protected override void Dispose(bool disposing)
