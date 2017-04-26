@@ -226,6 +226,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
+    <Compile Include="Controllers\PurchaseOrderStatusController.cs" />
     <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -423,6 +424,11 @@
     <Content Include="Views\Clients\Index.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Purchases\Index.cshtml" />
+    <Content Include="Views\PurchaseOrderStatus\Create.cshtml" />
+    <Content Include="Views\PurchaseOrderStatus\Delete.cshtml" />
+    <Content Include="Views\PurchaseOrderStatus\Details.cshtml" />
+    <Content Include="Views\PurchaseOrderStatus\Edit.cshtml" />
+    <Content Include="Views\PurchaseOrderStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
