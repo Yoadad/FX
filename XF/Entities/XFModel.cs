@@ -32,6 +32,8 @@ namespace XF.Entities
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
 
+        public virtual DbSet<PurchaseOrderDetail> PurchasesOrdersDetails { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AspNetRole>()
@@ -158,6 +160,18 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .HasMany(po => po.PurchaseOrderDetails)
+                .WithRequired(po => po.PurchaseOrder)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PurchaseOrderDetail>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(13, 2);
+
+
+
         }
     }
 }

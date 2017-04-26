@@ -9,6 +9,12 @@ namespace XF.Entities
     [Table("PurchaseOrder")]
     public partial class PurchaseOrder
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+
+        public PurchaseOrder()
+        {
+            PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
+        }
         public int Id { get; set; }
 
         public DateTime Date { get; set; }
@@ -43,5 +49,8 @@ namespace XF.Entities
         public virtual Provider Provider { get; set; }
 
         public virtual PurchaseOrderStatu PurchaseOrderStatu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
     }
 }

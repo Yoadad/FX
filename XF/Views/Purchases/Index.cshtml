@@ -103,10 +103,15 @@
 
             </tfoot>
         </table>
+        <div class="text-right">
+            <input type="button" value="Save" id="btnSavePurchase" class="btn btn-primary" />
+            <input type="button" value="Cancel" id="btnCancelPurchase" class="btn btn-default" />
+        </div>
     </div>
 </div>
+<br />
 
-<script type="text/html" id="newPurchaseTemplate">
+<script type="text/html" id="newItemTemplate">
     <tr class="item item-#=data.index#">
         <td>
             <select class="form-control cmb-product">
@@ -129,7 +134,9 @@
             <a href="javascript:XF.removeItem(#=data.index#)">Remove</a>
         </td>
     </tr>
+
 </script>
+
 
 @section scripts
 {
