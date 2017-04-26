@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using XF.Entities;
 
 namespace XF.Models
 {
-
+    [NotMapped]
     public class PurchaseItemViewmodel : PurchaseOrder
     {
         public PurchaseItemViewmodel()
