@@ -28,11 +28,10 @@ namespace XF.Entities
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public virtual DbSet<PurchaseOrderStatu> PurchaseOrderStatus { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
-
-        public virtual DbSet<PurchaseOrderDetail> PurchasesOrdersDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -121,13 +120,13 @@ namespace XF.Entities
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
-                .HasMany(e => e.Stocks)
+                .HasMany(e => e.PurchaseOrderDetails)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Provider>()
-                .HasMany(e => e.PurchaseOrders)
-                .WithRequired(e => e.Provider)
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Stocks)
+                .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<PurchaseOrder>()
@@ -150,6 +149,15 @@ namespace XF.Entities
                 .Property(e => e.Total)
                 .HasPrecision(13, 2);
 
+            modelBuilder.Entity<PurchaseOrder>()
+                .HasMany(e => e.PurchaseOrderDetails)
+                .WithRequired(e => e.PurchaseOrder)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PurchaseOrderDetail>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(13, 2);
+
             modelBuilder.Entity<PurchaseOrderStatu>()
                 .HasMany(e => e.PurchaseOrders)
                 .WithRequired(e => e.PurchaseOrderStatu)
@@ -160,18 +168,6 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PurchaseOrder>()
-                .HasMany(po => po.PurchaseOrderDetails)
-                .WithRequired(po => po.PurchaseOrder)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PurchaseOrderDetail>()
-                .Property(e => e.UnitPrice)
-                .HasPrecision(13, 2);
-
-
-
         }
     }
 }

@@ -13,6 +13,7 @@ namespace XF.Entities
         public Product()
         {
             InvoiceDetails = new HashSet<InvoiceDetail>();
+            PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             Stocks = new HashSet<Stock>();
         }
 
@@ -37,6 +38,9 @@ namespace XF.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock> Stocks { get; set; }
