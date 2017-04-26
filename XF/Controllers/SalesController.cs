@@ -31,7 +31,6 @@ namespace XF.Controllers
         {
             try
             {
-                throw new Exception("Test");
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;

@@ -41,21 +41,103 @@ namespace XF.Services
             foreach (var f in filterList.filters)
             {
                 var logic = filterList.logic;
-                if (f.@operator == "eq")
+                if (f.@operator == "lte")
                 {
-                    condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
-                    paramsArray.Add(f.value);
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} <= @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
                 }
-                if (f.@operator == "contains")
-                {
-                    condition.AppendLine(string.Format("{0}.Contains(@" + count + ") ", f.field));
-                    paramsArray.Add(f.value);
-                }
+
                 if (f.@operator == "neq")
                 {
-                    condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                    switch (f.field.ToLower())
+                    {
+                        case "date":
+                                condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                                var date = DateTime.Parse(f.value);
+                                paramsArray.Add(date);
+                            break;
+                        case "code":
+                                condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                                paramsArray.Add(f.value);
+                            break;
+                        
+                        default:
+                                condition.AppendLine(string.Format("{0} != @" + count + " ", f.field));
+                                int value = 0;
+                                int.TryParse(f.value, out value);
+                                paramsArray.Add(value);
+                            break;
+                    }
+                    
+                }
+
+                if (f.@operator == "gte")
+                {
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} >= @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                }
+
+                if (f.@operator == "gt")
+                {
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} > @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                }
+
+                if (f.@operator == "lt")
+                {
+                    if (f.field.ToLower().Equals("date") || f.field.ToLower().Contains("date"))
+                    {
+                        condition.AppendLine(string.Format("{0} < @" + count + " ", f.field));
+                        var date = DateTime.Parse(f.value);
+                        paramsArray.Add(date);
+                    }
+                }
+
+
+                if (f.@operator == "eq")
+                {
+
+                    switch (f.field.ToLower())
+                    {
+                        case "date":
+                                condition.AppendLine(string.Format("{0} >= @" + count + " AND {0} <= @" + (count + 1), f.field));
+                                var dateInit = DateTime.Parse(f.value);
+                                var dateEnd = dateInit.AddHours(23).AddMinutes(59).AddSeconds(29);
+                                paramsArray.Add(dateInit);
+                                paramsArray.Add(dateEnd);
+                            break;
+                        case "code":
+                                condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
+                                paramsArray.Add(f.value);
+                            break;
+                        default:
+                                condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));
+                                int value = 0;
+                                int.TryParse(f.value, out value);
+                                paramsArray.Add(value);
+                            break;
+                    }                    
+                }
+
+                if (f.@operator == "contains")
+                {
+                    condition.AppendLine(string.Format("{0}.Contains(@" + count + ")", f.field));
                     paramsArray.Add(f.value);
                 }
+              
+             
                 if (filterList.filters.Count - 1 > count)
                 {
 
@@ -66,6 +148,7 @@ namespace XF.Services
                 count++;
             }
             return results.Where(condition.ToString(), paramsArray.ToArray());
+
         }
         public static IQueryable<T> SortListProducts<T>(IQueryable<T> results, string sorting)
         {
