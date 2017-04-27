@@ -27,16 +27,6 @@
                     </th>
                 </tr>
                 <tr>
-                    @*<th class="text-center">Name</th>
-                    <th class="text-center">Date</th>
-                    <th class="text-center">UserId</th>
-                    <th class="text-center">Created</th>
-                    <th class="text-center">Discount</th>
-                    <th class="text-center">% Discount</th>
-                    <th class="text-center">Subtotal</th>
-                    <th class="text-center">Tax</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-center">Comments</th>*@
                     <th class="text-center">Item</th>
                     <th class="text-center">Quantity</th>
                     <th class="text-center">Unit Price</th>
@@ -47,13 +37,11 @@
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    @*<td colspan="10" class="text-right">*@
                     <td colspan="5" class="text-right">
                         <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
                     </td>
                 </tr>
                 <tr>
-                    @*<td colspan="8" class="text-right">Subtotal</td>*@
                     <td colspan="3" class="text-right">Subtotal</td>
                     <td class="text-right text-info">
                         <em id="lblSubtotal" data-value="0.0">0.00</em>
@@ -61,7 +49,6 @@
                     <td></td>
                 </tr>
                 <tr>
-                    @*<td colspan="8" class="text-right">Tax</td>*@
                     <td colspan="3" class="text-right">Tax</td>
                     <td class="text-right text-info">
                         <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}", Model.Tax)</em>
@@ -69,7 +56,6 @@
                     <td></td>
                 </tr>
                 <tr>
-                    @*<td colspan="8" class="text-right">Discount</td>*@
                     <td colspan="3" class="text-right">Discount</td>
 
                     <td class="text-right" style="width:144px;">
@@ -90,7 +76,6 @@
                     </td>
                 </tr>
                 <tr>
-@*                    <td colspan="8" class="text-right">TOTAL</td>*@
                     <td colspan="3" class="text-right">TOTAL</td>
 
                     <td class="text-right text-danger">

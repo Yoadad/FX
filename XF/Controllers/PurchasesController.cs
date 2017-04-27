@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
@@ -41,8 +42,17 @@ namespace XF.Controllers
             }
             catch (Exception ex)
             {
-
-                return Json(new { Result = false, Message = ex.Message });
+                var message = new StringBuilder();
+                message.AppendLine(ex.Message);
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    message.AppendLine(string.IsNullOrWhiteSpace(innerException.Message)
+                                        ? string.Empty
+                                        : innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return Json(new { Result = false, Message = message.ToString() });
             }
         }
 
