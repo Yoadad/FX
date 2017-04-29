@@ -28,6 +28,12 @@ namespace XF.Controllers
             return View(model);
         }
 
+        public ActionResult List()
+        {
+            ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
+            return View();
+        }
+
         public JsonResult Save(string data)
         {
             try
@@ -87,6 +93,30 @@ namespace XF.Controllers
                            .FirstOrDefault();
 
             return Json(new { orders }, JsonRequestBehavior.AllowGet);
+        }
+
+        private OrderItemViewModel GetOrderItemModel(PurchaseOrder order)
+        {
+            var itemModel = new OrderItemViewModel(order);
+            return itemModel;
+        }
+
+        public JsonResult Orders(string sorting, string filter, int skip, int take, int pageSize, int page)
+        {
+            var result = GridService.GetData(db.PurchaseOrders.OrderByDescending(i => i.Date),
+                                                sorting,
+                                                filter,
+                                                skip,
+                                                take,
+                                                pageSize,
+                                                page);
+            var orders = result
+                .Data
+                .ToList()
+                .Select(i => GetOrderItemModel(i));
+            var count = result.Count;
+
+            return Json(new { total = count, data = orders }, JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -1,16 +1,16 @@
-﻿@model XF.Models.PurchasesOrdersViewModel
+﻿@*@model XF.Models.PurchasesOrdersViewModel*@
 <br />
 <h1>Purchase Orders</h1>
  <hr />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Purchases Orders";
 }
 
 
 <div class="row">
     <div class="col-md-12">        
             <label>Date</label>
-            <input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+            @*<input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />*@
         
     </div>
     <div class="col-md-6"></div>
@@ -56,7 +56,7 @@
                 <tr>
                     <td colspan="5" class="text-right">Tax</td>
                     <td class="text-right text-info">
-                        <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}", Model.Tax)</em>
+                        @*<em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}", Model.Tax)</em>*@
                     </td>
                     <td></td>
                 </tr>

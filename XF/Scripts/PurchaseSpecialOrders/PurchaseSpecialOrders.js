@@ -4,8 +4,8 @@
     XF.addItem = function () {
         var itemIndex = $('.item').size();
         var itemHtml = XF.getHtmlFromTemplate('#newItemTemplate', { index: itemIndex });
-        $('#purchaseTable tbody').append(itemHtml);
-        $('#purchaseTable tbody .cmb-product:last').focus();
+        $('#purchaseSpecialTable tbody').append(itemHtml);
+        $('#purchaseSpecialTable tbody .cmb-product:last').focus();
 
         $('.item-' + itemIndex + ' .txt-quantity,#txtDiscount,.item-' + itemIndex + ' .cmb-product').on('change', function () {
             XF.showItemData(itemIndex);
@@ -54,7 +54,7 @@
 
     XF.savePurchase = function (data)
     {
-        var Url = '/Purchases/Save';
+        var Url = '/PurchaseSpecialOrders/Save';
         var data = { data: JSON.stringify(data) };
         $.post(Url, data, XF.savePurchaseResponse);
     };
@@ -82,6 +82,14 @@
         return result;
     };
 
+    XF.getProviderDetail = function() {
+        var result = {
+            Id: $('#cmbProvider').val(),
+            Name: $('#cmbProvider :selected').text()
+        };
+        return result;
+    };
+
     XF.getPurchase = function () {
         var result =
             {
@@ -91,7 +99,8 @@
                 Subtotal: $('#lblSubtotal').data('value'),
                 Tax: $('#lblTax').data('value'),
                 Total: $('#lblTotal').data('value'),
-                PurchaseOrderDetails: XF.getPurchaseOrderDetail(XF.PurchaseId)
+                PurchaseOrderDetails: XF.getPurchaseOrderDetail(XF.PurchaseId),
+                ProviderId: $('#cmbProvider').val()
             };
 
         return result;

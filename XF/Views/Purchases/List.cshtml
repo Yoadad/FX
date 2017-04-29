@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Orders";
+}
+<input type="hidden" id="hfPageSize" value="@ViewBag.PageSize" />
+<br />
+<h2>
+    Orders
+    <span class="xf-btn-right">
+        <a href="/Purchases" class="btn btn-primary">Go Purchases page</a>
+    </span>
+</h2>
+<br />
+<div id="grid"></div>
+
+<script type="text/html" id="orderDetailTemplate">
+    <a href="/Orders/Detail/#=data.PurchaseOrderId#">#=data.PurchaseOrderId#</a>
+</script>
+@section scripts{
+    @Scripts.Render("~/Scripts/PurchaseOrders/PurchasesOrdersList.js")
+}

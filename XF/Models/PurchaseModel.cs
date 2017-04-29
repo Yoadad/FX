@@ -14,7 +14,6 @@ namespace XF.Models
         {
 
         }
-
         public PurchaseItemViewmodel(PurchaseOrder p)
         {
             this.Comments = p.Comments;
@@ -29,19 +28,23 @@ namespace XF.Models
             this.Total = p.Total;
 
         }
-
         public PurchaseOrderStatu PurchaseOrderStatus { get; set; }
-    }
+   }
+
+
 
     public class PurchasesOrdersViewModel
     {
-         public IEnumerable<PurchaseOrderDetail> PurchasesOrderDetails { get; set; }
+        public IEnumerable<PurchaseOrderDetail> PurchasesOrderDetails { get; set; }
         public IEnumerable<Product> Products { get; set; }
+
+        public IEnumerable<Provider> Providers { get; set; }
         public float Tax { get; set; }
     }
 
     public class PurchaseOrderDetailViewModel
     {
         public PurchaseOrder PurchaseOrder { get; set; }
+        
     }
 }
