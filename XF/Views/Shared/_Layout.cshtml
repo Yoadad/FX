@@ -99,13 +99,14 @@
                 @RenderBody()
             </div>
             <div class="col-md-2">
-                <div id="info">
-
-
+                <div id="info"></div>
+                
+                <div>
+                    @Html.Action("Edition", "Notes")
+                    <hr />
                 </div>
-                <div id="notes">
 
-                </div>
+                <div id="clientNotes"></div>
             </div>
         </div>
         
@@ -118,7 +119,7 @@
     @Html.Partial("~/Views/Templates/Info.cshtml")
     @Html.Partial("~/Views/Templates/Alert.cshtml")
     @Html.Partial("~/Views/Templates/Confirm.cshtml")
-    @Html.Partial("~/Views/Templates/Confirm.cshtml")
+    @Html.Partial("~/Views/Templates/Note.cshtml")
 
 
     

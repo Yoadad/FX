@@ -15,6 +15,12 @@ namespace XF.Controllers
     {
         private XFModel db = new XFModel();
 
+        public ActionResult Edition()
+        {
+            var clients = db.Clients.ToList();
+            return View(clients);
+        }
+
         public JsonResult Add(int clientId, string text)
         {
             try
@@ -36,6 +42,7 @@ namespace XF.Controllers
                     Result = true,
                     Data = new
                     {
+                        Result= true,
                         NoteId = note.Id
                     }
                 }, JsonRequestBehavior.AllowGet);
@@ -50,7 +57,7 @@ namespace XF.Controllers
             try
             {
                 var note = db.ClientNotes.Find(noteId);
-                var client = db.Clients.Find(noteId);
+                var client = db.Clients.Find(note.ClientId);
                 return Json(new
                 {
                     Result = true,
@@ -58,7 +65,7 @@ namespace XF.Controllers
                     {
                         NoteId = note.Id,
                         Text = note.Text,
-                        Title = string.Format("{1} [{0}]",
+                        Title = string.Format("[{0}] <br/> {1} note: ",
                                 note.Date.ToString(),
                                 client.Name)
                     }

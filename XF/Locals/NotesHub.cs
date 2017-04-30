@@ -14,7 +14,7 @@ namespace XF.Locals
         }
         public void InformAddClientNote(int noteId)
         {
-            Clients.Others.ShowClientNOte(noteId);
+            Clients.All.InformAddClientNote(noteId);
         }
     }
 }

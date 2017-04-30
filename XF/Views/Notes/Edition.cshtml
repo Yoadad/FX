@@ -1,0 +1,21 @@
+﻿@model IEnumerable<XF.Entities.Client>
+@{
+    Layout = null;
+}
+
+<form>
+    <div class="form-group">
+        <select id="cmbNoteClients" class="form-control">
+            <option>Select a client</option>
+            @foreach (var client in Model)
+            {
+                <option value="@client.Id">@client.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="txtNoteText">Note</label>
+        <textarea class="form-control" id="txtNoteText" rows="5"></textarea>
+    </div>
+    <a href="javascript:;"  class="btn btn-default" id="btnAddNote">Add Note</a>
+</form>

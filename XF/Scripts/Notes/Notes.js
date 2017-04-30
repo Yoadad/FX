@@ -19,6 +19,7 @@
         };
 
         $.connection.notesHub.client.informAddClientNote = function (noteId) {
+            console.log(noteId);
             XF.showNote(noteId);
         };
     };
@@ -50,11 +51,26 @@
     XF.showNoteResponse = function (data) {
         if (data.Result) {
             var html = XF.getHtmlFromTemplate('#noteTemplate', data.Data);
-            $('#notes').append(html);
+            $('#clientNotes').prepend(html);
         }
         else {
             console.log(data.Message);
         }
     };
+
+    $('#btnAddNote').on('click', function () {
+        var clientId = $('#cmbNoteClients').val();
+        var text = $('#txtNoteText').val();
+        if (!clientId) {
+            XF.alert("Please select a client related with this note", 'warning', 'glyphicon-warning-sign');
+            return;
+        }
+        if (!text || $.trim(text) == '') {
+            XF.alert("Please add a note in the text box", 'warning', 'glyphicon-warning-sign');
+            return;
+        }
+
+        XF.addNote(clientId,text)
+    });
 
 })(jQuery, XF);
