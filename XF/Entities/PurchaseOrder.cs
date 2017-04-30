@@ -45,10 +45,8 @@ namespace XF.Entities
         public int PurchaseOrderStatusId { get; set; }
 
         public string Comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
         public virtual Provider Provider { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
         public virtual PurchaseOrderStatu PurchaseOrderStatu { get; set; }
 

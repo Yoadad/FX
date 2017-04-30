@@ -18,6 +18,7 @@ namespace XF.Entities
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<ClientNote> ClientNotes { get; set; }
         public virtual DbSet<Config> Configs { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
@@ -51,9 +52,20 @@ namespace XF.Entities
                 .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.ClientNotes)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.Logs)
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Client>()
+                .HasMany(e => e.ClientNotes)
+                .WithRequired(e => e.Client)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Client>()

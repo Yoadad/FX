@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html lang="eu">
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html lang="eu">
 <html>
 <head>
     <meta charset="utf-8" />
@@ -102,7 +103,7 @@
 
 
                 </div>
-                <div id="chat">
+                <div id="notes">
 
                 </div>
             </div>
@@ -117,7 +118,7 @@
     @Html.Partial("~/Views/Templates/Info.cshtml")
     @Html.Partial("~/Views/Templates/Alert.cshtml")
     @Html.Partial("~/Views/Templates/Confirm.cshtml")
-
+    @Html.Partial("~/Views/Templates/Confirm.cshtml")
 
 
     
@@ -125,6 +126,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/Scripts/main.js")
+    @if (Request.IsAuthenticated)
+    {
+        @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.min.js")
+        @Scripts.Render("~/signalr/js")
+        @Scripts.Render("~/Scripts/Notes/notes.js")
+    }
     @RenderSection("templates", required: false)
     @RenderSection("scripts", required: false)
     

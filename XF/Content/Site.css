@@ -31,6 +31,11 @@ textarea {
     overflow: auto;
 }
 
+#notes {
+    height: 300px;
+    overflow: auto;
+}
+
 .xf-main-container {
     min-height: 550px;
     background-color:white;
