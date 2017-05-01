@@ -273,6 +273,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoiceItemViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NotesViewModel.cs" />
     <Compile Include="Models\OrderItemViewModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
@@ -451,6 +452,7 @@
     <Content Include="Views\PurchaseSpecialOrders\Index.cshtml" />
     <Content Include="Views\Templates\Note.cshtml" />
     <Content Include="Views\Notes\Edition.cshtml" />
+    <Content Include="Views\Templates\NoteTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

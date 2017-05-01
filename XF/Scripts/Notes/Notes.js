@@ -61,8 +61,8 @@
     $('#btnAddNote').on('click', function () {
         var clientId = $('#cmbNoteClients').val();
         var text = $('#txtNoteText').val();
-        if (!clientId) {
-            XF.alert("Please select a client related with this note", 'warning', 'glyphicon-warning-sign');
+        if (!clientId || $.trim(clientId) == '') {
+            XF.alert("Please select client related with this note", 'warning', 'glyphicon-warning-sign');
             return;
         }
         if (!text || $.trim(text) == '') {

@@ -25,5 +25,7 @@ namespace XF.Entities
         public virtual AspNetUser AspNetUser { get; set; }
 
         public virtual Client Client { get; set; }
+
+        public bool Active { get; set; }
     }
 }

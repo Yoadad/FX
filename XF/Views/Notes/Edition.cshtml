@@ -1,21 +1,27 @@
-﻿@model IEnumerable<XF.Entities.Client>
+﻿@model XF.Models.NotesViewModel
 @{
     Layout = null;
 }
 
 <form>
     <div class="form-group">
+        <h5>
+            <strong>Notes</strong>
+        </h5>
         <select id="cmbNoteClients" class="form-control">
-            <option>Select a client</option>
-            @foreach (var client in Model)
+            <option value="">Select a client</option>
+            @foreach (var client in Model.Clients)
             {
                 <option value="@client.Id">@client.Name</option>
             }
         </select>
+        <textarea class="form-control" id="txtNoteText" rows="3" placeholder="New note"></textarea>
+        <a href="javascript:;" class="btn btn-success" id="btnAddNote" style="width:100%;">Add Note</a>
     </div>
-    <div class="form-group">
-        <label for="txtNoteText">Note</label>
-        <textarea class="form-control" id="txtNoteText" rows="5"></textarea>
-    </div>
-    <a href="javascript:;"  class="btn btn-default" id="btnAddNote">Add Note</a>
 </form>
+<div id="clientNotes">
+    @foreach (var note in Model.Notes)
+    {
+        @Html.Partial("~/Views/Templates/NoteTemplate.cshtml", note)
+    }
+</div>

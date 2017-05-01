@@ -21,18 +21,7 @@
                 </button>
                 @Html.ActionLink("Ximena's Furniture", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            @*<form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" style="min-width:340px;">
-                </div>
-                <input type="button" class="btn btn-default" value="Search"/>
-            </form>*@
             <div class="navbar-collapse collapse">
-                @*<ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>*@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -78,8 +67,16 @@
                         </li>
                         <li class="xf-list-item">
                             <h3>
+                                <a href="/Purchases">
+                                    <span class="glyphicon glyphicon-tags"></span>Purchase Orders
+                                </a>
+                            </h3>
+
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
                                 <a href="/PurchaseSpecialOrders">
-                                    <span class="glyphicon glyphicon-tags"></span>Special Orders
+                                    <span class="glyphicon glyphicon-tags"></span>Special Purchase Orders
                                 </a>
                             </h3>
 
@@ -99,14 +96,15 @@
                 @RenderBody()
             </div>
             <div class="col-md-2">
-                <div id="info"></div>
-                
+                <br />
                 <div>
                     @Html.Action("Edition", "Notes")
-                    <hr />
                 </div>
-
-                <div id="clientNotes"></div>
+                <hr />
+                <div>
+                    <h5><strong>Application Info</strong></h5>
+                    <div id="info"></div>
+                </div>
             </div>
         </div>
         

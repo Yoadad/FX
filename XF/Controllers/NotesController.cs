@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
+using XF.Models;
 
 namespace XF.Controllers
 {
@@ -17,8 +18,14 @@ namespace XF.Controllers
 
         public ActionResult Edition()
         {
-            var clients = db.Clients.ToList();
-            return View(clients);
+            var model = new NotesViewModel() {
+                Clients = db.Clients.ToList(),
+                Notes = db.ClientNotes
+                        .Include(n=>n.Client)
+                        .OrderByDescending(n=>n.Date)
+                        .ToList()
+            };
+            return View(model);
         }
 
         public JsonResult Add(int clientId, string text)
@@ -65,9 +72,8 @@ namespace XF.Controllers
                     {
                         NoteId = note.Id,
                         Text = note.Text,
-                        Title = string.Format("[{0}] <br/> {1} note: ",
-                                note.Date.ToString(),
-                                client.Name)
+                        ClientName = client.Name,
+                        Date = note.Date.ToString("MM/dd/yyyy HH:mm")
                     }
                 }, JsonRequestBehavior.AllowGet);
             }
