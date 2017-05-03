@@ -57,6 +57,9 @@
             console.log(data.Message);
         }
     };
+    XF.ClearControls = function() {
+        $('#txtNoteText').val('');
+    };
 
     $('#btnAddNote').on('click', function () {
         var clientId = $('#cmbNoteClients').val();
@@ -70,7 +73,8 @@
             return;
         }
 
-        XF.addNote(clientId,text)
+        XF.addNote(clientId, text)
+        XF.ClearControls();
     });
 
 })(jQuery, XF);

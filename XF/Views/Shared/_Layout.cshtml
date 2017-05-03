@@ -68,7 +68,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Purchases">
-                                    <span class="glyphicon glyphicon-tags"></span>Purchase Orders
+                                    <span class="glyphicon glyphicon-list-alt"></span>Purchase Orders
                                 </a>
                             </h3>
 
@@ -84,7 +84,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Purchases/List">
-                                    <span class="glyphicon glyphicon-list"></span>Orders
+                                    <span class="glyphicon glyphicon-th-list"></span>Orders
                                 </a>
                             </h3>
                         </li>
@@ -95,17 +95,19 @@
             <div class="col-md-8 xf-main-container">
                 @RenderBody()
             </div>
-            <div class="col-md-2">
-                <br />
-                <div>
-                    @Html.Action("Edition", "Notes")
+            @if (Request.IsAuthenticated) { 
+                <div class="col-md-2">
+                    <br />
+                    <div>
+                        @Html.Action("Edition", "Notes")
+                    </div>
+                    <hr />
+                    <div>
+                        <h5><strong>Application Info</strong></h5>
+                        <div id="info"></div>
+                    </div>
                 </div>
-                <hr />
-                <div>
-                    <h5><strong>Application Info</strong></h5>
-                    <div id="info"></div>
-                </div>
-            </div>
+            }
         </div>
         
     </div>

@@ -1,8 +1,9 @@
-﻿@model XF.Models.NotesViewModel
+﻿@using System.Net.Cache
+@model XF.Models.NotesViewModel
 @{
     Layout = null;
 }
-
+@if (Request.IsAuthenticated) { 
 <form>
     <div class="form-group">
         <h5>
@@ -19,9 +20,10 @@
         <a href="javascript:;" class="btn btn-success" id="btnAddNote" style="width:100%;">Add Note</a>
     </div>
 </form>
-<div id="clientNotes">
-    @foreach (var note in Model.Notes)
-    {
-        @Html.Partial("~/Views/Templates/NoteTemplate.cshtml", note)
-    }
-</div>
+    <div id="clientNotes">
+        @foreach (var note in Model.Notes)
+        {
+            @Html.Partial("~/Views/Templates/NoteTemplate.cshtml", note)
+        }
+    </div>
+}

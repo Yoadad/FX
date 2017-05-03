@@ -26,6 +26,12 @@ textarea {
     max-width: 280px;
 }
 
+
+.k-grid {
+
+    border-radius: 0px !important;
+}
+
 #info {
     height: 200px;
     overflow: auto;
