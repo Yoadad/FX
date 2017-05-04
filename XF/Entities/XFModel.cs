@@ -180,6 +180,14 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .HasRequired<Provider>(p => p.Provider)
+                .WithMany(po => po.PurchaseOrders);
+
+            modelBuilder.Entity<Provider>()
+                .HasMany<PurchaseOrder>(po => po.PurchaseOrders)
+                .WithRequired(p => p.Provider);
         }
     }
 }

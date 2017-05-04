@@ -62,7 +62,7 @@
     XF.savePurchaseResponse = function (data) {
         if (data.Result) {
             XF.addInfoMessage(data.Message, 'success');
-
+            location.href = "/Purchases/List";
         }
         else {
             XF.addInfoMessage(data.Message, 'danger');
@@ -110,6 +110,11 @@
         XF.confirm('This action will create a new Purchase Order', function () {
             var data = { PurchaseOrder: XF.getPurchase() };
             XF.savePurchase(data);
+        });
+    });
+    $('#btnCancelPurchaseSpecial').on('click', function () {
+        XF.confirm('This action will set the default data, Do you want to clear this form?', function () {
+            location.reload();
         });
     });
     $('#txtDiscountPercent').on('change unfocus', function (e) {
