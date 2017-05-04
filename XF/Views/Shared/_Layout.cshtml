@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fontawesome")
     @Styles.Render("~/Content/kendo")
     @Scripts.Render("~/bundles/modernizr")
   
@@ -36,7 +37,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Products">
-                                    <span class="glyphicon glyphicon-barcode"></span>Products
+                                    <i class="fa fa-barcode" aria-hidden="true"></i> Products
                                 </a>
                             </h3>
                             
@@ -44,7 +45,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Users">
-                                    <span class="glyphicon glyphicon-user"></span>Users
+                                    <i class="fa fa-users" aria-hidden="true"></i> Users
                                 </a>
                             </h3>
                             
@@ -52,7 +53,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Sales">
-                                    <span class="glyphicon glyphicon-tags"></span>Sales
+                                    <i class="fa fa-tags" aria-hidden="true"></i> Sales
                                 </a>
                             </h3>
 
@@ -60,7 +61,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Invoices">
-                                    <span class="glyphicon glyphicon-list"></span>Invoices
+                                     <i class="fa fa-list-ol" aria-hidden="true"></i> Invoices
                                 </a>
                             </h3>
 
@@ -68,7 +69,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Purchases">
-                                    <span class="glyphicon glyphicon-list-alt"></span>Purchase Orders
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Purchase Orders
                                 </a>
                             </h3>
 
@@ -76,7 +77,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/PurchaseSpecialOrders">
-                                    <span class="glyphicon glyphicon-tags"></span>Special Purchase Orders
+                                    <i class="fa fa-cubes" aria-hidden="true"></i> Special Purchase Orders
                                 </a>
                             </h3>
 
@@ -84,7 +85,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Purchases/List">
-                                    <span class="glyphicon glyphicon-th-list"></span>Orders
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> Orders
                                 </a>
                             </h3>
                         </li>
@@ -125,6 +126,7 @@
     
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
     @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/Scripts/main.js")
     @if (Request.IsAuthenticated)

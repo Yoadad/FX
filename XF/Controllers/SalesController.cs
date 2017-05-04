@@ -6,6 +6,7 @@ using System.Linq.Dynamic;
 using System.Text;
 using System.Web.Mvc;
 using XF.Entities;
+using XF.Entities.Enumerations;
 using XF.Models;
 using XF.Services;
 
@@ -27,6 +28,11 @@ namespace XF.Controllers
             return View(model);
         }
 
+        public ActionResult Estimate()
+        {
+            return View();
+        }
+
         public JsonResult Save(string data)
         {
             try
@@ -34,7 +40,7 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = 1;
+                model.Invoice.InvoiceStatusId = (int) InvoiceStatus.Draft;
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
                 return Json(new { Result = true, Message = "New Invoice created successful",Data=new { InvoiceId=model.Invoice.Id} });

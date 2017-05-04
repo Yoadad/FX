@@ -250,6 +250,7 @@
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\ClientNote.cs" />
     <Compile Include="Entities\Config.cs" />
+    <Compile Include="Entities\Enumerations\InvoiceStatus.cs" />
     <Compile Include="Entities\Invoice.cs" />
     <Compile Include="Entities\InvoiceDetail.cs" />
     <Compile Include="Entities\InvoiceStatu.cs" />
@@ -302,10 +303,14 @@
     <Content Include="Content\Bootstrap\sprite_kpi_2x.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\icons\Purchase Order-26.png" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common-bootstrap.min.css" />
     <Content Include="Content\kendo.dataviz.bootstrap.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -315,6 +320,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\XFPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\doT.min.js" />
@@ -453,6 +463,7 @@
     <Content Include="Views\Templates\Note.cshtml" />
     <Content Include="Views\Notes\Edition.cshtml" />
     <Content Include="Views\Templates\NoteTemplate.cshtml" />
+    <Content Include="Views\Sales\Estimate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
