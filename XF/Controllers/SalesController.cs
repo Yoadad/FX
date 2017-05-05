@@ -28,11 +28,47 @@ namespace XF.Controllers
             return View(model);
         }
 
-        public ActionResult Estimate()
+        public ActionResult Quotation()
         {
-            return View();
+            var model = new SalesViewModel()
+            {
+                Clients = db.Clients.OrderBy(c => c.Name).ToList(),
+                Products = db.Products.OrderBy(p => p.Code),
+                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
+                Tax = float.Parse(ConfigService.GetValue("Tax", db))
+            };
+            return View(model);
         }
 
+        public JsonResult SaveQuotation(string data)
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
+                model.Invoice.UserId = User.Identity.GetUserId();
+                model.Invoice.Created = DateTime.Now;
+                model.Invoice.InvoiceStatusId = (int) InvoiceStatus.Quotation;
+                db.Invoices.Add(model.Invoice);
+                db.SaveChanges();
+                return Json(new { Result = true, Message = "New Invoice created successful", Data = new { InvoiceId = model.Invoice.Id } });
+            }
+            catch (Exception ex)
+            {
+
+                var message = new StringBuilder();
+                message.AppendLine(ex.Message);
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    message.AppendLine(string.IsNullOrWhiteSpace(innerException.Message)
+                        ? string.Empty
+                        : innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return Json(new { Result = false, Message = message.ToString() });
+            }
+        }
+        
         public JsonResult Save(string data)
         {
             try
@@ -61,6 +97,7 @@ namespace XF.Controllers
                 return Json(new { Result = false, Message = message.ToString() });
             }
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

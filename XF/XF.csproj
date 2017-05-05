@@ -305,7 +305,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\icons\Purchase Order-26.png" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common-bootstrap.min.css" />
     <Content Include="Content\kendo.dataviz.bootstrap.min.css" />
@@ -353,6 +352,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Sales\InvoicesList.js" />
+    <Content Include="Scripts\Sales\QuotationPoint.js" />
     <Content Include="Scripts\Sales\SalesPoint.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
     <Content Include="Scripts\_references.js" />
@@ -463,10 +463,11 @@
     <Content Include="Views\Templates\Note.cshtml" />
     <Content Include="Views\Notes\Edition.cshtml" />
     <Content Include="Views\Templates\NoteTemplate.cshtml" />
-    <Content Include="Views\Sales\Estimate.cshtml" />
+    <Content Include="Views\Sales\Quotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\icons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
