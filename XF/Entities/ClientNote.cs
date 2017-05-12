@@ -22,10 +22,10 @@ namespace XF.Entities
 
         public int ClientId { get; set; }
 
+        public bool Active { get; set; }
+
         public virtual AspNetUser AspNetUser { get; set; }
 
         public virtual Client Client { get; set; }
-
-        public bool Active { get; set; }
     }
 }

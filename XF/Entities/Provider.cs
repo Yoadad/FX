@@ -13,6 +13,7 @@ namespace XF.Entities
         public Provider()
         {
             PurchaseOrders = new HashSet<PurchaseOrder>();
+            Products = new HashSet<Product>();
         }
 
         public int Id { get; set; }
@@ -23,5 +24,8 @@ namespace XF.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

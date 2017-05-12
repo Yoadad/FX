@@ -141,6 +141,11 @@ namespace XF.Entities
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Providers)
+                .WithMany(e => e.Products)
+                .Map(m => m.ToTable("ProductsProvider").MapLeftKey("ProductId").MapRightKey("ProviderId"));
+
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Discount)
                 .HasPrecision(13, 2);
@@ -180,14 +185,6 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PurchaseOrder>()
-                .HasRequired<Provider>(p => p.Provider)
-                .WithMany(po => po.PurchaseOrders);
-
-            modelBuilder.Entity<Provider>()
-                .HasMany<PurchaseOrder>(po => po.PurchaseOrders)
-                .WithRequired(p => p.Provider);
         }
     }
 }
