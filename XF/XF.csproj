@@ -234,6 +234,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ProvidersController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\PurchaseOrderStatusController.cs" />
     <Compile Include="Controllers\PurchasesController.cs" />
@@ -464,6 +465,11 @@
     <Content Include="Views\Notes\Edition.cshtml" />
     <Content Include="Views\Templates\NoteTemplate.cshtml" />
     <Content Include="Views\Sales\Quotation.cshtml" />
+    <Content Include="Views\Providers\Create.cshtml" />
+    <Content Include="Views\Providers\Delete.cshtml" />
+    <Content Include="Views\Providers\Details.cshtml" />
+    <Content Include="Views\Providers\Edit.cshtml" />
+    <Content Include="Views\Providers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
