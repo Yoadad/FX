@@ -6,8 +6,8 @@
         $.connection.hub.start()
         .done(function (message) {
             $.connection.notesHub.server.testConnection();
-            XF.informAddClientNote = function (noteId) {
-                $.connection.notesHub.server.informAddClientNote(noteId);
+            XF.informAddClientNote = function (noteId,clientId) {
+                $.connection.notesHub.server.informAddClientNote(noteId, clientId);
             }
         })
         .fail(function () {
@@ -18,9 +18,8 @@
             console.log(message);
         };
 
-        $.connection.notesHub.client.informAddClientNote = function (noteId) {
-            console.log(noteId);
-            XF.showNote(noteId);
+        $.connection.notesHub.client.informAddClientNote = function (noteId,clientId) { 
+            XF.showNote(noteId,clientId);
         };
     };
     
@@ -35,16 +34,16 @@
 
     XF.addNoteResponse = function (data) {
         if (data.Result) {
-            XF.informAddClientNote(data.Data.NoteId);
+            XF.informAddClientNote(data.Data.NoteId, data.Data.ClientId);
         }
         else {
             console.log(data.Message);
         }
     };
 
-    XF.showNote = function (noteId) {
+    XF.showNote = function (noteId, clientId) {
         var url = '/Notes/Get';
-        var data = {noteId:noteId};
+        var data = {noteId:noteId,clientId:clientId};
         $.post(url,data,XF.showNoteResponse,'json');
     };
 
@@ -57,8 +56,14 @@
             console.log(data.Message);
         }
     };
-    XF.ClearControls = function() {
+
+    XF.ClearControls = function () {
         $('#txtNoteText').val('');
+    };
+
+    XF.filterNotes = function (clientId) {
+        $('div.note').hide();
+        $('.client-' + clientId).show();
     };
 
     $('#btnAddNote').on('click', function () {
@@ -75,6 +80,11 @@
 
         XF.addNote(clientId, text)
         XF.ClearControls();
+    });
+
+    $('#cmbNoteClients').on('change', function () {
+        console.log(':)');
+        XF.filterNotes($(this).val());
     });
 
 })(jQuery, XF);

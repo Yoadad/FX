@@ -50,7 +50,8 @@ namespace XF.Controllers
                     Data = new
                     {
                         Result= true,
-                        NoteId = note.Id
+                        NoteId = note.Id,
+                        ClientId = note.ClientId
                     }
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -59,7 +60,7 @@ namespace XF.Controllers
                 return Json(new { Result = false, Message = ex.Message });
             }
         }
-        public JsonResult Get(int noteId)
+        public JsonResult Get(int noteId,int clientId)
         {
             try
             {
@@ -71,6 +72,7 @@ namespace XF.Controllers
                     Data = new
                     {
                         NoteId = note.Id,
+                        ClientId = note.ClientId,
                         Text = note.Text,
                         ClientName = client.Name,
                         Date = note.Date.ToString("MM/dd/yyyy HH:mm")

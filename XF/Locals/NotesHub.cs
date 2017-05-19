@@ -12,9 +12,9 @@ namespace XF.Locals
         {
             Clients.Caller.TestConnectionConfirm(string.Format("Connected! [{0}]",DateTime.Now.ToString()));
         }
-        public void InformAddClientNote(int noteId)
+        public void InformAddClientNote(int noteId,int clientId)
         {
-            Clients.All.InformAddClientNote(noteId);
+            Clients.All.InformAddClientNote(noteId, clientId);
         }
     }
 }
