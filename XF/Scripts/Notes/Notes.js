@@ -51,6 +51,7 @@
         if (data.Result) {
             var html = XF.getHtmlFromTemplate('#noteTemplate', data.Data);
             $('#clientNotes').prepend(html);
+            XF.filterNotes(data.Data.ClientId);
         }
         else {
             console.log(data.Message);
@@ -83,7 +84,6 @@
     });
 
     $('#cmbNoteClients').on('change', function () {
-        console.log(':)');
         XF.filterNotes($(this).val());
     });
 
