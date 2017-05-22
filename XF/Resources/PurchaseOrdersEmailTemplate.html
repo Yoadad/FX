@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+        html,body {
+            padding:0;
+            margin:0;
+            font-family:Verdana;
+            font-size:15px;
+        }
+        h1,h2,h3,h4,h5 {
+            margin:0;
+            margin-left:21px;
+            font-family:Verdana;
+            font-weight: normal;
+            letter-spacing: .1em;
+        }
+        h2 {
+            font-size: 34px;
+        }
+        h3 {
+            font-size: 21px;
+        }
+        h4 {
+            font-size: 17px;
+        }
+        .header {
+            background-color: #52BAD5;
+            color: #FFF4EF;
+            width: 100%;
+            padding-top: 21px;
+        }
+        table {
+            min-width:380px;
+        }
+        table, th, td, tr {
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+        .table-tr {
+            width:100%;
+        }
+        .table-tr td, th {
+            margin: 3px;
+            border: none;
+            padding: 13px;    
+            padding-left: 21px;
+            padding-right: 21px;
+            line-height: 1.42857143;
+            vertical-align: top;
+        }
+        .table-tr th {
+            font-weight:bold;
+            border-bottom:solid 1px #efefef;
+        }
+        .table-tr tr:nth-child(even) {
+            background-color: #F9F9F9;
+        }
+        .text-left {
+            text-align:left;
+        }
+        .text-right {
+            text-align:right;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-justify {
+            text-align: justify;
+        }
+
+        .description {
+            background-color: #f5f5f5;
+            color: #3b3b3b;
+            font-size: 13px;
+            padding: 13px;
+            padding-left: 34px;
+            padding-right: 34px;
+            text-align: justify;
+        }
+        .container {
+            min-width: 340px;
+            max-width: 500px;
+            border: solid 1px #dfdfdf;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            
+        }
+        .footer {
+            font-size:13px;
+            color:gray;
+            background:#f9f9f9;
+            padding:21px;
+            border-top:solid 1px #efefef;
+        }
+
+        .label-info {
+            background-color: #5bc0de;
+        }
+        .label-danger {
+            background-color: #d9534f;
+        }
+        .label {
+            display: inline;
+            padding: .2em .6em .3em;
+            font-size: 85%;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+        }
+
+    </style>
+</head>
+<body style="padding: 0; margin: 0; font-family: Verdana; font-size: 15px;">
+    <center>
+        <div class="container" style="min-width: 340px; max-width: 500px; border: solid 1px #dfdfdf; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;">
+            <div class="header" style="background-color: #52BAD5; color: #FFF4EF; width: 100%; padding-top: 21px;">
+                <table style="min-width: 380px; width:100%;">
+                    <tr>
+                        <td class="text-right">
+                            <div style="border-right:solid 1px white; height:80px; padding-right:21px;">
+                                <br />
+                                <h3 style="font-size: 21px; margin: 0; margin-left: 21px; font-family: Verdana; font-weight: normal; letter-spacing: .1em;"><strong> TEPANGO </strong></h3>
+                            </div>
+                        </td>
+                        <td class="text-left" style="margin-left:13px;">
+                            <h3 style="font-size: 21px; margin: 0; margin-left: 21px; font-family: Verdana; font-weight: normal; letter-spacing: .1em; "><strong>Reporte de ventas</strong> </h3>
+                            <h4 class="text-left" style="font-size: 15px; margin: 0; margin-left: 21px; font-family: Verdana; font-weight: normal; letter-spacing: .1em; "><small>{{data}}</small></h4>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="description" style="background-color: #f5f5f5; color: #3b3b3b; font-size: 13px; padding: 13px; padding-left: 34px; padding-right: 34px; text-align: justify;">
+                <p>
+                    Purchase Orders Detail {{Detail}}
+                </p>
+            </div>
+
+            <div class="detail">
+                
+                <table class="table-tr" style="min-width: 380px; width:100%;">
+
+                    {{Description}}
+                    <tr>
+                        <td style="margin: 3px; border: none; padding: 13px; padding-left: 21px; padding-right: 21px; line-height: 1.42857143; vertical-align: top;">
+                            <span class="label label-info" style="display: inline; padding: .2em .6em .3em; font-size: 85%; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; background-color: #5bc0de;">TOTAL:</span>
+                        </td>
+                        <td class="text-right" style="margin: 3px; border: none; padding: 13px; padding-left: 21px; padding-right: 21px; line-height: 1.42857143; vertical-align: top; text-align:right;">
+                            <strong>
+                                <span class="label label-danger" style="display: inline; padding: .2em .6em .3em; font-size: 85%; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; background-color: #d9534f;">{{Total}}</span>
+                            </strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer" style="font-size: 13px; color: gray; background: #f9f9f9; padding: 21px; border-top: solid 1px #efefef;">
+                NOTA:<em> Para m&aacute;s detalle puede descargar el archivo adjunto a este correo en formato excel.</em>
+            </div>
+        </div>
+    </center>
+</body>

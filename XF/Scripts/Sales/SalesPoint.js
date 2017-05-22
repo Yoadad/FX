@@ -116,4 +116,13 @@
                         .trigger('change');
     });
 
+    $('#cmbIsDelivery').on('change', function () {
+
+        if ($(this).val()==1) {
+            $('#txtAddress').show();
+        } else {
+            $('#txtAddress').hide();
+        }
+    });
+
 })(jQuery, XF);

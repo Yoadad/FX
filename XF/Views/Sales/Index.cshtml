@@ -23,8 +23,20 @@
         </select>        
     </div>
     <div class="col-md-4">
+        <label>
+            <select id="cmbIsDelivery">
+                <option value="1">Delivery</option>
+                <option value="0" selected>Pick Up</option>
+            </select>
+        </label>
         <label>Date</label>
         <input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+        <textarea rows="3" style="display:none;" class="form-control" placeholder="Address" id="txtAddress"></textarea>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
     </div>
 </div>
 <br />
