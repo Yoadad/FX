@@ -13,8 +13,15 @@
             <input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
         
     </div>
-    <div class="col-md-6"></div>
-
+    @*<div class="col-md-6">       
+        <label>Status</label>
+        <select class="form-control" id="cmbStatus">
+            @foreach (var item in Model.PurchasesOrderStatus)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>*@
 </div>
 <br />
 <div class="row">

@@ -78,6 +78,7 @@ namespace XF.Controllers
                 model.Invoice.Created = DateTime.Now;
                 model.Invoice.InvoiceStatusId = (int) InvoiceStatus.Draft;
                 db.Invoices.Add(model.Invoice);
+                ExtractProductFromStock(model);
                 db.SaveChanges();
                 return Json(new { Result = true, Message = "New Invoice created successful",Data=new { InvoiceId=model.Invoice.Id} });
             }
@@ -96,6 +97,12 @@ namespace XF.Controllers
                 }
                 return Json(new { Result = false, Message = message.ToString() });
             }
+        }
+
+        private void ExtractProductFromStock(SalesDetailViewModel model)
+        {
+            var stockCtrl = new StockController();
+            stockCtrl.ExtractFromStock(model.Invoice.InvoiceDetails);
         }
 
         protected override void Dispose(bool disposing)

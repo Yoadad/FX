@@ -23,6 +23,7 @@ namespace XF.Controllers
             {
                 Products = db.Products.OrderBy(p => p.Name).ToList(),
                 PurchasesOrderDetails = db.PurchaseOrderDetails.OrderBy(po => po.Id).ToList(),
+                PurchasesOrderStatus = db.PurchaseOrderStatus.OrderBy(pos => pos.Id).ToList(),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
             return View(model);
@@ -70,8 +71,7 @@ namespace XF.Controllers
             }
             base.Dispose(disposing);
         }
-
-
+        
         private PurchaseItemViewmodel GetPurchaseItemModel(PurchaseOrder p)
         {
             var itemModel = new PurchaseItemViewmodel(p);
@@ -103,7 +103,7 @@ namespace XF.Controllers
 
         public JsonResult Orders(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var result = GridService.GetData(db.PurchaseOrders.OrderByDescending(i => i.Date),
+            var result = GridService.GetData(db.PurchaseOrders.Where(p=> p.PurchaseOrderStatu.Name.ToUpper() != "DONE").OrderByDescending(i => i.Date),
                                                 sorting,
                                                 filter,
                                                 skip,
@@ -117,6 +117,37 @@ namespace XF.Controllers
             var count = result.Count;
 
             return Json(new { total = count, data = orders }, JsonRequestBehavior.AllowGet);
+        }
+        
+        public JsonResult ChangeStatus(string data)
+        {
+            var order = JsonConvert.DeserializeObject<PurchaseOrderDetailViewModel>(data);
+            var stockCtrl = new StockController();
+            var purchaseOrder = db.PurchaseOrders.FirstOrDefault(p => p.Id == order.PurchaseOrder.Id);
+            try
+            {
+                stockCtrl.UpdateStock(purchaseOrder.PurchaseOrderDetails);
+                purchaseOrder.PurchaseOrderStatusId = db.PurchaseOrderStatus.FirstOrDefault(p => p.Name.ToUpper().Equals("DONE")).Id;
+                db.Entry(purchaseOrder).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { Result = true, Message = "Product Stock updated successful" });
+
+            }
+            catch (Exception ex)
+            {
+
+                var message = new StringBuilder();
+                message.AppendLine(ex.Message);
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    message.AppendLine(string.IsNullOrWhiteSpace(innerException.Message)
+                                        ? string.Empty
+                                        : innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return Json(new { Result = false, Message = message.ToString() });
+            }
         }
 
     }

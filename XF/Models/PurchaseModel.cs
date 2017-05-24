@@ -39,12 +39,16 @@ namespace XF.Models
         public IEnumerable<Product> Products { get; set; }
 
         public IEnumerable<Provider> Providers { get; set; }
+
+        public IEnumerable<PurchaseOrderStatu> PurchasesOrderStatus { get; set; }
         public float Tax { get; set; }
     }
 
     public class PurchaseOrderDetailViewModel
     {
         public PurchaseOrder PurchaseOrder { get; set; }
+        
+        public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
         
     }
 }

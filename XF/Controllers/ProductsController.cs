@@ -35,11 +35,9 @@ namespace XF.Controllers
         private ProductItemViewModel GetProductItemModel(Product p)
         {
             var itemModel = new ProductItemViewModel(p);
-            itemModel.Stock =
-                db.Stocks
-                    .Any(s => s.Id == p.Id)
+            itemModel.Stock = db.Stocks.Any(s => s.ProductId == p.Id)
                 ? db.Stocks
-                    .First(s => s.Id == p.Id)
+                    .First(s => s.ProductId == p.Id)
                     .StockQuantity
                 : 0;
             return itemModel;
