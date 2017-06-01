@@ -21,8 +21,9 @@ namespace XF.Controllers
         {
             var model = new SalesViewModel() {
                 Clients = db.Clients.OrderBy(c => c.Name).ToList(),
-                Products = db.Products.OrderBy(p => p.Code),
+                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p=>GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
+                PaymentOptions = db.PaymentOptions.OrderBy(po=>po.Id),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
             return View(model);
@@ -33,7 +34,7 @@ namespace XF.Controllers
             var model = new SalesViewModel()
             {
                 Clients = db.Clients.OrderBy(c => c.Name).ToList(),
-                Products = db.Products.OrderBy(p => p.Code),
+                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
@@ -101,8 +102,8 @@ namespace XF.Controllers
 
         private void ExtractProductFromStock(SalesDetailViewModel model)
         {
-            var stockCtrl = new StockController();
-            stockCtrl.ExtractFromStock(model.Invoice.InvoiceDetails);
+            //var stockCtrl = new StockController();
+            //stockCtrl.ExtractFromStock(model.Invoice.InvoiceDetails);
         }
 
         protected override void Dispose(bool disposing)
@@ -117,9 +118,11 @@ namespace XF.Controllers
         private ProductItemViewModel GetProductItemModel(Product p)
         {
             var itemModel = new ProductItemViewModel(p);
-            itemModel.Stock = db.Stocks
-                .Where(s => s.Id == p.Id)
-                .Count();
+            itemModel.Stock = db.Stocks.Any(s => s.ProductId == p.Id)
+                ? db.Stocks
+                .Where(s => s.ProductId == p.Id)
+                .Sum(s => s.StockQuantity)
+                : 0;
             return itemModel;
         }
 

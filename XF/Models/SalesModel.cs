@@ -9,8 +9,9 @@ namespace XF.Models
     public class SalesViewModel
     {
         public IEnumerable<Client> Clients { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<ProductItemViewModel> Products { get; set; }
         public IEnumerable<PaymentType> PaymentTypes { get; set; }
+        public IEnumerable<PaymentOption> PaymentOptions { get; set; }
         public float Tax { get; set; }
 
     }

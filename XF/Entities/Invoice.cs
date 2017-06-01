@@ -13,6 +13,7 @@ namespace XF.Entities
         public Invoice()
         {
             InvoiceDetails = new HashSet<InvoiceDetail>();
+            Payments = new HashSet<Payment>();
         }
 
         public int Id { get; set; }
@@ -48,6 +49,11 @@ namespace XF.Entities
 
         public int PaymentTypeId { get; set; }
 
+        public bool IsDelivery { get; set; }
+
+        [StringLength(1024)]
+        public string Address { get; set; }
+
         public virtual Client Client { get; set; }
 
         public virtual InvoiceStatu InvoiceStatu { get; set; }
@@ -56,5 +62,8 @@ namespace XF.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

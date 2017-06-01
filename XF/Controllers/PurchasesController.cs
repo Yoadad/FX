@@ -122,16 +122,15 @@ namespace XF.Controllers
         public JsonResult ChangeStatus(string data)
         {
             var order = JsonConvert.DeserializeObject<PurchaseOrderDetailViewModel>(data);
-            var stockCtrl = new StockController();
+            //var stockCtrl = new StockController();
             var purchaseOrder = db.PurchaseOrders.FirstOrDefault(p => p.Id == order.PurchaseOrder.Id);
             try
             {
-                stockCtrl.UpdateStock(purchaseOrder.PurchaseOrderDetails);
+                //stockCtrl.UpdateStock(purchaseOrder.PurchaseOrderDetails);
                 purchaseOrder.PurchaseOrderStatusId = db.PurchaseOrderStatus.FirstOrDefault(p => p.Name.ToUpper().Equals("DONE")).Id;
                 db.Entry(purchaseOrder).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return Json(new { Result = true, Message = "Product Stock updated successful" });
-
             }
             catch (Exception ex)
             {

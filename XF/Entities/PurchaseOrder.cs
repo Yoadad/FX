@@ -19,8 +19,6 @@ namespace XF.Entities
 
         public DateTime Date { get; set; }
 
-        public int? ProviderId { get; set; }
-
         [Required]
         [StringLength(128)]
         public string UserId { get; set; }
@@ -45,8 +43,6 @@ namespace XF.Entities
         public int PurchaseOrderStatusId { get; set; }
 
         public string Comments { get; set; }
-
-        public virtual Provider Provider { get; set; }
 
         public virtual PurchaseOrderStatu PurchaseOrderStatu { get; set; }
 

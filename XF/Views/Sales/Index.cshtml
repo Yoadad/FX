@@ -52,6 +52,7 @@
                 <tr>
                     <th class="text-center">Item</th>
                     <th class="text-center">Quantity</th>
+                    <th class="text-center">Status</th>
                     <th class="text-center">Unit Price</th>
                     <th class="text-center">Total</th>
                     <th class="text-center">Actions</th>
@@ -118,13 +119,24 @@
 </div>
 <br />
 
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Payment Option</th>
+        </tr>
+    </thead>
+</table>
+
+
 <script type="text/html" id="newItemTemplate">
     <tr class="item item-#=data.index#">
         <td>
             <select class="form-control cmb-product">
                 @foreach (var item in Model.Products)
                 {
-                    <option value="@item.Id" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
+                    <option value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
                 }
             </select>
         </td>
@@ -132,8 +144,14 @@
             <input type="number" min="1" value="1" class="form-control txt-quantity text-right" style="width:89px;"/>
         </td>
         <td class="text-right">
+            <em class="lbl-stock" data-value="0.0"></em>/
+            <em class="lbl-inorder" data-value="0.0"></em>
+        </td>
+
+        <td class="text-right">
             <em class="lbl-price" data-value="0.0"></em>
         </td>
+
         <td class="text-right">
             <em class="lbl-total" data-value="0.0"></em>
         </td>
@@ -142,6 +160,26 @@
         </td>
     </tr>       
 
+</script>
+
+<script type="text/html" id="newPaymentItemTemplate">
+    <tr>
+        <td>
+            <input type="date" class="form-control" id="txtPaymentDate" />
+        </td>
+        <td>
+            <input type="text" class="form-control" id="txtPaymentAmount" />
+        </td>
+        <td>
+            <select id="cmbPaymentOption">
+                @foreach (var item in Model.PaymentOptions)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </td>
+    </tr>
+    
 </script>
 
 @section scripts{

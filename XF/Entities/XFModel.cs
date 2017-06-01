@@ -25,6 +25,8 @@ namespace XF.Entities
         public virtual DbSet<InvoiceStatu> InvoiceStatus { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<PaymentOption> PaymentOptions { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
@@ -98,6 +100,11 @@ namespace XF.Entities
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Invoice>()
+                .HasMany(e => e.Payments)
+                .WithRequired(e => e.Invoice)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.UnitPrice)
                 .HasPrecision(13, 2);
@@ -111,6 +118,15 @@ namespace XF.Entities
             modelBuilder.Entity<Location>()
                 .HasMany(e => e.Stocks)
                 .WithRequired(e => e.Location)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Payment>()
+                .Property(e => e.Amount)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<PaymentOption>()
+                .HasMany(e => e.Payments)
+                .WithRequired(e => e.PaymentOption)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<PaymentType>()
@@ -143,8 +159,14 @@ namespace XF.Entities
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.Providers)
-                .WithMany(e => e.Products)
+                .WithMany(e => e.Products1)
                 .Map(m => m.ToTable("ProductsProvider").MapLeftKey("ProductId").MapRightKey("ProviderId"));
+
+            modelBuilder.Entity<Provider>()
+                .HasMany(e => e.Products)
+                .WithRequired(e => e.Provider)
+                .HasForeignKey(e => e.ProviderId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Discount)

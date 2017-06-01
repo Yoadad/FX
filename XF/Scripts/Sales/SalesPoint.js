@@ -25,13 +25,19 @@
 
     XF.showItemData = function (index) {
         var price = $('.item-' + index + ' .cmb-product option:selected').data('price');
+        var stock = $('.item-' + index + ' .cmb-product option:selected').data('stock');
         var quantity = $('.item-' + index + ' .txt-quantity').val();
+        var inorder = quantity - stock;
+        inorder = inorder > 0 ? inorder : 0;
+        stock = inorder > 0 ? stock : quantity;
         var total = price * quantity;
-
+        
         $('.item-' + index + ' .lbl-price').text(kendo.format('{0:C}', parseFloat(price)))
                                             .data({ value: price});
         $('.item-' + index + ' .lbl-total').text(kendo.format('{0:C}', total))
                                             .data({ value: total });
+        $('.item-' + index + ' .lbl-stock').text(kendo.format('stock: {0}', stock));
+        $('.item-' + index + ' .lbl-inorder').text(kendo.format('in order: {0}', inorder));
     };
 
     XF.showTotals = function () {

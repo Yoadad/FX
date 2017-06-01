@@ -17,14 +17,13 @@ namespace XF.Models
             Subtotal = po.Subtotal.Value;
             Tax = po.Tax.Value;
             Total = po.Total.Value;
-            Provider = po.Provider == null? "None":po.Provider.Name;
         }
 
         public int PurchaseOrderId { get; set; }
 
         public DateTime Date { get; set; }
 
-        public string Provider { get; set; }
+        
         
         public DateTime Created_Date { get; set; }
 

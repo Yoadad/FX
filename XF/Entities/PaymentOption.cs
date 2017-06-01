@@ -6,26 +6,23 @@ namespace XF.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Provider")]
-    public partial class Provider
+    [Table("PaymentOption")]
+    public partial class PaymentOption
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Provider()
+        public PaymentOption()
         {
-            Products = new HashSet<Product>();
-            Products1 = new HashSet<Product>();
+            Payments = new HashSet<Payment>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(255)]
+        [StringLength(128)]
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products1 { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

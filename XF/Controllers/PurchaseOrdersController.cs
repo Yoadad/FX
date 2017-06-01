@@ -18,7 +18,7 @@ namespace XF.Controllers
         // GET: PurchaseOrders
         public ActionResult Index()
         {
-            var purchaseOrders = db.PurchaseOrders.Include(p => p.Provider).Include(p => p.PurchaseOrderStatu);
+            var purchaseOrders = db.PurchaseOrders.Include(p => p.PurchaseOrderStatu);
             return View(purchaseOrders.ToList());
         }
 
@@ -59,7 +59,6 @@ namespace XF.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", purchaseOrder.ProviderId);
             ViewBag.PurchaseOrderStatusId = new SelectList(db.PurchaseOrderStatus, "Id", "Name", purchaseOrder.PurchaseOrderStatusId);
             return View(purchaseOrder);
         }
@@ -76,7 +75,6 @@ namespace XF.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", purchaseOrder.ProviderId);
             ViewBag.PurchaseOrderStatusId = new SelectList(db.PurchaseOrderStatus, "Id", "Name", purchaseOrder.PurchaseOrderStatusId);
             return View(purchaseOrder);
         }
@@ -94,7 +92,6 @@ namespace XF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", purchaseOrder.ProviderId);
             ViewBag.PurchaseOrderStatusId = new SelectList(db.PurchaseOrderStatus, "Id", "Name", purchaseOrder.PurchaseOrderStatusId);
             return View(purchaseOrder);
         }
