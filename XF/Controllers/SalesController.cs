@@ -69,6 +69,40 @@ namespace XF.Controllers
                 return Json(new { Result = false, Message = message.ToString() });
             }
         }
+
+        private void AddOrders(SalesDetailViewModel salesModel)
+        {
+            foreach (var details in salesModel
+                .Invoice
+                .InvoiceDetails
+                .Select(id => {
+                    id.Product = db.Products.First(p => p.Id == id.ProductId);
+                    return id;
+                    }
+                )
+                .Where(id=>id.InOrder > 0)
+                .GroupBy(s => s.Product.Provider))
+            {
+                var order = new PurchaseOrder()
+                {
+                    UserId = User.Identity.GetUserId(),
+                    Date = DateTime.Now,
+                    Created = DateTime.Now,
+                    PurchaseOrderStatusId = 1
+                };
+
+                foreach (var orderDetail in details)
+                {
+                    order.PurchaseOrderDetails.Add(new PurchaseOrderDetail() {
+                        ProductId = orderDetail.ProductId,
+                        UnitPrice = orderDetail.UnitPrice,
+                        Quantity = orderDetail.InOrder
+                    });
+                }
+                db.PurchaseOrders.Add(order);
+            }
+            db.SaveChanges();
+        }
         
         public JsonResult Save(string data)
         {
@@ -81,6 +115,7 @@ namespace XF.Controllers
                 db.Invoices.Add(model.Invoice);
                 ExtractProductFromStock(model);
                 db.SaveChanges();
+                AddOrders(model);
                 return Json(new { Result = true, Message = "New Invoice created successful",Data=new { InvoiceId=model.Invoice.Id} });
             }
             catch (Exception ex)
@@ -102,8 +137,8 @@ namespace XF.Controllers
 
         private void ExtractProductFromStock(SalesDetailViewModel model)
         {
-            //var stockCtrl = new StockController();
-            //stockCtrl.ExtractFromStock(model.Invoice.InvoiceDetails);
+            var stockCtrl = new StockController();
+            stockCtrl.ExtractFromStock(model.Invoice.InvoiceDetails);
         }
 
         protected override void Dispose(bool disposing)

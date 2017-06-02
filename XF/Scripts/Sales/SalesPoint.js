@@ -36,8 +36,10 @@
                                             .data({ value: price});
         $('.item-' + index + ' .lbl-total').text(kendo.format('{0:C}', total))
                                             .data({ value: total });
-        $('.item-' + index + ' .lbl-stock').text(kendo.format('stock: {0}', stock));
-        $('.item-' + index + ' .lbl-inorder').text(kendo.format('in order: {0}', inorder));
+        $('.item-' + index + ' .lbl-stock').text(kendo.format('{0}', stock))
+                                            .data({ value: stock });
+        $('.item-' + index + ' .lbl-inorder').text(kendo.format('{0}', inorder))
+                                            .data({ value: inorder});
     };
 
     XF.showTotals = function () {
@@ -86,6 +88,7 @@
                 ProductId: $(this).find('.cmb-product').val(),
                 Quantity: $(this).find('.txt-quantity').val(),
                 UnitPrice: $(this).find('.lbl-price').data('value'),
+                InOrder: $(this).find('.lbl-inorder').data('value')
             });
         });
         return result;
@@ -100,7 +103,9 @@
             PaymentTypeId: $('#cmbPaymentType').val(),
             Tax: $('#lblTax').data('value'),
             Subtotal: $('#lblSubtotal').data('value'),
-            total: $('#lblTotal').data('value'),
+            Total: $('#lblTotal').data('value'),
+            IsDelivery: $('#cmbIsDelivery').val() == '1',
+            Address:$('#txtAddress').val(),
             InvoiceDetails: XF.getInvoiceDetail(XF.InvoiceId)
         };
         return result;

@@ -31,7 +31,7 @@ namespace XF.Controllers
 
         public ActionResult List()
         {
-            ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
+            ViewBag.PageSize = ConfigService.GetValue("PageSize", db);
             return View();
         }
 

@@ -22,12 +22,18 @@ namespace XF.Controllers
                 throw new ArgumentNullException("The list of products can't be empty");
             foreach (var detail in details)
             {
-                var stockProduct = db.Stocks.FirstOrDefault(s => s.ProductId == detail.ProductId);
-                if ((stockProduct.StockQuantity - detail.Quantity) < 0)
-                    throw new Exception(string.Format("There is not enough product for attend to this order(Product Quantity{0}", stockProduct.StockQuantity));
-                stockProduct.StockQuantity -= detail.Quantity;
-                db.Entry(stockProduct).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
+                if (db.Stocks.Any(s => s.ProductId == detail.ProductId))
+                {
+
+
+                    var stockProduct = db.Stocks.FirstOrDefault(s => s.ProductId == detail.ProductId);
+
+                    if ((stockProduct.StockQuantity - detail.Quantity) < 0)
+                        throw new Exception(string.Format("There is not enough product for attend to this order(Product Quantity{0}", stockProduct.StockQuantity));
+                    stockProduct.StockQuantity -= detail.Quantity - detail.InOrder;
+                    db.Entry(stockProduct).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
             }            
         }
 
