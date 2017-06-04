@@ -48,6 +48,25 @@ namespace XF.Controllers
             return Json(new { total = count, data = invoices }, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Invoices1/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Invoice invoice = db.Invoices
+                            .Include(i => i.InvoiceDetails)
+                            .Include(i => i.InvoiceStatu)
+                            .First(i => i.Id == id);
+            if (invoice == null)
+            {
+                return HttpNotFound();
+            }
+            return View(invoice);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -101,7 +101,7 @@ namespace XF.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
+        // GET: Products1/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -113,15 +113,16 @@ namespace XF.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", product.ProviderId);
             return View(product);
         }
 
-        // POST: Products/Edit/5
+        // POST: Products1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Code,Name,SellPrice,PurchasePrice,Max,Min")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Code,Name,SellPrice,PurchasePrice,Max,Min,ProviderId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +130,7 @@ namespace XF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", product.ProviderId);
             return View(product);
         }
 

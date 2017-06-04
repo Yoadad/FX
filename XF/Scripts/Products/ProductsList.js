@@ -64,7 +64,7 @@
         columns:
             [
                 { field: "Id" , hidden: true },
-                { field: "Code" },
+                { field: "Code",template:$("#codeTemplate").html() },
                 { field: "Name" },
                 { field: "SellPrice",title:"Sell Price", filterable: false },
                 { field: "PurchasePrice",title:"Puchase Price", filterable: false },

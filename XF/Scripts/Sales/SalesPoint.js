@@ -119,6 +119,12 @@
         });
     });
 
+    $('#btnCancelInvoice').on('click', function () {
+        XF.confirm("Are you sure that you want clear this form?", function () {
+            location.href = '/Sales';
+        });
+    });
+
     $('#txtDiscountPercent').on('change unfocus', function (e) {
         var discountPercent = parseFloat($(this).val()).toFixed(2);
         var subtotal = $('#lblSubtotal').data('value');

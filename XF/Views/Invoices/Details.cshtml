@@ -106,9 +106,25 @@
             @Html.DisplayFor(model => model.Comments)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDelivery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDelivery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index","Invoices")
 </p>

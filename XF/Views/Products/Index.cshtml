@@ -16,6 +16,11 @@
 <script type="text/html" id="stockTemplate">
     <a href="/Products/Stock/#=data.Id#">#=data.Stock#</a>
 </script>
+
+<script type="text/html" id="codeTemplate">
+    <a href="/Products/Edit/#=data.Id#">#=data.Code#</a>
+</script>
+
 @section scripts{
     @Scripts.Render("~/Scripts/Products/ProductsList.js")
 }

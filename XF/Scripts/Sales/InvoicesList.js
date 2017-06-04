@@ -52,7 +52,7 @@
             mode: "single",
             allowUnsort: false
            },
-        pageable: {refresh:true, pageSizes: true},
+        pageable: { refresh: true, pageSizes: true },
         filterable: {
             extra:false,
            operators:
@@ -70,8 +70,8 @@
                 { field: "Id", template: $('#invoiceDetailTemplate').html() },
                 //{ field: "Date", template: '#=kendo.toString(Date, \"MM/dd/yyyy\")#', filterable:true },
                 { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
-                { field: "ClientName", filterable: false },
-                { field: "PaymentType", filterable: false },
+                { field: "ClientName",title:"Client Name", filterable: true, width:155 },
+                { field: "PaymentType", title: "Payment Type", filterable: false, width: 155 },
                 { field: "Subtotal", filterable: false },
                 { field: "Tax", filterable: false },
                 { field: "Discount", filterable: false },

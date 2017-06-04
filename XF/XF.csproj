@@ -337,8 +337,6 @@
     <None Include="Properties\PublishProfiles\XFPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\doT.min.js" />
-    <Content Include="Scripts\Invoices\InvoiceCreate.js" />
-    <Content Include="Scripts\Invoices\InvoicesList.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
