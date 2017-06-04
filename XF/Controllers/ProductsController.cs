@@ -76,18 +76,19 @@ namespace XF.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
+        // GET: Products1/Create
         public ActionResult Create()
         {
+            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Products1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Code,Name,SellPrice,PurchasePrice,Max,Min")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Code,Name,SellPrice,PurchasePrice,Max,Min,ProviderId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +97,7 @@ namespace XF.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", product.ProviderId);
             return View(product);
         }
 
