@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">First Name</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Middle Name</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Last Name</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -67,7 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Schedule, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Schedule, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="date" name="Schedule" class="form-control" />
                 @Html.ValidationMessageFor(model => model.Schedule, "", new { @class = "text-danger" })
             </div>
         </div>
