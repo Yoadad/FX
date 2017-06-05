@@ -20,10 +20,10 @@ namespace XF.Controllers
         public ActionResult Index()
         {
             var model = new SalesViewModel() {
-                Clients = db.Clients.OrderBy(c => c.Name).ToList(),
+                Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
                 Products = db.Products.OrderBy(p => p.Code).ToList().Select(p=>GetProductItemModel(p)),
-                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
-                PaymentOptions = db.PaymentOptions.OrderBy(po=>po.Id),
+                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
+                PaymentOptions = db.PaymentOptions.OrderBy(po=>po.Id).ToList(),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
             return View(model);
@@ -33,7 +33,7 @@ namespace XF.Controllers
         {
             var model = new SalesViewModel()
             {
-                Clients = db.Clients.OrderBy(c => c.Name).ToList(),
+                Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
                 Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))

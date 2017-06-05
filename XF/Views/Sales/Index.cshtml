@@ -9,7 +9,12 @@
         <select class="form-control" id="cmbClient">
             @foreach (var item in Model.Clients)
             {
-                <option value="@item.Id">@item.Name</option>
+                <option value="@item.Id">@(string.Format("{0}{1} {2}",
+                        item.FirstName,
+                        item.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", item.MiddleName)
+                        , item.LastName))</option>
             }
         </select>
     </div>
@@ -68,7 +73,28 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" rowspan="4"></td>
+                    <td colspan="3" rowspan="4">
+
+                        <table class="table table-striped" id="tablePayments">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment Option</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right">
+                                        <input type="button" value="AddPayment" class="btn btn-primary" id="btnAddPaymentOption" />
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </td>
                     <td class="text-right">Subtotal</td>
                     <td class="text-right text-info">
                         <em id="lblSubtotal" data-value="0.0">0.00</em>
@@ -122,17 +148,6 @@
 </div>
 <br />
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Payment Option</th>
-        </tr>
-    </thead>
-</table>
-
-
 <script type="text/html" id="newItemTemplate">
     <tr class="item item-#=data.index#">
         <td>
@@ -166,21 +181,25 @@
 
 </script>
 
-<script type="text/html" id="newPaymentItemTemplate">
-    <tr>
+<script type="text/html" id="paymentOptionsTemplate">
+
+    <tr class="payment-item payment-item-#=data.Index#">
         <td>
             <input type="date" class="form-control" id="txtPaymentDate" />
         </td>
         <td>
-            <input type="text" class="form-control" id="txtPaymentAmount" />
+            <input type="number" min="0" class="form-control" id="txtPaymentAmount" />
         </td>
         <td>
-            <select id="cmbPaymentOption">
+            <select id="cmbPaymentOption" class="form-control">
                 @foreach (var item in Model.PaymentOptions)
                 {
                     <option value="@item.Id">@item.Name</option>
                 }
             </select>
+        </td>
+        <td class="text-center">
+            <a href="javascript: XF.removePaymentItem(#=data.Index#)">Remove</a>
         </td>
     </tr>
     

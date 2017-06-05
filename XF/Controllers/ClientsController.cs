@@ -46,7 +46,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Client client)
+        public ActionResult Create([Bind(Include = "Id,FirstName,MiddleName,LastName,Email,Phone,Address")] Client client)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Client client)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,MiddleName,LastName,Email,Phone,Address")] Client client)
         {
             if (ModelState.IsValid)
             {

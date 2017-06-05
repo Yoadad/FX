@@ -12,7 +12,12 @@ namespace XF.Models
         {
             InvoiceId = invoice.Id;
             Date = invoice.Date;
-            ClientName = invoice.Client.Name;
+            ClientName = string.Format("{0}{1} {2}",
+                        invoice.Client.FirstName,
+                        invoice.Client.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", invoice.Client.MiddleName)
+                        , invoice.Client.LastName);
             PaymentType = invoice.PaymentType.Name;
             Subtotal = invoice.Subtotal.Value;
             Tax = invoice.Tax.Value;

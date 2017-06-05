@@ -13,7 +13,12 @@
             <option value="">Select a client</option>
             @foreach (var client in Model.Clients)
             {
-                <option value="@client.Id">@client.Name</option>
+                <option value="@client.Id">@(string.Format("{0}{1} {2}",
+                        client.FirstName,
+                        client.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", client.MiddleName)
+                        , client.LastName))</option>
             }
         </select>
         <textarea class="form-control" id="txtNoteText" rows="3" placeholder="New note"></textarea>

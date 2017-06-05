@@ -5,9 +5,23 @@
         </button>*@
         <strong class="text-center">@Model.Date.ToString("MM/dd/yyyy HH:mm")</strong>
         <br />
+        <small class="text-left">
+        @(string.Format("{0}{1} {2}",
+                        Model.AspNetUser.FirstName,
+                        Model.AspNetUser.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", Model.AspNetUser.MiddleName)
+                        , Model.AspNetUser.LastName))
+        </small>
+        <br />
         <div>
-            <strong> @Model.Client.Name note:</strong>
-        </div>   
+            <strong> @(string.Format("{0}{1} {2}",
+                        Model.Client.FirstName,
+                        Model.Client.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", Model.Client.MiddleName)
+                        , Model.Client.LastName)) note:</strong>
+        </div>
         @Model.Text
     </div>
 

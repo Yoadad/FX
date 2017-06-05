@@ -6,7 +6,8 @@
     XF.addItem = function () {
         var itemIndex = $('.item').size();
         var itemHtml = XF.getHtmlFromTemplate('#newItemTemplate', { index: itemIndex });
-        $('#invoiceTable tbody').append(itemHtml);
+
+        $('#invoiceTable > tbody').append(itemHtml);
         $('#invoiceTable tbody .cmb-product:last').focus();
 
         $('.item-' + itemIndex + ' .txt-quantity,#txtDiscount,.item-' + itemIndex + ' .cmb-product').on('change', function () {
@@ -111,6 +112,16 @@
         return result;
     };
 
+    XF.AddPaymentOption = function () {
+        var paymentIndex = $('.payment-item').size() || 0;
+        var html = XF.getHtmlFromTemplate('#paymentOptionsTemplate', {Index:paymentIndex});
+        $('#tablePayments tbody').append(html); 
+    };
+
+    XF.removePaymentItem = function (index) {
+        $('.payment-item-' + index).remove();
+    };
+
 
     $('#btnSaveInvoice').on('click', function () {
         XF.confirm('This action will create a new Invoice', function () {
@@ -140,6 +151,11 @@
         } else {
             $('#txtAddress').hide();
         }
+    });
+
+
+    $('#btnAddPaymentOption').on('click', function () {
+        XF.AddPaymentOption();
     });
 
 })(jQuery, XF);

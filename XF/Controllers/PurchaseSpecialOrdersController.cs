@@ -24,7 +24,7 @@ namespace XF.Controllers
             var model = new PurchasesOrdersViewModel()
             {
                 Products = db.Products.OrderBy(p => p.Name),
-                Providers = db.Providers.OrderBy(p => p.Name),
+                Providers = db.Providers.OrderBy(p => p.FirstName),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
             return View(model);

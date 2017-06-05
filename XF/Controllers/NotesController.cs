@@ -22,6 +22,7 @@ namespace XF.Controllers
                 Clients = db.Clients.ToList(),
                 Notes = db.ClientNotes
                         .Include(n=>n.Client)
+                        .Include(n=>n.AspNetUser)
                         .OrderByDescending(n=>n.Date)
                         .ToList()
             };
@@ -74,7 +75,12 @@ namespace XF.Controllers
                         NoteId = note.Id,
                         ClientId = note.ClientId,
                         Text = note.Text,
-                        ClientName = client.Name,
+                        ClientName = string.Format("{0}{1} {2}", 
+                        client.FirstName,
+                        client.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", client.MiddleName)
+                        ,client.LastName),
                         Date = note.Date.ToString("MM/dd/yyyy HH:mm")
                     }
                 }, JsonRequestBehavior.AllowGet);

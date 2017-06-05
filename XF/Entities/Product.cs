@@ -28,18 +28,15 @@ namespace XF.Entities
         public string Name { get; set; }
 
         [Column(TypeName = "numeric")]
-        [Display(Name="Sell Price")]
         public decimal SellPrice { get; set; }
 
         [Column(TypeName = "numeric")]
-        [Display(Name = "Pruchase Price")]
         public decimal PurchasePrice { get; set; }
 
         public int Max { get; set; }
 
         public int Min { get; set; }
 
-        [Display(Name = "Provider")]
         public int ProviderId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
