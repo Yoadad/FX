@@ -105,6 +105,7 @@ namespace XF.Controllers
         public ActionResult Create()
         {
             ViewBag.ProviderId = new SelectList(db.Providers
+                .ToList()
                 .Select(p=>new {Id = p.Id,Name = (string.Format("{0}{1} {2}",
                         p.FirstName,
                         p.MiddleName == null
