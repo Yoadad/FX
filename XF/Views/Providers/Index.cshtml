@@ -1,37 +1,38 @@
 ﻿@model IEnumerable<XF.Entities.Provider>
 
 @{
-    ViewBag.Title = "Providers";
+    ViewBag.Title = "Index";
 }
-<br />
-<h2>
-    Providers
-    <span class="xf-btn-right">
-        <a href="/Providers/Create" class="btn btn-primary">Add Provider</a>
-    </span>
-</h2>
-<br />
-<table class="table table-bordered table-striped">
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
     <tr>
         <th>
-            First Name
+            @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th>
-            Middle Name
+            @Html.DisplayNameFor(model => model.MiddleName)
         </th>
         <th>
-            Last Name
+            @Html.DisplayNameFor(model => model.LastName)
         </th>
         <th>
-            Email
+            @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
-            Phone
+            @Html.DisplayNameFor(model => model.Phone)
         </th>
         <th>
-            Address
+            @Html.DisplayNameFor(model => model.Address)
         </th>
-        <th>Actions</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Schedule)
+        </th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -53,6 +54,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Schedule)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

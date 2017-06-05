@@ -60,6 +60,12 @@ namespace XF.Entities
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.Invoices)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.Logs)
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId)

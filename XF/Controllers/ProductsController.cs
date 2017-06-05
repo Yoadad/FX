@@ -31,6 +31,11 @@ namespace XF.Controllers
             return View();
         }
 
+        public ActionResult Inventory()
+        {
+            ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
+            return View();
+        }
 
         private ProductItemViewModel GetProductItemModel(Product p)
         {
@@ -45,7 +50,27 @@ namespace XF.Controllers
 
         public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var result = GridService.GetData(db.Products.OrderBy(p=>p.Code),
+            var result = GridService.GetData(db.Products.OrderBy(p => p.Code),
+                                                sorting,
+                                                filter,
+                                                skip,
+                                                take,
+                                                pageSize,
+                                                page);
+            var products = result
+                .Data
+                .ToList()
+                .Select(p => GetProductItemModel(p));
+            var count = result.Count;
+
+            return Json(new { total = count, data = products }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult InventoryProducts(string sorting, string filter, int skip, int take, int pageSize, int page)
+        {
+            var result = GridService.GetData(db.Products
+                                                .Where(p=>p.Stocks.Any(s=>s.StockQuantity > 0))
+                                                .OrderBy(p => p.Code),
                                                 sorting,
                                                 filter,
                                                 skip,
@@ -113,7 +138,16 @@ namespace XF.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", product.ProviderId);
+            ViewBag.ProviderId = new SelectList(db.Providers
+                .ToList()
+                .Select(p=>new { Id=p.Id,
+                    Name = (string.Format("{0}{1} {2}",
+                        p.FirstName,
+                        p.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", p.MiddleName)
+                        , p.LastName))
+                }), "Id", "Name", product.ProviderId);
             return View(product);
         }
 

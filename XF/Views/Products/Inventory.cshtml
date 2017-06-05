@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Inventory";
+}
+
+<input type="hidden" id="hfPageSize" value="@ViewBag.PageSize" />
+<br />
+<h2>
+    Inventory
+    <span class="xf-btn-right">
+        <a href="/Products/Create" class="btn btn-primary">Add New Product</a>
+    </span>
+</h2>
+<br />
+<div id="grid"></div>
+
+<script type="text/html" id="stockTemplate">
+    <a href="/Products/Stock/#=data.Id#">#=data.Stock#</a>
+</script>
+
+<script type="text/html" id="codeTemplate">
+    <a href="/Products/Edit/#=data.Id#">#=data.Code#</a>
+</script>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Products/InventoryList.js")
+}

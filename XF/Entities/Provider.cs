@@ -38,6 +38,8 @@ namespace XF.Entities
         [StringLength(512)]
         public string Address { get; set; }
 
+        public DateTime? Schedule { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
 

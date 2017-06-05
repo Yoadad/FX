@@ -54,6 +54,8 @@ namespace XF.Entities
         [StringLength(1024)]
         public string Address { get; set; }
 
+        public virtual AspNetUser AspNetUser { get; set; }
+
         public virtual Client Client { get; set; }
 
         public virtual InvoiceStatu InvoiceStatu { get; set; }

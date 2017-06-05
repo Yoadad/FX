@@ -185,13 +185,13 @@
 
     <tr class="payment-item payment-item-#=data.Index#">
         <td>
-            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" id="txtPaymentDate" />
+            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control payment-date" />
         </td>
         <td>
-            <input type="number" min="0" class="form-control" id="txtPaymentAmount" />
+            <input type="number" min="0" class="form-control payment-amount" />
         </td>
         <td>
-            <select id="cmbPaymentOption" class="form-control">
+            <select class="form-control payment-option">
                 @foreach (var item in Model.PaymentOptions)
                 {
                     <option value="@item.Id">@item.Name</option>

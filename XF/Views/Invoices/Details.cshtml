@@ -11,15 +11,20 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Client.Name)
+            Client
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Client.Name)
+            @(string.Format("{0}{1} {2}",
+                        Model.Client.FirstName,
+                        Model.Client.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", Model.Client.MiddleName)
+                        , Model.Client.LastName))
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.InvoiceStatu.Name)
+            Status
         </dt>
 
         <dd>
@@ -27,7 +32,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PaymentType.Name)
+            Payment Type
         </dt>
 
         <dd>
@@ -35,7 +40,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Date
         </dt>
 
         <dd>
@@ -43,11 +48,18 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
+            User
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserId)
+            @(string.Format("{0}{1} {2}",
+                        Model.AspNetUser.FirstName,
+                        Model.AspNetUser.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", Model.AspNetUser.MiddleName)
+                        , Model.AspNetUser.LastName))
+
+
         </dd>
 
         <dt>

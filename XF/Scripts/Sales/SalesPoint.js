@@ -80,7 +80,18 @@
             XF.addInfoMessage(data.Message, 'danger');
         }
     };
-
+    XF.getPayments = function (invoiceId) {
+        var result = [];
+        $('.payment-item').each(function (index) {
+            result.push({
+                InvoiceId: invoiceId,
+                PaymentOptionId: $(this).find('.payment-option').val(),
+                Amount: $(this).find('.payment-amount').val(),
+                Date: $(this).find('.payment-date').val(),
+            });
+        });
+        return result;
+    };
     XF.getInvoiceDetail = function (invoiceId) {
         var result = [];
         $('.item').each(function (index) {
@@ -107,7 +118,9 @@
             Total: $('#lblTotal').data('value'),
             IsDelivery: $('#cmbIsDelivery').val() == '1',
             Address:$('#txtAddress').val(),
-            InvoiceDetails: XF.getInvoiceDetail(XF.InvoiceId)
+            InvoiceDetails: XF.getInvoiceDetail(XF.InvoiceId),
+            Payments: XF.getPayments(XF.InvoiceId)
+
         };
         return result;
     };

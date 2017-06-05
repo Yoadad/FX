@@ -14,6 +14,7 @@ namespace XF.Entities
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             ClientNotes = new HashSet<ClientNote>();
+            Invoices = new HashSet<Invoice>();
             Logs = new HashSet<Log>();
             AspNetRoles = new HashSet<AspNetRole>();
         }
@@ -62,6 +63,9 @@ namespace XF.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientNote> ClientNotes { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoice> Invoices { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Log> Logs { get; set; }
