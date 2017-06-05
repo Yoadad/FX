@@ -88,7 +88,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="4" class="text-right">
-                                        <input type="button" value="AddPayment" class="btn btn-primary" id="btnAddPaymentOption" />
+                                        <input type="button" value="Add Payment" class="btn btn-primary" id="btnAddPaymentOption"/>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -185,7 +185,7 @@
 
     <tr class="payment-item payment-item-#=data.Index#">
         <td>
-            <input type="date" class="form-control" id="txtPaymentDate" />
+            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" id="txtPaymentDate" />
         </td>
         <td>
             <input type="number" min="0" class="form-control" id="txtPaymentAmount" />

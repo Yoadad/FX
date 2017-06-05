@@ -9,7 +9,12 @@
         <select class="form-control" id="cmbClient">
             @foreach (var item in Model.Clients)
             {
-                <option value="@item.Id">@item.Name</option>
+                <option value="@item.Id">@(string.Format("{0}{1} {2}",
+                        item.FirstName,
+                        item.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", item.MiddleName)
+                        , item.LastName))</option>
             }
         </select>
     </div>
