@@ -104,7 +104,15 @@ namespace XF.Controllers
         // GET: Products1/Create
         public ActionResult Create()
         {
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name");
+            ViewBag.ProviderId = new SelectList(db.Providers
+                .Select(p=>new {Id = p.Id,Name = (string.Format("{0}{1} {2}",
+                        p.FirstName,
+                        p.MiddleName == null
+                        ? string.Empty
+                        : string.Format(" {0}", p.MiddleName)
+                        , p.LastName))
+                })
+                , "Id", "Name");
             return View();
         }
 
