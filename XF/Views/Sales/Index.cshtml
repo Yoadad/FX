@@ -17,9 +17,12 @@
                         , item.LastName))</option>
             }
         </select>
+        <div class="text-right">
+            <a href="/Clients/Create">Add Client</a>
+        </div>
     </div>
     <div class="col-md-4">
-        <label>Payment Type</label>
+        <label>Credit Type</label>
         <select class="form-control" id="cmbPaymentType">
             @foreach (var item in Model.PaymentTypes)
             {

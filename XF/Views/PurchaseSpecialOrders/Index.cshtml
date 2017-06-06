@@ -13,7 +13,7 @@
         <select class="form-control" id="cmbProvider">
             @foreach (var item in Model.Providers)
             {
-                <option value="@item.Id">@item.Name</option>
+                <option value="@item.Id">@item.BusinessName</option>
             }
         </select>
     </div>
@@ -45,21 +45,21 @@
                         <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <td colspan="3" class="text-right">Subtotal</td>
                     <td class="text-right text-info">
                         <em id="lblSubtotal" data-value="0.0">0.00</em>
                     </td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <td colspan="3" class="text-right">Tax</td>
                     <td class="text-right text-info">
-                        <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}", Model.Tax)</em>
+                        <em id="lblTax" data-value="0.0">@string.Format("{0:p}", 0)</em>
                     </td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <td colspan="3" class="text-right">Discount</td>
                     <td class="text-right" style="width:144px;">
                         <div class="form-group">

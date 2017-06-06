@@ -20,14 +20,11 @@ namespace XF.Entities
 
         [Required]
         [StringLength(255)]
-        public string FirstName { get; set; }
-
-        [StringLength(255)]
-        public string MiddleName { get; set; }
+        public string BusinessName { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string LastName { get; set; }
+        public string ContactName { get; set; }
 
         [StringLength(255)]
         public string Email { get; set; }
@@ -38,7 +35,9 @@ namespace XF.Entities
         [StringLength(512)]
         public string Address { get; set; }
 
-        public DateTime? Schedule { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string WorkingHours { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }

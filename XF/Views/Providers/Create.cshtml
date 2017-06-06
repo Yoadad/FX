@@ -2,39 +2,47 @@
 
 @{
     ViewBag.Title = "Create";
+    var times = new List<string>();
+
+    times.Add("00:00 am");
+    times.Add("00:30 am");
+    for (int i = 1; i < 12; i++)
+    {
+        times.Add(string.Format("{0:##}:00 am", i));
+        times.Add(string.Format("{0:##}:30 am", i));
+    }
+    times.Add("12:00 pm");
+    times.Add("12:30 pm");
+    for (int i = 1; i < 12; i++)
+    {
+        times.Add(string.Format("{0:##}:00 pm", i));
+        times.Add(string.Format("{0:##}:30 pm", i));
+    }
 }
 
-<h2>Create</h2>
+<h2>
+    Add Provider
+</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Provider</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BusinessName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.BusinessName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BusinessName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -63,11 +71,29 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Schedule, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Schedule, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Schedule, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.WorkingHours, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <select id="cmbStart" class="form-control" style="max-width:120px">
+                    @foreach (var item in times)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
             </div>
+            <div class="col-md-2">
+                to
+                <select id="cmbEnd" class="form-control" style="max-width:120px">
+                    @foreach (var item in times)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.WorkingHours, new { htmlAttributes = new { @id = "txtWorkingHours", @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.WorkingHours, "", new { @class = "text-danger" })
+            </div>
+
         </div>
 
         <div class="form-group">
@@ -81,3 +107,15 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+@section scripts{
+
+    <script>
+
+        $('#cmbStart,#cmbEnd').on('change', function () {
+            $('#txtWorkingHours').val($('#cmbStart').val() + ' to ' + $('#cmbEnd').val());
+        });
+
+    </script>
+}

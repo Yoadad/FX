@@ -106,12 +106,7 @@ namespace XF.Controllers
         {
             ViewBag.ProviderId = new SelectList(db.Providers
                 .ToList()
-                .Select(p=>new {Id = p.Id,Name = (string.Format("{0}{1} {2}",
-                        p.FirstName,
-                        p.MiddleName == null
-                        ? string.Empty
-                        : string.Format(" {0}", p.MiddleName)
-                        , p.LastName))
+                .Select(p=>new {Id = p.Id,Name = p.BusinessName
                 })
                 , "Id", "Name");
             return View();
@@ -150,12 +145,7 @@ namespace XF.Controllers
             ViewBag.ProviderId = new SelectList(db.Providers
                 .ToList()
                 .Select(p=>new { Id=p.Id,
-                    Name = (string.Format("{0}{1} {2}",
-                        p.FirstName,
-                        p.MiddleName == null
-                        ? string.Empty
-                        : string.Format(" {0}", p.MiddleName)
-                        , p.LastName))
+                    Name = p.BusinessName
                 }), "Id", "Name", product.ProviderId);
             return View(product);
         }

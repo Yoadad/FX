@@ -13,10 +13,10 @@ namespace XF.Models
             PurchaseOrderId = po.Id;
             Date = po.Date;
             Created_Date = po.Created;
-            Discount = po.Discount.Value;
-            Subtotal = po.Subtotal.Value;
-            Tax = po.Tax.Value;
-            Total = po.Total.Value;
+            Discount = po.Discount == null ? 0 : po.Discount.Value;
+            Subtotal = po.Subtotal == null ? 0 : po.Subtotal.Value;
+            Tax = po.Tax == null ? 0 : po.Tax.Value;
+            Total = po.Total == null ? 0 : po.Total.Value;
         }
 
         public int PurchaseOrderId { get; set; }
