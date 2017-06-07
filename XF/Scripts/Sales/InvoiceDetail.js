@@ -2,7 +2,7 @@
 
 (function ($, XF) {
     
-    XF.InvoiceId = 0;
+    XF.InvoiceId = $('#hfInvoiceId').val();
     XF.addItem = function () {
         var itemIndex = $('.item').size();
         var itemHtml = XF.getHtmlFromTemplate('#newItemTemplate', { index: itemIndex });
@@ -68,14 +68,12 @@
         
     };
 
-    XF.addItem();
-
     $('.lnk-addnew').on('click', function () {
         XF.addItem();
     });
 
     XF.saveInvoice = function (data) {
-        var url = '/Sales/Save';
+        var url = '/Sales/Update';
         var data = { data: JSON.stringify(data) };
         $.post(url, data, XF.saveInvoiceResponse,'json');
     };
@@ -154,7 +152,7 @@
 
 
     $('#btnSaveInvoice').on('click', function () {
-        XF.confirm('This action will create a new Invoice', function () {
+        XF.confirm('This action will update the Invoice', function () {
             var data = { Invoice: XF.getInvoice() };
             XF.saveInvoice(data);
         });
@@ -200,4 +198,15 @@
 
     XF.validateHideBalance();
 
+    $('.item').each(function (index) {
+        XF.showItemData(index);
+        $('.item-' + index + ' .txt-quantity,#txtDiscount,.item-' + index + ' .cmb-product').on('change', function () {
+            XF.showItemData(index);
+            XF.showTotals();
+        });
+    });
+    XF.showTotals();
+
+
+    $('#cmbIsDelivery').trigger('change');
 })(jQuery, XF);

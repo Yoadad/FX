@@ -135,6 +135,38 @@ namespace XF.Controllers
             }
         }
 
+        public JsonResult Update(string data)
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
+                model.Invoice.UserId = User.Identity.GetUserId();
+                model.Invoice.Created = DateTime.Now;
+                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
+
+                db.Entry(model.Invoice).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                AddOrders(model);
+                return Json(new { Result = true, Message = string.Format(" Invoice ({0}) updated successful",model.Invoice.Id), Data = new { InvoiceId = model.Invoice.Id } });
+            }
+            catch (Exception ex)
+            {
+
+                var message = new StringBuilder();
+                message.AppendLine(ex.Message);
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    message.AppendLine(string.IsNullOrWhiteSpace(innerException.Message)
+                                        ? string.Empty
+                                        : innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return Json(new { Result = false, Message = message.ToString() });
+            }
+        }
+
+
         private void ExtractProductFromStock(SalesDetailViewModel model)
         {
             var stockCtrl = new StockController();
