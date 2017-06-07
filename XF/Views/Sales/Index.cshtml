@@ -76,7 +76,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" rowspan="4">
+                    <td colspan="3" rowspan="5">
 
                         <table class="table table-striped" id="tablePayments">
                             <thead>
@@ -89,6 +89,17 @@
                             </thead>
                             <tbody></tbody>
                             <tfoot>
+                                <tr>
+                                    <td class="text-right">
+                                        PAYMENTS AMOUNT
+                                    </td>
+                                    <td class="text-right">
+                                        <em id="lblPaymentsAmount" data-value="0.0">$0.00</em>
+                                    </td>
+                                    <td colspan="3">
+
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td colspan="4" class="text-right">
                                         <input type="button" value="Add Payment" class="btn btn-primary" id="btnAddPaymentOption"/>
@@ -136,6 +147,15 @@
                         <strong>
                             <em id="lblTotal" data-value="0.0">$0.00</em>
                         </strong>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">BALANCE</td>
+                    <td class="text-right text-danger">
+                        <small>
+                            <em id="lblBalance" data-value="0.0">$0.00</em>
+                        </small>
                     </td>
                     <td></td>
                 </tr>
@@ -191,7 +211,7 @@
             <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control payment-date" />
         </td>
         <td>
-            <input type="number" min="0" class="form-control payment-amount" />
+            <input type="number" min="0.0" value="0.0" class="form-control payment-amount" />
         </td>
         <td>
             <select class="form-control payment-option">

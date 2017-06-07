@@ -46,16 +46,26 @@
     XF.showTotals = function () {
         var subtotal = 0.0;
         var discount = parseFloat($('#txtDiscount').val() || 0.0);
-        var tax = parseFloat($('#lblTax').data('value')); 
+        var tax = parseFloat($('#lblTax').data('value'));
+        var paymentsAmount = 0;
+
         $('.item').each(function (index) {
             subtotal += (parseFloat( $(this).find('.lbl-total').data('value')) || 0.00);
         });
+        $('.payment-amount').each(function () {
+            paymentsAmount += parseFloat($(this).val());
+        });
+
         var total = subtotal * (1 + tax) - discount;
+        var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
         $('#txtDiscountPercent').val(discountPercent);
         $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({value:subtotal});
-        $('#lblTotal').text(kendo.format('{0:C}', total)).data({value:total});
+        $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });
+        $('#lblPaymentsAmount').text(kendo.format('{0:C}', paymentsAmount)).data({ value: paymentsAmount });
+        $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
+        
     };
 
     XF.addItem();
@@ -128,7 +138,14 @@
     XF.AddPaymentOption = function () {
         var paymentIndex = $('.payment-item').size() || 0;
         var html = XF.getHtmlFromTemplate('#paymentOptionsTemplate', {Index:paymentIndex});
-        $('#tablePayments tbody').append(html); 
+        $('#tablePayments tbody').append(html);
+        XF.showItemData();
+        XF.showTotals();
+
+        $('.payment-amount:last').on('change',function () {
+            XF.showItemData();
+            XF.showTotals();
+        });
     };
 
     XF.removePaymentItem = function (index) {
@@ -165,7 +182,6 @@
             $('#txtAddress').hide();
         }
     });
-
 
     $('#btnAddPaymentOption').on('click', function () {
         XF.AddPaymentOption();
