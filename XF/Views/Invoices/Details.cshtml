@@ -1,142 +1,235 @@
-﻿@model XF.Entities.Invoice
+﻿@model XF.Models.InvoiceViewModel
+<br />
+    <h1>Invoice Detail</h1>
+<hr />
 
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>Details</h2>
-
-<div>
-    <h4>Invoice</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Client
-        </dt>
-
-        <dd>
-            @(string.Format("{0}{1} {2}",
-                        Model.Client.FirstName,
-                        Model.Client.MiddleName == null
+<div class="row">
+    <div class="col-md-4">
+        <label>Client</label>
+        <select class="form-control" id="cmbClient">
+            @foreach (var item in Model.Clients)
+            {
+                <option value="@item.Id" @(Model.Invoice.ClientId == item.Id?"selected":string.Empty)>
+                    @(string.Format("{0}{1} {2}",
+                        item.FirstName,
+                        item.MiddleName == null
                         ? string.Empty
-                        : string.Format(" {0}", Model.Client.MiddleName)
-                        , Model.Client.LastName))
-        </dd>
-
-        <dt>
-            Status
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.InvoiceStatu.Name)
-        </dd>
-
-        <dt>
-            Payment Type
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PaymentType.Name)
-        </dd>
-
-        <dt>
-            Date
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-        <dt>
-            User
-        </dt>
-
-        <dd>
-            @(string.Format("{0}{1} {2}",
-                        Model.AspNetUser.FirstName,
-                        Model.AspNetUser.MiddleName == null
-                        ? string.Empty
-                        : string.Format(" {0}", Model.AspNetUser.MiddleName)
-                        , Model.AspNetUser.LastName))
-
-
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Discount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Discount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PercentDiscount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PercentDiscount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Subtotal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Subtotal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tax)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tax)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Comments)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Comments)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDelivery)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDelivery)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-    </dl>
+                        : string.Format(" {0}", item.MiddleName)
+                        , item.LastName))
+            </option>
+            }
+        </select>
+        <div class="text-right">
+            <a href="/Clients/Create">Add Client</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label>Credit Type</label>
+        <select class="form-control" id="cmbPaymentType">
+            @foreach (var item in Model.PaymentTypes)
+            {
+                <option value="@item.Id" @(Model.Invoice.PaymentTypeId == item.Id ? "selected":string.Empty)>
+                    @item.Name
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label>
+            <select id="cmbIsDelivery">
+                <option value="1">Delivery</option>
+                <option value="0" selected>Pick Up</option>
+            </select>
+        </label>
+        <label>Date</label>
+        <input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+        <textarea rows="3" style="display:none;" class="form-control" placeholder="Address" id="txtAddress"></textarea>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index","Invoices")
-</p>
+<div class="row">
+    <div class="col-md-12">
+
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered" id="invoiceTable">
+            <thead>
+                <tr>
+                    <th colspan="6" class="text-right">
+                        <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center">Item</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">
+                        <em>In Stock / OS</em>
+                    </th>
+                    <th class="text-center">Unit Price</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="text-right">
+                        <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" rowspan="5">
+
+                        <table class="table table-striped" id="tablePayments">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment Option</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="text-right">
+                                        PAYMENTS AMOUNT
+                                    </td>
+                                    <td class="text-right">
+                                        <em id="lblPaymentsAmount" data-value="0.0">$0.00</em>
+                                    </td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">
+                                        <input type="button" value="Add Payment" class="btn btn-primary" id="btnAddPaymentOption" />
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </td>
+                    <td class="text-right">Subtotal</td>
+                    <td class="text-right text-info">
+                        <em id="lblSubtotal" data-value="0.0">0.00</em>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Tax</td>
+                    <td class="text-right text-info">
+                        <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}", Model.Tax)</em>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Discount</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00" />
+                                <div class="input-group-addon">%</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">TOTAL</td>
+                    <td class="text-right text-danger">
+                        <strong>
+                            <em id="lblTotal" data-value="0.0">$0.00</em>
+                        </strong>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr id="trBalance">
+                    <td class="text-right">BALANCE</td>
+                    <td class="text-right text-danger">
+                        <small>
+                            <em id="lblBalance" data-value="0.0">$0.00</em>
+                        </small>
+                    </td>
+                    <td></td>
+                </tr>
+
+            </tfoot>
+        </table>
+        <div class="text-right">
+            <input type="button" value="Cancel" id="btnCancelInvoice" class="btn btn-danger" />
+
+            <input type="button" value="Save" id="btnSaveInvoice" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+<br />
+
+<script type="text/html" id="newItemTemplate">
+    <tr class="item item-#=data.index#">
+        <td>
+            <select class="form-control cmb-product">
+                @foreach (var item in Model.Products)
+                {
+                    <option value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
+                }
+            </select>
+        </td>
+        <td>
+            <input type="number" min="1" value="1" class="form-control txt-quantity text-right" style="width:89px;" />
+        </td>
+        <td class="text-center">
+            <em class="lbl-stock label label-success" data-value="0.0"></em>
+            &nbsp;/&nbsp;
+            <em class="lbl-inorder label label-warning" data-value="0.0"></em>
+        </td>
+
+        <td class="text-right">
+            <em class="lbl-price" data-value="0.0"></em>
+        </td>
+
+        <td class="text-right">
+            <em class="lbl-total" data-value="0.0"></em>
+        </td>
+        <td class="text-center">
+            <a href="javascript:XF.removeItem(#=data.index#)">Remove</a>
+        </td>
+    </tr>
+
+</script>
+
+<script type="text/html" id="paymentOptionsTemplate">
+
+    <tr class="payment-item payment-item-#=data.Index#">
+        <td>
+            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control payment-date" />
+        </td>
+        <td>
+            <input type="number" min="0.0" value="0.0" class="form-control payment-amount" />
+        </td>
+        <td>
+            <select class="form-control payment-option">
+                @foreach (var item in Model.PaymentOptions)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </td>
+        <td class="text-center">
+            <a href="javascript: XF.removePaymentItem(#=data.Index#)">Remove</a>
+        </td>
+    </tr>
+
+</script>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Sales/SalesPoint.js")
+}

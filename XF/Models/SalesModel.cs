@@ -15,6 +15,15 @@ namespace XF.Models
         public float Tax { get; set; }
 
     }
+    public class InvoiceViewModel
+    {
+        public Invoice Invoice { get; set; }
+        public IEnumerable<Client> Clients { get; set; }
+        public IEnumerable<ProductItemViewModel> Products { get; set; }
+        public IEnumerable<PaymentType> PaymentTypes { get; set; }
+        public IEnumerable<PaymentOption> PaymentOptions { get; set; }
+        public float Tax { get; set; }
+    }
 
     public class SalesDetailViewModel
     {
