@@ -160,7 +160,7 @@
 
     $('#btnCancelInvoice').on('click', function () {
         XF.confirm("Are you sure that you want clear this form?", function () {
-            location.href = '/Sales';
+            location.reload(true);
         });
     });
 
@@ -206,6 +206,17 @@
         });
     });
     XF.showTotals();
+
+    $('#chkTaxZero').on('change', function () {
+        console.log(':)');
+        var tax = $('#hfTax').val();
+        if (!$(this).is(':checked')) {
+            tax = 0.0;
+        }
+        $('#lblTax')
+            .text(kendo.format('{0:P}', tax))
+            .data({ value: tax });
+    });
 
 
     $('#cmbIsDelivery').trigger('change');

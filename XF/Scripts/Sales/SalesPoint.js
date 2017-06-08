@@ -200,4 +200,17 @@
 
     XF.validateHideBalance();
 
+    $('#chkTaxZero').on('change', function () {
+        var tax = $('#hfTax').val();
+        if ($(this).is(':checked')) {
+            tax = 0.0;
+        }
+        $('#lblTax')
+            .text(kendo.format('{0} %', tax*100))
+            .data({ value: tax });
+        XF.showItemData();
+        XF.showTotals();
+
+    });
+
 })(jQuery, XF);

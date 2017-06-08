@@ -2,7 +2,7 @@
 <br />
 <h1>Sales</h1>
 <hr />
-
+<input type="hidden" id="hfTax" value="@Model.Tax" />
 <div class="row">
     <div class="col-md-4">
         <label>Client</label>
@@ -120,7 +120,13 @@
                     <td class="text-right text-info">
                         <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}",Model.Tax)</em>
                     </td>
-                    <td></td>
+                    <td class="text-center">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="chkTaxZero" /> no Tax
+                            </label>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td class="text-right">Discount</td>
