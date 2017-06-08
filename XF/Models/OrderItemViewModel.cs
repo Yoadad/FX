@@ -12,31 +12,16 @@ namespace XF.Models
         {
             PurchaseOrderId = po.Id;
             Date = po.Date;
-            Created_Date = po.Created;
-            Discount = po.Discount == null ? 0 : po.Discount.Value;
-            Subtotal = po.Subtotal == null ? 0 : po.Subtotal.Value;
-            Tax = po.Tax == null ? 0 : po.Tax.Value;
-            Total = po.Total == null ? 0 : po.Total.Value;
+            Total = po.Total ?? 0;
+            Created = po.Created;
         }
 
         public int PurchaseOrderId { get; set; }
-
         public DateTime Date { get; set; }
-
-        
-        
-        public DateTime Created_Date { get; set; }
-
-        public decimal Discount { get; set; }
-
-        public decimal PercentDiscount { get; set; }
-
-        public decimal Subtotal { get; set; }
-
-        public decimal Tax { get; set; }
-
+        public DateTime Created { get; set; }
         public decimal Total { get; set; }
         public string PurchaseOrderStatus { get; set; }
+        public string ProviderName { get; set; }
 
     }
 }

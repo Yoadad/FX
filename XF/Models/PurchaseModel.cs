@@ -10,6 +10,7 @@ namespace XF.Models
     [NotMapped]
     public class PurchaseItemViewmodel : PurchaseOrder
     {
+        public string ProviderName { get; set; }
         public PurchaseItemViewmodel()
         {
 
@@ -26,7 +27,6 @@ namespace XF.Models
             this.Subtotal = p.Subtotal;
             this.Tax = p.Tax;
             this.Total = p.Total;
-
         }
         public PurchaseOrderStatu PurchaseOrderStatus { get; set; }
    }

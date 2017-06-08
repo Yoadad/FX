@@ -24,8 +24,6 @@ namespace XF.Controllers
             {
                 if (db.Stocks.Any(s => s.ProductId == detail.ProductId))
                 {
-
-
                     var stockProduct = db.Stocks.FirstOrDefault(s => s.ProductId == detail.ProductId);
 
                     if ((stockProduct.StockQuantity - detail.Quantity) < 0)

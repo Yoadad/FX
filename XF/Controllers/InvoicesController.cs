@@ -50,7 +50,7 @@ namespace XF.Controllers
                 }
             }
             var result = GridService.GetData(db.Invoices
-                                                .OrderByDescending(i => i.Date),
+                                                .OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,
                                                 skip,

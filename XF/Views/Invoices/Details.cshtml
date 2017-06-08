@@ -82,7 +82,7 @@
                             <select readonly class="form-control cmb-product">
                                 @foreach (var item in Model.Products)
                                 {
-                                    <option value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
+                                    <option @(item.Id == detail.ProductId ?"selected":"") value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
                                 }
                             </select>
                         </td>

@@ -99,6 +99,8 @@ namespace XF.Controllers
                         Quantity = orderDetail.InOrder
                     });
                 }
+                var total = order.PurchaseOrderDetails.Sum(po=>po.Quantity*po.UnitPrice);
+                order.Total = total; 
                 db.PurchaseOrders.Add(order);
             }
             db.SaveChanges();
@@ -113,7 +115,6 @@ namespace XF.Controllers
                 model.Invoice.Created = DateTime.Now;
                 model.Invoice.InvoiceStatusId = (int) InvoiceStatus.Draft;
                 db.Invoices.Add(model.Invoice);
-                ExtractProductFromStock(model);
                 db.SaveChanges();
                 AddOrders(model);
                 return Json(new { Result = true, Message = "New Invoice created successful",Data=new { InvoiceId=model.Invoice.Id} });

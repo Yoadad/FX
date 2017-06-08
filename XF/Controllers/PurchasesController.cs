@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,6 +76,11 @@ namespace XF.Controllers
         private PurchaseItemViewmodel GetPurchaseItemModel(PurchaseOrder p)
         {
             var itemModel = new PurchaseItemViewmodel(p);
+            itemModel.ProviderName = p.PurchaseOrderDetails
+                                    .First()
+                                    .Product
+                                    .Provider
+                                    .BusinessName;
             itemModel.PurchaseOrderStatus = db.PurchaseOrderStatus
                                        .Where(pos => pos.Id == p.PurchaseOrderStatusId)
                                        .FirstOrDefault();
@@ -87,10 +93,10 @@ namespace XF.Controllers
             if (PurchaseId == 0)
                 return Json(new { }, JsonRequestBehavior.AllowGet);
             var orders = db.PurchaseOrders
-                           .Where(p => p.Id == PurchaseId)
-                           .ToList()
-                           .Select((p) => GetPurchaseItemModel(p))
-                           .FirstOrDefault();
+                            .Include(p=>p.PurchaseOrderDetails.First().Product.Provider)
+                            .Where(p => p.Id == PurchaseId)
+                            .ToList()
+                            .Select((p) => GetPurchaseItemModel(p));
 
             return Json(new { orders }, JsonRequestBehavior.AllowGet);
         }
@@ -98,12 +104,14 @@ namespace XF.Controllers
         private OrderItemViewModel GetOrderItemModel(PurchaseOrder order)
         {
             var itemModel = new OrderItemViewModel(order);
+            itemModel.ProviderName = db.Providers.First(pv=>pv.Products.Any(p=>p.PurchaseOrderDetails.Any(po=>po.PurchaseOrderId == order.Id)))
+                .BusinessName;
             return itemModel;
         }
 
         public JsonResult Orders(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var result = GridService.GetData(db.PurchaseOrders.Where(p=> p.PurchaseOrderStatu.Name.ToUpper() != "DONE").OrderByDescending(i => i.Date),
+            var result = GridService.GetData(db.PurchaseOrders.Where(p=> p.PurchaseOrderStatu.Name.ToUpper() != "DONE").OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,
                                                 skip,
