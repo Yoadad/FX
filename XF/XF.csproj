@@ -224,6 +224,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\ClientNotesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\ConfigsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -350,6 +351,7 @@
     <Content Include="Scripts\kendo.timezones.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Notes\NoteList.js" />
     <Content Include="Scripts\Notes\notes.js" />
     <Content Include="Scripts\Products\InventoryList.js" />
     <Content Include="Scripts\PurchaseOrders\PurchasesOrdersList.js" />
@@ -463,7 +465,7 @@
     <Content Include="Views\Templates\Note.cshtml" />
     <Content Include="Views\Notes\Edition.cshtml" />
     <Content Include="Views\Templates\NoteTemplate.cshtml" />
-    <Content Include="Views\Sales\Quotation.cshtml" />
+    <Content Include="Views\Sales\Estimate.cshtml" />
     <Content Include="Views\Clients\Create.cshtml" />
     <Content Include="Views\Clients\Delete.cshtml" />
     <Content Include="Views\Clients\Details.cshtml" />
@@ -475,6 +477,11 @@
     <Content Include="Views\Providers\Details.cshtml" />
     <Content Include="Views\Providers\Edit.cshtml" />
     <Content Include="Views\Providers\Index.cshtml" />
+    <Content Include="Views\ClientNotes\Create.cshtml" />
+    <Content Include="Views\ClientNotes\Delete.cshtml" />
+    <Content Include="Views\ClientNotes\Details.cshtml" />
+    <Content Include="Views\ClientNotes\Edit.cshtml" />
+    <Content Include="Views\ClientNotes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

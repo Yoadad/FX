@@ -29,7 +29,7 @@ namespace XF.Controllers
             return View(model);
         }
 
-        public ActionResult Quotation()
+        public ActionResult Estimate()
         {
             var model = new SalesViewModel()
             {

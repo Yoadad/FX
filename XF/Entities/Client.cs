@@ -38,6 +38,21 @@ namespace XF.Entities
         [StringLength(512)]
         public string Address { get; set; }
 
+        [Display(Name ="Name")]
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1} {2}",
+                    FirstName,
+                    string.IsNullOrWhiteSpace(MiddleName)
+                        ? string.Empty
+                        : string.Format(" {0}", MiddleName),
+                    LastName);
+            }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientNote> ClientNotes { get; set; }
 

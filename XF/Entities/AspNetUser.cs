@@ -55,6 +55,22 @@ namespace XF.Entities
         [StringLength(256)]
         public string MiddleName { get; set; }
 
+        [Display(Name = "Name")]
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1} {2}",
+                    FirstName,
+                    string.IsNullOrWhiteSpace(MiddleName)
+                        ? string.Empty
+                        : string.Format(" {0}", MiddleName),
+                    LastName);
+            }
+        }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
 

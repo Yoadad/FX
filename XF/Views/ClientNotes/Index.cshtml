@@ -1,0 +1,67 @@
+﻿@model IEnumerable<XF.Entities.ClientNote>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Admin Notes</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label>Client: </label>
+            <select id="cmbClient" class="form-control">
+                <option>Select a client</option>
+                @foreach (var client in ViewBag.Clients)
+            {
+                    <option value="@client.Id" @(ViewBag.ClientId == client.Id ? "selected" : string.Empty)>@(client.FullName)</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            Client
+        </th>
+       <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUser.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Notes/NoteList.js")
+}
