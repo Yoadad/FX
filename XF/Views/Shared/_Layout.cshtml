@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Ximena's Furniture </title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/boostrap")
     @Styles.Render("~/Content/fontawesome")
     @Styles.Render("~/Content/kendo")
     @Scripts.Render("~/bundles/modernizr")
@@ -20,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Ximena's Furniture", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="~/Content/Images/Ximenas_transparent.png" width="125" />
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")

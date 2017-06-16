@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
+using Rotativa;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
@@ -19,11 +21,12 @@ namespace XF.Controllers
         // GET: Sales
         public ActionResult Index()
         {
-            var model = new SalesViewModel() {
+            var model = new SalesViewModel()
+            {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
-                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p=>GetProductItemModel(p)),
+                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
-                PaymentOptions = db.PaymentOptions.OrderBy(po=>po.Id).ToList(),
+                PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
             return View(model);
@@ -48,7 +51,7 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = (int) InvoiceStatus.Quotation;
+                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Quotation;
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
                 return Json(new { Result = true, Message = "New Invoice created successful", Data = new { InvoiceId = model.Invoice.Id } });
@@ -75,12 +78,13 @@ namespace XF.Controllers
             foreach (var details in salesModel
                 .Invoice
                 .InvoiceDetails
-                .Select(id => {
+                .Select(id =>
+                {
                     id.Product = db.Products.First(p => p.Id == id.ProductId);
                     return id;
-                    }
+                }
                 )
-                .Where(id=>id.InOrder > 0)
+                .Where(id => id.InOrder > 0)
                 .GroupBy(s => s.Product.Provider))
             {
                 var order = new PurchaseOrder()
@@ -93,19 +97,20 @@ namespace XF.Controllers
 
                 foreach (var orderDetail in details)
                 {
-                    order.PurchaseOrderDetails.Add(new PurchaseOrderDetail() {
+                    order.PurchaseOrderDetails.Add(new PurchaseOrderDetail()
+                    {
                         ProductId = orderDetail.ProductId,
                         UnitPrice = orderDetail.UnitPrice,
                         Quantity = orderDetail.InOrder
                     });
                 }
-                var total = order.PurchaseOrderDetails.Sum(po=>po.Quantity*po.UnitPrice);
-                order.Total = total; 
+                var total = order.PurchaseOrderDetails.Sum(po => po.Quantity * po.UnitPrice);
+                order.Total = total;
                 db.PurchaseOrders.Add(order);
             }
             db.SaveChanges();
         }
-        
+
         public JsonResult Save(string data)
         {
             try
@@ -113,11 +118,11 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = (int) InvoiceStatus.Draft;
+                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
                 AddOrders(model);
-                return Json(new { Result = true, Message = "New Invoice created successful",Data=new { InvoiceId=model.Invoice.Id} });
+                return Json(new { Result = true, Message = "New Invoice created successful", Data = new { InvoiceId = model.Invoice.Id } });
             }
             catch (Exception ex)
             {
@@ -148,7 +153,7 @@ namespace XF.Controllers
                 db.Entry(model.Invoice).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 AddOrders(model);
-                return Json(new { Result = true, Message = string.Format(" Invoice ({0}) updated successful",model.Invoice.Id), Data = new { InvoiceId = model.Invoice.Id } });
+                return Json(new { Result = true, Message = string.Format(" Invoice ({0}) updated successful", model.Invoice.Id), Data = new { InvoiceId = model.Invoice.Id } });
             }
             catch (Exception ex)
             {
@@ -208,6 +213,34 @@ namespace XF.Controllers
 
         }
 
+        //public PdfResult PdfInvoice(int id)
+        //{
+        //}
+
+
+        public ActionResult Print(int id)
+        {
+            var invoice = db.Invoices
+                            .Include(i => i.InvoiceDetails)
+                            .Include(i => i.Payments)
+                            .FirstOrDefault(i => i.Id == id);
+
+            return new ViewAsPdf(invoice);
+        }
+        public JsonResult Email(int id)
+        {
+            try
+            {
+                var client = db.Clients.FirstOrDefault(c => c.Id == id);
+                var emailService = new SendEmailService(db);
+                emailService.SendInvoiceToClient(client);
+                return Json(new { Result = true, Data = client, Message ="The Invoice has send" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = false, Message = ex.Message });
+            }
+        }
 
     }
 }

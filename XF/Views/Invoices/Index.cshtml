@@ -16,6 +16,11 @@
 <script type="text/html" id="invoiceDetailTemplate">
     <a href="/Invoices/Details/#=data.InvoiceId#">#=data.InvoiceId#</a>
 </script>
+<script type="text/html" id="PrintInvoiceDetailTemplate">
+    <a href="javascript:window.open('/Sales/Print/#=data.InvoiceId#','_blank');">Print</a>|
+    <a href="javascript:XF.sendInvoiceEmail(#=data.ClientId#);">Email</a>
+</script>
+
 @section scripts{
     @Scripts.Render("~/Scripts/Sales/InvoicesList.js")
 }

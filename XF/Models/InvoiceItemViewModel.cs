@@ -18,6 +18,7 @@ namespace XF.Models
                         ? string.Empty
                         : string.Format(" {0}", invoice.Client.MiddleName)
                         , invoice.Client.LastName);
+            ClientId = invoice.ClientId;
             PaymentType = invoice.PaymentType.Name;
             Subtotal = invoice.Subtotal.Value;
             Tax = invoice.Tax.Value;
@@ -27,6 +28,8 @@ namespace XF.Models
         public int InvoiceId { get; set; }
         public DateTime Date{ get; set; }
         public string ClientName { get; set; }
+
+        public int ClientId { get; set; }
         public string PaymentType { get; set; }
         public Decimal Tax { get; set; }
         public Decimal Subtotal { get; set; }

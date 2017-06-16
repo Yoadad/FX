@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html lang="eu">
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Ximena's Furniture </title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/boostrap")
+    @Styles.Render("~/Content/fontawesome")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/Scripts/main.js")
+    @RenderSection("templates", required: false)
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

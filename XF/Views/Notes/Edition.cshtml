@@ -1,14 +1,21 @@
 ﻿@using System.Net.Cache
+@using System.Security.Principal
+
+
 @model XF.Models.NotesViewModel
 @{
     Layout = null;
 }
-@if (Request.IsAuthenticated) { 
+@if (Request.IsAuthenticated) {
 <form>
     <div class="form-group">
         <h5>
             <strong>Notes</strong>
-            <span style="float:right;"><a href="/ClientNotes">Admin notes</a></span>
+            @if (User.IsInRole("Super") || User.IsInRole("Admin"))
+            {
+                <span style="float:right;"><a href="/ClientNotes">Admin notes</a></span>
+            }
+            
         </h5>
         <select id="cmbNoteClients" class="form-control">
             <option value="">Select a client</option>

@@ -76,6 +76,7 @@
                 { field: "Tax", filterable: false },
                 { field: "Discount", filterable: false },
                 { field: "Total", filterable: false },
+                { field: "Actions", template: $('#PrintInvoiceDetailTemplate').html(),filterable: false }
             ]
     });
 
@@ -84,5 +85,22 @@
             dataSource: titles
         });
     }
+
+    XF.sendInvoiceEmail = function (clientId) {
+        var url = '/Sales/Email/' + clientId;
+        var data = { id: clientId };
+        $.post(url, data, XF.sendInvoiceEmailResponse, 'json');
+    };
+
+    XF.sendInvoiceEmailResponse = function (data) {
+        if (data.Result) {
+            XF.addInfoMessage(data.Message, 'success');
+        }
+        else {
+            XF.addInfoMessage(data.Message, 'danger');
+        }
+    };
+
+
 
 }(jQuery, XF));

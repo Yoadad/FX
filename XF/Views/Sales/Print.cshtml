@@ -1,0 +1,152 @@
+﻿@model XF.Entities.Invoice
+@{
+    ViewBag.Title = "Print";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+<table style="width:100%">
+    <tr>
+        <td style="vertical-align:top">
+            <img src="~/Content/Images/Ximenas_transparent.png" width="233" style="border:none;" />
+        </td>
+        <td>
+            <div>
+                <h4>
+                    <small>
+                        <em>
+                            PO BOX 2647<br />
+                            Lindale Tx. 75771<br />
+                            Phone: (903)6306292<br />
+                            Email: ximenasfur201@gmial.com<br />
+                            Facebook: ximenasfurniture-muebleria<br />
+                            Web: www.ximenasfurniture-muebleria.com<br />
+                        </em>
+                    </small>
+                </h4>
+            </div>
+        </td>
+        <td style="vertical-align:top">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Invoice #</th>
+                </tr>
+                <tr>
+                    <td class="text-center">@Model.Created.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">@Model.Id</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th class="text-center">Bill To</th>
+        <th class="text-center">
+            @if (Model.IsDelivery)
+            {
+                <span>Ship To</span>
+                <span style="float:right;">
+                    @Model.Date.ToString("MM/dd/yyyy")
+                </span>
+            }
+            else
+            {
+                <span>Pick It Up</span>
+            }
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <em>
+                @Model.Client.FullName<br />
+                @Model.Client.Address<br />
+                @Model.Client.Phone<br />
+                @Model.Client.Email
+            </em>
+
+        </td>
+        <td class="text-center">
+            @if (Model.IsDelivery)
+            {
+                @Model.Address
+            }
+            else
+            {
+                <br />
+                <strong>
+                    @Model.Date.ToString("MM/dd/yyyy")
+                </strong>
+            }
+        </td>
+    </tr>
+</table>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">Description</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Rate</th>
+            <th class="text-center">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model.InvoiceDetails)
+        {
+            <tr>
+                <td>
+                    @detail.Product.Name
+                </td>
+                <td class="text-right">
+                    @(string.Format("{0:c}", detail.UnitPrice))
+                </td>
+                <td class="text-right">
+                    @detail.Quantity
+                </td>
+                <td class="text-right">
+                    @(string.Format("{0:c}", detail.Quantity * detail.UnitPrice))
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2" rowspan="4">
+                Delivered Date
+                <hr />
+                Signature
+                <hr />
+                SIGNATURE CONFIRMS GOOD  RECEIVE AND ORDER IS ACCURATE.
+                <br />
+                No money can be refunded back only as store credit.
+                If Ximena's Furniture finances furniture and customer  does not finish paying
+                <br />
+                the full amount, we have the rigth to reposses the furniture.
+                <br /><br />
+                <strong>X</strong> 
+                <strong style="float:right; width:200px;">
+                    Date
+                    
+
+                </strong>
+                <hr />
+            </td>
+            <td class="text-right"><strong>Subtotal</strong></td>
+            <td class="text-right">@string.Format("{0:c}",Model.Subtotal)</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Total</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Total)</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Payments/Credits</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Payments.Sum(p => p.Amount))</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Balance Due</strong></td>
+            <td class="text-right">@string.Format("{0:c}",Model.Total- Model.Payments.Sum(p=>p.Amount))</td>            
+        </tr>
+    </tfoot>
+</table>
+

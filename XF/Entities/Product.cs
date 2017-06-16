@@ -21,10 +21,12 @@ namespace XF.Entities
         public int Id { get; set; }
 
         [StringLength(255)]
+        [Display(Name="Item #")]
         public string Code { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Description")]
         public string Name { get; set; }
 
         [Column(TypeName = "numeric")]

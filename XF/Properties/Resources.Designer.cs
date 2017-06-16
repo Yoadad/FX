@@ -88,9 +88,9 @@ namespace XF.Properties {
         ///        h4 {
         ///     [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string PurchaseOrdersEmailTemplate {
+        internal static string InvoiceEmailTemplate {
             get {
-                return ResourceManager.GetString("PurchaseOrdersEmailTemplate", resourceCulture);
+                return ResourceManager.GetString("InvoiceEmailTemplate", resourceCulture);
             }
         }
     }

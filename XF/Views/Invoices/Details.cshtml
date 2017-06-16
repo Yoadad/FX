@@ -1,6 +1,19 @@
 ﻿@model XF.Models.InvoiceViewModel
 <br />
-<h1>Invoice Detail <small>(@Model.Invoice.Id)</small></h1>
+<h1>
+    Invoice Detail <small>(@Model.Invoice.Id)</small>
+    <a href="javascript:;" id="btnSendEmail" class="btn btn-primary" style="float:right; margin:8px;">Email&nbsp;&nbsp;<span class="fa fa-mail-forward"></span></a>&nbsp;
+    <a href="javascript:window.open('/Sales/Print/@Model.Invoice.Id', '_blank')" class="btn btn-primary" style="float:right; margin:8px;">Print&nbsp;&nbsp;<span class="fa fa-print"></span></a>
+</h1>
+<div>
+    <h4>
+        <small>
+            By: @Model.Invoice.AspNetUser.FullName
+        </small>
+    </h4>
+</div>
+
+
 <hr />
 <input type="hidden" id="hfTax" value="@Model.Tax" />
 <input type="hidden" id="hfInvoiceId" value="@Model.Invoice.Id" />
@@ -79,7 +92,7 @@
                 {
                     <tr class="item item-@index">
                         <td>
-                            <select readonly class="form-control cmb-product">
+                            <select class="form-control cmb-product">
                                 @foreach (var item in Model.Products)
                                 {
                                     <option @(item.Id == detail.ProductId ?"selected":"") value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
@@ -87,7 +100,7 @@
                             </select>
                         </td>
                         <td>
-                            <input readonly type="number" min="1" value="@detail.Quantity" class="form-control txt-quantity text-right" style="width:89px;" />
+                            <input type="number" min="1" value="@detail.Quantity" class="form-control txt-quantity text-right" style="width:89px;" />
                         </td>
                         <td class="text-center">
                             <em class="lbl-stock label label-success" data-value="0.0"></em>
@@ -217,7 +230,7 @@
                     </td>
                     <td></td>
                 </tr>
-                <tr id="trBalance">
+                <tr>
                     <td class="text-right">BALANCE</td>
                     <td class="text-right text-danger">
                         <small>

@@ -14,6 +14,7 @@ using XF.Services;
 
 namespace XF.Controllers
 {
+    [Authorize]
     public class InvoicesController : Controller
     {
         private XFModel db = new XFModel();

@@ -150,60 +150,63 @@
         $('.payment-item-' + index).remove();
     };
 
+    XF.sendInvoiceEmail = function (clientId) {
+        var url = '/Sales/Email/' + clientId;
+        var data = {id:clientId};
+        $.post(url, data, XF.sendInvoiceEmailResponse,'json');
+    };
+
+    XF.sendInvoiceEmailResponse = function(data){
+        if (data.Result) {
+            XF.addInfoMessage(data.Message,'success');
+        }
+        else {
+            XF.addInfoMessage(data.Message, 'danger');
+        }
+    };
+
 
     $('#btnSaveInvoice').on('click', function () {
         XF.confirm('This action will update the Invoice', function () {
-            var data = { Invoice: XF.getInvoice() };
+            var data = { Invoice: XF.getInvoice()
+        };
             XF.saveInvoice(data);
-        });
+    });
     });
 
     $('#btnCancelInvoice').on('click', function () {
         XF.confirm("Are you sure that you want clear this form?", function () {
             location.reload(true);
-        });
+    });
     });
 
     $('#txtDiscountPercent').on('change unfocus', function (e) {
         var discountPercent = parseFloat($(this).val()).toFixed(2);
         var subtotal = $('#lblSubtotal').data('value');
-        var discount = discountPercent*subtotal/100;
+        var discount = discountPercent * subtotal /100;
         $('#txtDiscount').val(discount.toFixed(2))
                         .trigger('change');
     });
 
     $('#cmbIsDelivery').on('change', function () {
 
-        if ($(this).val()==1) {
+        if ($(this).val() ==1) {
             $('#txtAddress').show();
         } else {
             $('#txtAddress').hide();
-        }
+    }
     });
 
     $('#btnAddPaymentOption').on('click', function () {
         XF.AddPaymentOption();
     });
 
-    XF.validateHideBalance = function () {
-        $('#trBalance').show();
-        if ($('#cmbPaymentType').val() >= 3 && $('#cmbPaymentType').val() <= 9) {
-            $('#trBalance').hide();
-        }
-    };
-
-    $('#cmbPaymentType').on('change', function () {
-        XF.validateHideBalance();
-    });
-
-    XF.validateHideBalance();
-
     $('.item').each(function (index) {
         XF.showItemData(index);
         $('.item-' + index + ' .txt-quantity,#txtDiscount,.item-' + index + ' .cmb-product').on('change', function () {
             XF.showItemData(index);
             XF.showTotals();
-        });
+    });
     });
     XF.showTotals();
 
@@ -212,12 +215,19 @@
         var tax = $('#hfTax').val();
         if (!$(this).is(':checked')) {
             tax = 0.0;
-        }
+    }
         $('#lblTax')
             .text(kendo.format('{0:P}', tax))
-            .data({ value: tax });
+            .data({ value: tax
+    });
     });
 
 
     $('#cmbIsDelivery').trigger('change');
+
+    $('#btnSendEmail').on('click', function () {
+        var clientId = $('#cmbClient').val();
+        XF.sendInvoiceEmail(clientId);
+    });
+
 })(jQuery, XF);

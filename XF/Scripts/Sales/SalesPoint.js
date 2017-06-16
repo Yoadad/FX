@@ -21,7 +21,9 @@
     };
 
     XF.removeItem = function (index) {
+        XF.showItemData(index);
         $('.item-' + index).remove();
+        XF.showTotals();
     };
 
     XF.showItemData = function (index) {
@@ -186,19 +188,6 @@
     $('#btnAddPaymentOption').on('click', function () {
         XF.AddPaymentOption();
     });
-
-    XF.validateHideBalance = function () {
-        $('#trBalance').show();
-        if ($('#cmbPaymentType').val() >= 3 && $('#cmbPaymentType').val() <= 9) {
-            $('#trBalance').hide();
-        }
-    };
-
-    $('#cmbPaymentType').on('change', function () {
-        XF.validateHideBalance();
-    });
-
-    XF.validateHideBalance();
 
     $('#chkTaxZero').on('change', function () {
         var tax = $('#hfTax').val();
