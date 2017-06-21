@@ -130,6 +130,10 @@ namespace XF.Entities
                 .Property(e => e.Amount)
                 .HasPrecision(13, 2);
 
+            modelBuilder.Entity<Payment>()
+                .Property(e => e.Balance)
+                .HasPrecision(13, 2);
+
             modelBuilder.Entity<PaymentOption>()
                 .HasMany(e => e.Payments)
                 .WithRequired(e => e.PaymentOption)

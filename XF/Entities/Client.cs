@@ -38,7 +38,7 @@ namespace XF.Entities
         [StringLength(512)]
         public string Address { get; set; }
 
-        [Display(Name ="Name")]
+        [Display(Name = "Name")]
         [NotMapped]
         public string FullName
         {

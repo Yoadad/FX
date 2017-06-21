@@ -53,11 +53,20 @@ var XF = XF || {};
         XF.alertWindow.center().open();
     };
 
-    XF.confirm = function (text,fn) {
+    XF.confirm = function (text, fn) {
         XF.confirmOnClose = fn;
-        var html = XF.getHtmlFromTemplate('#confirmTemplate',{text: text});
+        var html = XF.getHtmlFromTemplate('#confirmTemplate', { text: text });
         $('#confirm .content').html(html);
         XF.confirmWindow.center().open();
+
+    };
+
+    XF.prompt = function (text,value, fn) {
+        XF.promptOnClose = fn;
+        $('#txtPromptValue').val(value);
+        var html = XF.getHtmlFromTemplate('#promptTemplate', { text: text });
+        $('#prompt .content').html(html);
+        XF.promptWindow.center().open();
 
     };
 
@@ -98,12 +107,33 @@ var XF = XF || {};
         ],
     }).data("kendoWindow");
 
+    //Prompt window
+    XF.promptWindow = $('#prompt').kendoWindow({
+        width: "500",
+        title: "Application Input",
+        visible: false,
+        modal: true,
+        actions: [
+            "Close"
+        ],
+    }).data("kendoWindow");
+
     $('#btnConfirmCancel').on('click', function () {
         XF.confirmWindow.close();
     });
+
     $('#btnConfirmOK').on('click', function () {
         XF.confirmWindow.close();
         XF.confirmOnClose();
+    });
+
+    $('#btnPromptCancel').on('click', function () {
+        XF.promptWindow.close();
+    });
+
+    $('#btnPromptOK').on('click', function () {
+        XF.promptWindow.close();
+        XF.promptOnClose($('#txtPromptValue').val());
     });
 
 }(jQuery,XF));

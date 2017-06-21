@@ -20,6 +20,11 @@ namespace XF.Entities
 
         public int InvoiceId { get; set; }
 
+        [Column(TypeName = "numeric")]
+        public decimal Balance { get; set; }
+
+        public bool HasFee { get; set; }
+
         public virtual Invoice Invoice { get; set; }
 
         public virtual PaymentOption PaymentOption { get; set; }

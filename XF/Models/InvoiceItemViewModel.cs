@@ -12,12 +12,8 @@ namespace XF.Models
         {
             InvoiceId = invoice.Id;
             Date = invoice.Date;
-            ClientName = string.Format("{0}{1} {2}",
-                        invoice.Client.FirstName,
-                        invoice.Client.MiddleName == null
-                        ? string.Empty
-                        : string.Format(" {0}", invoice.Client.MiddleName)
-                        , invoice.Client.LastName);
+            ClientName = invoice.Client.FullName;
+            ClientEmail = invoice.Client.Email; 
             ClientId = invoice.ClientId;
             PaymentType = invoice.PaymentType.Name;
             Subtotal = invoice.Subtotal.Value;
@@ -35,5 +31,6 @@ namespace XF.Models
         public Decimal Subtotal { get; set; }
         public Decimal Discount { get; set; }
         public Decimal Total { get; set; }
+        public string ClientEmail { get; private set; }
     }
 }

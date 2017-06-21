@@ -492,6 +492,7 @@
     <Content Include="Views\Sales\Print.cshtml" />
     <Content Include="Views\Sales\PdfInvoice.cshtml" />
     <Content Include="Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Views\Templates\Prompt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Net.Mail;
 using XF.Entities;
 using XF.Properties;
@@ -18,17 +19,16 @@ namespace XF.Services
             var port = int.Parse(ConfigService.GetValue("EmailPort",_context));
             var user = ConfigService.GetValue("EmailUser", _context);
             var password = ConfigService.GetValue("EmailPassword", _context);
-
+            var isSsl = ConfigService.GetValue("EmailSSL",_context).ToLower() == "true";
             SmtpClient smtp = new SmtpClient(host, port);
-            smtp.Timeout = 100000;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential(user, password);
-            smtp.EnableSsl = false;
+            smtp.EnableSsl = isSsl;
             smtp.Send(message);
         }
 
-        private MailMessage GetSimpleEmailMessage(string emailToSend,string subject,string body)
+        private MailMessage GetSimpleEmailMessage(string emailToSend,string subject,string body,Stream stream,string fileName)
         {
             var message = new MailMessage();
             var emailFrom = ConfigService.GetValue("EmailFrom", _context);
@@ -37,15 +37,22 @@ namespace XF.Services
             message.IsBodyHtml = true;
             message.Subject = subject;
             message.Body = body;
+            if (stream!=null)
+            {
+                message.Attachments.Add(new Attachment(stream, fileName));
+            }
             return message;
         }
 
-        public void SendInvoiceToClient(Client client)
+        public void SendInvoiceToClient(Invoice invoice,Client client,Stream stream,string fileName)
         {
             var subjectTemplate = ConfigService.GetValue("EmailSubjectTemplate", _context);
+            subjectTemplate = string.Format(subjectTemplate, invoice.Id);
             var emailToSend = client.Email;
-            var emailTemplate = Resources.InvoiceEmailTemplate.ToString();
-            var message = GetSimpleEmailMessage(emailToSend, subjectTemplate, emailTemplate);
+            var emailTemplate = Resources.InvoiceEmailTemplate.ToString()
+                .Replace("{{ClientName}}",client.FullName)
+                .Replace("{{InvoiceId}}", invoice.Id.ToString());
+            var message = GetSimpleEmailMessage(emailToSend, subjectTemplate, emailTemplate,stream,fileName);
             SendEmail(message);
         }
 

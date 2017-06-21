@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using Rotativa;
+using Rotativa.Options;
 using System;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
@@ -217,24 +219,87 @@ namespace XF.Controllers
         //{
         //}
 
-
+        [AllowAnonymous]
         public ActionResult Print(int id)
         {
             var invoice = db.Invoices
                             .Include(i => i.InvoiceDetails)
                             .Include(i => i.Payments)
                             .FirstOrDefault(i => i.Id == id);
-
             return new ViewAsPdf(invoice);
         }
+        public string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                                                                         viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                                             ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
         public JsonResult Email(int id)
         {
             try
             {
-                var client = db.Clients.FirstOrDefault(c => c.Id == id);
+                var invoice = db.Invoices
+                    .Include(i => i.InvoiceDetails)
+                    .Include(i => i.Payments)
+                    .Include(i => i.Client)
+                    .FirstOrDefault(i => i.Id == id);
+                var fileName = string.Format("Invoice_{0}_{1}.pdf", invoice.Id, invoice.Date.ToString("MM-dd-yyyy"));
+                var client = db.Clients.FirstOrDefault(c => c.Id == invoice.Client.Id);
+                var viewAsPef = new Rotativa.ViewAsPdf("~/Views/Sales/Print.cshtml", invoice)
+                {
+                    FileName = fileName,
+                    PageSize = Size.Letter,
+                    PageOrientation = Orientation.Portrait,
+                    PageMargins = { Left = 1, Right = 1 }
+                };
+
+                byte[] bytesPDFData = viewAsPef.BuildPdf(ControllerContext);
+                var stream = new MemoryStream(bytesPDFData);
                 var emailService = new SendEmailService(db);
-                emailService.SendInvoiceToClient(client);
-                return Json(new { Result = true, Data = client, Message ="The Invoice has send" });
+                emailService.SendInvoiceToClient(invoice, client, stream, fileName);
+
+                return Json(new { Result = true, Data = new { ClientId = client.Id }, Message = "The Invoice has send" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = false, Message = ex.Message });
+            }
+        }
+        public JsonResult EmailInvoice(int id,string email)
+        {
+            try
+            {
+                var invoice = db.Invoices
+                    .Include(i => i.InvoiceDetails)
+                    .Include(i => i.Payments)
+                    .Include(i => i.Client)
+                    .FirstOrDefault(i => i.Id == id);
+                var fileName = string.Format("Invoice_{0}_{1}.pdf", invoice.Id, invoice.Date.ToString("MM-dd-yyyy"));
+                var client = db.Clients.FirstOrDefault(c => c.Id == invoice.Client.Id);
+                var viewAsPef = new Rotativa.ViewAsPdf("~/Views/Sales/Print.cshtml", invoice)
+                {
+                    FileName = fileName,
+                    PageSize = Size.Letter,
+                    PageOrientation = Orientation.Portrait,
+                    PageMargins = { Left = 1, Right = 1 }
+                };
+
+                byte[] bytesPDFData = viewAsPef.BuildPdf(ControllerContext);
+                var stream = new MemoryStream(bytesPDFData);
+                var emailService = new SendEmailService(db);
+                client.Email = email;
+                emailService.SendInvoiceToClient(invoice, client, stream, fileName);
+
+                return Json(new { Result = true, Data = new { ClientId = client.Id }, Message = "The Invoice has send" });
             }
             catch (Exception ex)
             {

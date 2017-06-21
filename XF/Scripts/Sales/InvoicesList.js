@@ -76,6 +76,7 @@
                 { field: "Tax", filterable: false },
                 { field: "Discount", filterable: false },
                 { field: "Total", filterable: false },
+                { field: "ClientEmail", filterable: false,hidden:true},
                 { field: "Actions", template: $('#PrintInvoiceDetailTemplate').html(),filterable: false }
             ]
     });
@@ -86,9 +87,15 @@
         });
     }
 
-    XF.sendInvoiceEmail = function (clientId) {
-        var url = '/Sales/Email/' + clientId;
-        var data = { id: clientId };
+    XF.confirmEmail = function (invoiceId, email) {
+        XF.prompt("Send Invoice to:",email, function (eml) {
+            XF.sendInvoiceEmail(invoiceId, eml);
+        });
+    };
+
+    XF.sendInvoiceEmail = function (invoiceId, email) {
+        var url = '/Sales/EmailInvoice';
+        var data = { id: invoiceId, email: email };
         $.post(url, data, XF.sendInvoiceEmailResponse, 'json');
     };
 

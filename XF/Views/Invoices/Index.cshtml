@@ -18,7 +18,7 @@
 </script>
 <script type="text/html" id="PrintInvoiceDetailTemplate">
     <a href="javascript:window.open('/Sales/Print/#=data.InvoiceId#','_blank');">Print</a>|
-    <a href="javascript:XF.sendInvoiceEmail(#=data.ClientId#);">Email</a>
+    <a href="javascript:XF.confirmEmail(#=data.InvoiceId#,'#=data.ClientEmail#');">Email</a>
 </script>
 
 @section scripts{
