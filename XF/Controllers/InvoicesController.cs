@@ -35,9 +35,8 @@ namespace XF.Controllers
 
         public JsonResult Invoices(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-
             var filtersObject = JsonConvert.DeserializeObject<FiltersModel>(filter ?? "");
-            var hasFilterCLientName = string.IsNullOrWhiteSpace(filter) || filtersObject == null ? false: filtersObject.filters.Any(f => f.field == "ClientName");
+            var hasFilterCLientName = string.IsNullOrWhiteSpace(filter) || filtersObject == null ? false : filtersObject.filters.Any(f => f.field == "ClientName");
             var clientNameFilter = string.Empty;
             if (hasFilterCLientName)
             {
@@ -66,7 +65,7 @@ namespace XF.Controllers
 
             if (hasFilterCLientName)
             {
-                invoices = invoices.Where(i => 
+                invoices = invoices.Where(i =>
                     Regex.Match(i.ClientName.Trim().ToLower(),
                     clientNameFilter.Trim().ToLower()).Success);
             }
@@ -96,6 +95,102 @@ namespace XF.Controllers
             };
             return View(model);
         }
+
+        public JsonResult GetInvoiceBalance(string jsonInvoice)
+        {
+            try
+            {
+                var invoice = JsonConvert.DeserializeObject<Invoice>(jsonInvoice);
+                var result = GetInvoiceBalances(invoice);
+                return Json(new { Result = true, Data = new { Balance = result.Payments.Last().Balance} }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = false, Messaged = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        private Invoice GetInvoiceBalances(Invoice invoice)
+        {
+            var result = new Invoice() {
+                Id = invoice.Id,
+                Total = invoice.Total
+            };
+            var limitDays = 90;
+            var fee = new decimal(0.10);
+            var firstPayment = invoice.Payments.OrderBy(p => p.Date).First();
+            var lastPayment = invoice.Payments.OrderBy(p => p.Date).Last();
+            var lasttDate = lastPayment.Date;
+            var periods = GetPeriods(invoice, lasttDate);
+            var previousPayment = new PeriodPayment();
+            var mountsWithFee = 0;
+            foreach (var period in periods)
+            {
+                var isFirstPeriodPayment = true;
+                foreach (var periodPayment in period.Payments)
+                {
+                    if (previousPayment.Payment == null)
+                    {
+                        periodPayment.BalanceBefore = invoice.Total.Value;
+                        periodPayment.BalanceAfter = invoice.Total.Value - periodPayment.Payment.Amount;
+                        periodPayment.Payment.Balance = periodPayment.BalanceAfter;
+                        periodPayment.Payment.HasFee = false;
+                    }
+                    else
+                    {
+                        var applyFee = periodPayment.Payment.Date > firstPayment.Date.AddDays(limitDays);
+                        periodPayment.Payment.HasFee = applyFee && (isFirstPeriodPayment || !previousPayment.Payment.HasFee);
+                        periodPayment.BalanceBefore = previousPayment.BalanceAfter;
+                        var b = (1 + (periodPayment.Payment.HasFee ? fee : 0));
+
+                        periodPayment.Payment.Balance = periodPayment.BalanceAfter = periodPayment.BalanceBefore * (decimal)(Math.Pow(Convert.ToDouble(b), Convert.ToDouble(mountsWithFee)));
+
+                        result.Payments.Add(periodPayment.Payment);
+                    }
+                    previousPayment = periodPayment;
+                    isFirstPeriodPayment = false;
+                    result.Payments.Add(periodPayment.Payment);
+                }
+                mountsWithFee = !period.HasPayments
+                    && period.EndDate > firstPayment.Date.AddDays(limitDays)
+                    ? mountsWithFee + 1
+                    : 0;
+            }
+            return result;
+        }
+
+        public IEnumerable<PeriodModel> GetPeriods(Invoice invoice, DateTime lastDate)
+        {
+            var result = new List<PeriodModel>();
+            if (invoice.Payments.Any())
+            {
+                var orderedPayments = invoice.Payments
+                                        .OrderBy(p => p.Date);
+
+                var startDateOfPeriod = orderedPayments.First().Date;
+                while (startDateOfPeriod <= lastDate)
+                {
+                    var startDate = startDateOfPeriod;
+                    var endDate = startDateOfPeriod.AddMonths(1).AddDays(-1);
+                    var orderedPaymentsInPeriod = orderedPayments
+                        .Where(p => p.Date >= startDate && p.Date <= endDate)
+                        .Select(p => new PeriodPayment() { Payment = p })
+                        .OrderBy(p => p.Payment.Date);
+
+                    var period = new PeriodModel()
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        Payments = orderedPaymentsInPeriod
+                    };
+
+                    result.Add(period);
+                    startDateOfPeriod = startDateOfPeriod.AddMonths(1);
+                }
+            }
+            return result;
+        }
+
 
         private ProductItemViewModel GetProductItemModel(Product p)
         {
