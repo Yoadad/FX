@@ -26,51 +26,6 @@
         XF.showTotals();
     };
 
-    XF.showItemData = function (index) {
-        var price = $('.item-' + index + ' .cmb-product option:selected').data('price');
-        var stock = $('.item-' + index + ' .cmb-product option:selected').data('stock');
-        var quantity = $('.item-' + index + ' .txt-quantity').val();
-        var inorder = quantity - stock;
-        inorder = inorder > 0 ? inorder : 0;
-        stock = inorder > 0 ? stock : quantity;
-        var total = price * quantity;
-        
-        $('.item-' + index + ' .lbl-price').text(kendo.format('{0:C}', parseFloat(price)))
-                                            .data({ value: price});
-        $('.item-' + index + ' .lbl-total').text(kendo.format('{0:C}', total))
-                                            .data({ value: total });
-        $('.item-' + index + ' .lbl-stock').text(kendo.format('{0}', stock))
-                                            .data({ value: stock });
-        $('.item-' + index + ' .lbl-inorder').text(kendo.format('{0}', inorder))
-                                            .data({ value: inorder});
-    };
-
-    XF.showTotals = function () {
-        var subtotal = 0.0;
-        var discount = parseFloat($('#txtDiscount').val() || 0.0);
-        var tax = parseFloat($('#lblTax').data('value'));
-        var paymentsAmount = 0;
-
-        $('.item').each(function (index) {
-            subtotal += (parseFloat( $(this).find('.lbl-total').data('value')) || 0.00);
-        });
-        $('.payment-amount').each(function () {
-            paymentsAmount += parseFloat($(this).val());
-        });
-
-        var total = subtotal * (1 + tax) - discount;
-        var balance = total - paymentsAmount;
-        var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
-
-        $('#txtDiscountPercent').val(discountPercent);
-        $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({value:subtotal});
-        $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });
-        $('#lblPaymentsAmount').text(kendo.format('{0:C}', paymentsAmount)).data({ value: paymentsAmount });
-        $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
-        
-    };
-
-    XF.addItem();
 
     $('.lnk-addnew').on('click', function () {
         XF.addItem();
@@ -137,6 +92,29 @@
         return result;
     };
 
+    XF.getBalance = function () {
+        var invoice = XF.getInvoice();
+        console.log(invoice.PaymentTypeId);
+        if (invoice.PaymentTypeId == 2 && invoice.Payments.length > 0) {
+            $('#lblBalance').text('Loading...');
+            var url = '/Invoices/GetInvoiceBalance';
+            var data = { jsonInvoice: JSON.stringify(invoice) };
+            $.getJSON(url, data, XF.getBalanceResponse);
+        }
+    };
+
+    XF.getBalanceResponse = function (data) {
+        if (data.Result) {
+            console.log(data);
+            var balance = data.Data.Balance;
+            $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
+        }
+        else {
+            XF.addInfoMessage(data.Message, 'danger');
+        }
+    };
+
+
     XF.AddPaymentOption = function () {
         var paymentIndex = $('.payment-item').size() || 0;
         var html = XF.getHtmlFromTemplate('#paymentOptionsTemplate', {Index:paymentIndex});
@@ -154,6 +132,54 @@
         $('.payment-item-' + index).remove();
     };
 
+    XF.showItemData = function (index) {
+        var price = $('.item-' + index + ' .cmb-product option:selected').data('price');
+        var stock = $('.item-' + index + ' .cmb-product option:selected').data('stock');
+        var quantity = $('.item-' + index + ' .txt-quantity').val();
+        var inorder = quantity - stock;
+        inorder = inorder > 0 ? inorder : 0;
+        stock = inorder > 0 ? stock : quantity;
+        var total = price * quantity;
+
+        $('.item-' + index + ' .lbl-price').text(kendo.format('{0:C}', parseFloat(price)))
+                                            .data({ value: price });
+        $('.item-' + index + ' .lbl-total').text(kendo.format('{0:C}', total))
+                                            .data({ value: total });
+        $('.item-' + index + ' .lbl-stock').text(kendo.format('{0}', stock))
+                                            .data({ value: stock });
+        $('.item-' + index + ' .lbl-inorder').text(kendo.format('{0}', inorder))
+                                            .data({ value: inorder });
+    };
+
+    XF.showTotals = function () {
+        var subtotal = 0.0;
+        var discount = parseFloat($('#txtDiscount').val() || 0.0);
+        var tax = parseFloat($('#lblTax').data('value'));
+        var paymentsAmount = 0;
+
+        $('.item').each(function (index) {
+            subtotal += (parseFloat($(this).find('.lbl-total').data('value')) || 0.00);
+        });
+        $('.payment-amount').each(function () {
+            paymentsAmount += parseFloat($(this).val());
+        });
+
+        var total = subtotal * (1 + tax) - discount;
+        var balance = total - paymentsAmount;
+        var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
+
+        $('#txtDiscountPercent').val(discountPercent);
+        $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({ value: subtotal });
+        $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });
+        $('#lblPaymentsAmount').text(kendo.format('{0:C}', paymentsAmount)).data({ value: paymentsAmount });
+        $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
+        XF.getBalance();
+    };
+
+
+    XF.addItem();
+
+    //Binding events
 
     $('#btnSaveInvoice').on('click', function () {
         XF.confirm('This action will create a new Invoice', function () {
@@ -200,6 +226,10 @@
         XF.showItemData();
         XF.showTotals();
 
+    });
+
+    $('#cmbPaymentType').on('change', function () {
+        XF.getBalance();
     });
 
 })(jQuery, XF);
