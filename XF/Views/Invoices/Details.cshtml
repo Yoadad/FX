@@ -198,7 +198,7 @@
                 <tr>
                     <td class="text-right">Tax</td>
                     <td class="text-right text-info">
-                        <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}", Model.Tax)</em>
+                        <em id="lblTax" data-value="@Model.Invoice.Tax ">@string.Format("{0:p}", Model.Invoice.Tax)</em>
                     </td>
                     <td></td>
                 </tr>
@@ -237,7 +237,9 @@
                             <em id="lblBalance" data-value="0.0">$0.00</em>
                         </small>
                     </td>
-                    <td></td>
+                    <td>
+                        <div id="divFee" class="label label-danger">Fee 10%</div>
+                    </td>
                 </tr>
 
             </tfoot>

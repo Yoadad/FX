@@ -102,7 +102,7 @@ namespace XF.Controllers
             {
                 var invoice = JsonConvert.DeserializeObject<Invoice>(jsonInvoice);
                 var result = GetInvoiceBalances(invoice);
-                return Json(new { Result = true, Data = new { Balance = result.Payments.Last().Balance} }, JsonRequestBehavior.AllowGet);
+                return Json(new { Result = true, Data = new { Balance = result.Payments.Last().Balance, HasFee = result.Payments.Any(p => p.HasFee) } }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -112,7 +112,8 @@ namespace XF.Controllers
         }
         private Invoice GetInvoiceBalances(Invoice invoice)
         {
-            var result = new Invoice() {
+            var result = new Invoice()
+            {
                 Id = invoice.Id,
                 Total = invoice.Total
             };
@@ -143,7 +144,8 @@ namespace XF.Controllers
                         periodPayment.BalanceBefore = previousPayment.BalanceAfter;
                         var b = (1 + (periodPayment.Payment.HasFee ? fee : 0));
 
-                        periodPayment.Payment.Balance = periodPayment.BalanceAfter = periodPayment.BalanceBefore * (decimal)(Math.Pow(Convert.ToDouble(b), Convert.ToDouble(mountsWithFee))) - periodPayment.Payment.Amount;
+                        periodPayment.Payment.Balance = periodPayment.BalanceAfter = periodPayment.BalanceBefore * (decimal)(Math.Pow(Convert.ToDouble(b), Convert.ToDouble(mountsWithFee + 1))) - periodPayment.Payment.Amount;
+
                         result.Payments.Add(periodPayment.Payment);
                     }
                     previousPayment = periodPayment;
@@ -151,7 +153,7 @@ namespace XF.Controllers
                     result.Payments.Add(periodPayment.Payment);
                 }
                 mountsWithFee = !period.HasPayments
-                    && period.EndDate > firstPayment.Date.AddDays(limitDays)
+                    && period.StartDate > firstPayment.Date.AddDays(limitDays)
                     ? mountsWithFee + 1
                     : 0;
             }
