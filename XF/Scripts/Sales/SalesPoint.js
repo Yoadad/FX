@@ -93,8 +93,8 @@
     };
 
     XF.getBalance = function () {
+        $('#divFee').hide();
         var invoice = XF.getInvoice();
-        console.log(invoice.PaymentTypeId);
         if (invoice.PaymentTypeId == 2 && invoice.Payments.length > 0) {
             $('#lblBalance').text('Loading...');
             var url = '/Invoices/GetInvoiceBalance';
@@ -108,6 +108,9 @@
             console.log(data);
             var balance = data.Data.Balance;
             $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
+            if (data.Data.HasFee) {
+                $('#divFee').show();
+            }
         }
         else {
             XF.addInfoMessage(data.Message, 'danger');
@@ -122,7 +125,7 @@
         XF.showItemData();
         XF.showTotals();
 
-        $('.payment-amount:last').on('change',function () {
+        $('.payment-amount:last,.payment-date:last').on('change', function () {
             XF.showItemData();
             XF.showTotals();
         });
@@ -130,6 +133,7 @@
 
     XF.removePaymentItem = function (index) {
         $('.payment-item-' + index).remove();
+        XF.showTotals();
     };
 
     XF.showItemData = function (index) {
@@ -231,5 +235,7 @@
     $('#cmbPaymentType').on('change', function () {
         XF.getBalance();
     });
+
+    $('#divFee').hide();
 
 })(jQuery, XF);
