@@ -17,8 +17,15 @@
     <a href="/Invoices/Details/#=data.InvoiceId#">#=data.InvoiceId#</a>
 </script>
 <script type="text/html" id="PrintInvoiceDetailTemplate">
-    <a href="javascript:window.open('/Sales/Print/#=data.InvoiceId#','_blank');">Print</a>|
+    <a href="javascript:window.open('/Sales/Print/#=data.InvoiceId#','_blank');">Print</a>
+    <br />
     <a href="javascript:XF.confirmEmail(#=data.InvoiceId#,'#=data.ClientEmail#');">Email</a>
+    <br />
+    <div class="checkbox">
+        <label >
+            <input type="checkbox" class="chk-released" data-invoiceid="#=data.InvoiceId#" #=(data.IsReleased?"checked":"")#/>Released
+        </label>
+    </div>
 </script>
 
 @section scripts{

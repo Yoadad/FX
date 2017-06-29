@@ -21,7 +21,7 @@ namespace XF.Models
         public IEnumerable<ProductItemViewModel> Products { get; set; }
         public IEnumerable<PaymentType> PaymentTypes { get; set; }
         public IEnumerable<PaymentOption> PaymentOptions { get; set; }
-        public float Tax { get; set; }
+        public decimal Tax { get; set; }
         public decimal Balance { get; set; }
     }
 
@@ -69,4 +69,12 @@ namespace XF.Models
         public decimal BalanceBefore { get; set; }
         public decimal BalanceAfter { get; set; }
     }
+
+    public class InvoiceBalanceModel
+    {
+        public Invoice Invoice { get; set; }
+        public decimal Balance { get; set; }
+    }
+
+
 }

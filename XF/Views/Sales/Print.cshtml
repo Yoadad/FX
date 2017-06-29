@@ -1,4 +1,4 @@
-﻿@model XF.Entities.Invoice
+﻿@model XF.Models.InvoiceBalanceModel
 @{
     ViewBag.Title = "Print";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
@@ -31,8 +31,8 @@
                     <th class="text-center">Invoice #</th>
                 </tr>
                 <tr>
-                    <td class="text-center">@Model.Created.ToString("MM/dd/yyyy")</td>
-                    <td class="text-center">@Model.Id</td>
+                    <td class="text-center">@Model.Invoice.Created.ToString("MM/dd/yyyy")</td>
+                    <td class="text-center">@Model.Invoice.Id</td>
                 </tr>
             </table>
         </td>
@@ -44,11 +44,11 @@
     <tr>
         <th class="text-center">Bill To</th>
         <th class="text-center">
-            @if (Model.IsDelivery)
+            @if (Model.Invoice.IsDelivery)
             {
                 <span>Ship To</span>
                 <span style="float:right;">
-                    @Model.Date.ToString("MM/dd/yyyy")
+                    @Model.Invoice.Date.ToString("MM/dd/yyyy")
                 </span>
             }
             else
@@ -60,23 +60,23 @@
     <tr>
         <td>
             <em>
-                @Model.Client.FullName<br />
-                @Model.Client.Address<br />
-                @Model.Client.Phone<br />
-                @Model.Client.Email
+                @Model.Invoice.Client.FullName<br />
+                @Model.Invoice.Client.Address<br />
+                @Model.Invoice.Client.Phone<br />
+                @Model.Invoice.Client.Email
             </em>
 
         </td>
         <td class="text-center">
-            @if (Model.IsDelivery)
+            @if (Model.Invoice.IsDelivery)
             {
-                @Model.Address
+                @Model.Invoice.Address
             }
             else
             {
                 <br />
                 <strong>
-                    @Model.Date.ToString("MM/dd/yyyy")
+                    @Model.Invoice.Date.ToString("MM/dd/yyyy")
                 </strong>
             }
         </td>
@@ -92,17 +92,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var detail in Model.InvoiceDetails)
+        @foreach (var detail in Model.Invoice.InvoiceDetails)
         {
             <tr>
                 <td>
                     @detail.Product.Name
                 </td>
                 <td class="text-right">
-                    @(string.Format("{0:c}", detail.UnitPrice))
+                    @detail.Quantity
                 </td>
                 <td class="text-right">
-                    @detail.Quantity
+                    @(string.Format("{0:c}", detail.UnitPrice))
                 </td>
                 <td class="text-right">
                     @(string.Format("{0:c}", detail.Quantity * detail.UnitPrice))
@@ -112,7 +112,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="2" rowspan="4">
+            <td colspan="2" rowspan="5">
                 Delivered Date
                 <hr />
                 Signature
@@ -127,25 +127,27 @@
                 <strong>X</strong> 
                 <strong style="float:right; width:200px;">
                     Date
-                    
-
                 </strong>
                 <hr />
             </td>
             <td class="text-right"><strong>Subtotal</strong></td>
-            <td class="text-right">@string.Format("{0:c}",Model.Subtotal)</td>
+            <td class="text-right">@string.Format("{0:c}",Model.Invoice.Subtotal)</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Tax</strong></td>
+            <td class="text-right">@string.Format("{0:p}", Model.Invoice.Tax)</td>
         </tr>
         <tr>
             <td class="text-right"><strong>Total</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Total)</td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Total)</td>
         </tr>
         <tr>
             <td class="text-right"><strong>Payments/Credits</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Payments.Sum(p => p.Amount))</td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Payments.Sum(p => p.Amount))</td>
         </tr>
         <tr>
             <td class="text-right"><strong>Balance Due</strong></td>
-            <td class="text-right">@string.Format("{0:c}",Model.Total- Model.Payments.Sum(p=>p.Amount))</td>            
+            <td class="text-right">@string.Format("{0:c}",Model.Balance)</td>            
         </tr>
     </tfoot>
 </table>

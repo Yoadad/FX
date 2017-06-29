@@ -226,7 +226,12 @@ namespace XF.Controllers
                             .Include(i => i.InvoiceDetails)
                             .Include(i => i.Payments)
                             .FirstOrDefault(i => i.Id == id);
-            return new ViewAsPdf(invoice);
+            var invoiceService = new InvoiceService();
+            var model = new InvoiceBalanceModel() {
+                Invoice = invoice,
+                Balance = invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
+            };
+            return new ViewAsPdf(model);
         }
         public string RenderRazorViewToString(string viewName, object model)
         {

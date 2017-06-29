@@ -20,6 +20,7 @@ namespace XF.Models
             Tax = invoice.Tax.Value;
             Discount = invoice.Discount.Value;
             Total = invoice.Total.Value;
+            IsReleased = invoice.InvoiceStatusId == 3;
         }
         public int InvoiceId { get; set; }
         public DateTime Date{ get; set; }
@@ -31,6 +32,7 @@ namespace XF.Models
         public Decimal Subtotal { get; set; }
         public Decimal Discount { get; set; }
         public Decimal Total { get; set; }
-        public string ClientEmail { get; private set; }
+        public string ClientEmail { get; set; }
+        public bool IsReleased { get; set; }
     }
 }

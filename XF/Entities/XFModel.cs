@@ -95,7 +95,7 @@ namespace XF.Entities
 
             modelBuilder.Entity<Invoice>()
                 .Property(e => e.Tax)
-                .HasPrecision(13, 2);
+                .HasPrecision(12, 5);
 
             modelBuilder.Entity<Invoice>()
                 .Property(e => e.Total)
@@ -192,7 +192,7 @@ namespace XF.Entities
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Tax)
-                .HasPrecision(13, 2);
+                .HasPrecision(12, 5);
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Total)

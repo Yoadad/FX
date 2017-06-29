@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Reports</h2>
+
+<div class="row">
+    <div class="col-sm-6">
+        <label>
+            Reports:
+            <select id="cmbReports" class="form-control">
+                <option value="1">Daily</option>
+            </select>
+            <label>
+                Date:
+                <input type="date" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+            </label>
+
+        </label>
+    </div>
+    <div class="col-sm-6">
+        <input type="button" value="Filter" class="btn btn-primary" id="btnFilter" />
+        &nbsp;&nbsp;&nbsp;
+        <input type="button" value="Print" class="btn btn-primary" id="btnPrint" />
+    </div>
+</div>
+
+<br />
+<div id="reportViewer" style="overflow:auto;width:100%;max-height:340px;"></div>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Reports/Reports.js")
+}

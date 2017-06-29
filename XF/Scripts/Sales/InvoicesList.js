@@ -53,6 +53,12 @@
             allowUnsort: false
            },
         pageable: { refresh: true, pageSizes: true },
+        dataBound: function () {
+            $('.chk-released').on('click', function () {
+                console.log(':)');
+                XF.releasedInvoice($(this).data('invoiceid'), $(this).is(':checked'));
+            });
+        },
         filterable: {
             extra:false,
            operators:
@@ -108,6 +114,19 @@
         }
     };
 
+    XF.releasedInvoice = function (invoiceId,isReleased) {
+        var url = '/Invoices/Release';
+        var data = { id: invoiceId, isReleased: isReleased };
+        $.post(url, data, XF.releasedInvoiceResponse,'json');
+    };
 
+    XF.releasedInvoiceResponse = function (data) {
+        if (data.Result) {
+            XF.addInfoMessage(data.Message, 'success');
+        }
+        else {
+            XF.addInfoMessage(data.Message,'danger');
+        }
+    };
 
 }(jQuery, XF));
