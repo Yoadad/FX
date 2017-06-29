@@ -49,6 +49,7 @@
         var result = [];
         $('.payment-item').each(function (index) {
             result.push({
+                Id: $(this).data('paymentid'),
                 InvoiceId: invoiceId,
                 PaymentOptionId: $(this).find('.payment-option').val(),
                 Amount: $(this).find('.payment-amount').val(),
@@ -61,6 +62,7 @@
         var result = [];
         $('.item').each(function (index) {
             result.push({
+                Id: $(this).data('detailid'),
                 InvoiceId: invoiceId,
                 ProductId: $(this).find('.cmb-product').val(),
                 Quantity: $(this).find('.txt-quantity').val(),
@@ -130,6 +132,7 @@
 
     XF.removePaymentItem = function (index) {
         $('.payment-item-' + index).remove();
+        XF.showTotals();
     };
 
     XF.sendInvoiceEmail = function (clientId) {

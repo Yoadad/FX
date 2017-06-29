@@ -90,7 +90,7 @@
                 @{ var index = 0;}
                 @foreach (var detail in Model.Invoice.InvoiceDetails)
                 {
-                    <tr class="item item-@index">
+                    <tr class="item item-@index" data-detailid="@detail.Id">
                         <td>
                             <select class="form-control cmb-product">
                                 @foreach (var item in Model.Products)
@@ -144,9 +144,9 @@
                             <tbody>
                                 @{ index = 0;}
 
-                                @foreach (var paymentDetail in Model.Invoice.Payments)
+                                @foreach (var paymentDetail in Model.Invoice.Payments.OrderBy(p=>p.Date))
                                 {
-                                    <tr class="payment-item payment-item-@index">
+                                    <tr class="payment-item payment-item-@index" data-paymentid="@paymentDetail.Id">
                                         <td>
                                             <input type="date" value="@paymentDetail.Date.ToString("yyyy-MM-dd")" class="form-control payment-date" />
                                         </td>
@@ -162,7 +162,7 @@
                                             </select>
                                         </td>
                                         <td class="text-center">
-                                            <a href="javascript: XF.removePaymentItem(#=data.Index#)">Remove</a>
+                                            <a href="javascript: XF.removePaymentItem(@index)">Remove</a>
                                         </td>
                                         @{index++;}
                                     </tr>

@@ -151,10 +151,18 @@ namespace XF.Controllers
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
                 model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
+                foreach (var detail in model.Invoice.InvoiceDetails)
+                {
+                    db.Entry(detail).State = EntityState.Modified;
+                }
+                var currentPayments = db.Payments.Where(p => p.InvoiceId == model.Invoice.Id);
 
-                db.Entry(model.Invoice).State = System.Data.Entity.EntityState.Modified;
+                db.Payments.RemoveRange(currentPayments);
+                db.Payments.AddRange(model.Invoice.Payments);
+                
+                db.Entry(model.Invoice).State = EntityState.Modified;
+
                 db.SaveChanges();
-                AddOrders(model);
                 return Json(new { Result = true, Message = string.Format(" Invoice ({0}) updated successful", model.Invoice.Id), Data = new { InvoiceId = model.Invoice.Id } });
             }
             catch (Exception ex)
