@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>06/30/2017 00:36:28</publishTime>
+      <publishTime>06/30/2017 01:31:56</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -652,11 +652,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/PurchaseOrderStatus/Index.cshtml">
       <publishTime>04/26/2017 00:25:14</publishTime>
     </File>
+    <File Include="Views/Purchases/Details.cshtml">
+      <publishTime>06/30/2017 01:30:04</publishTime>
+    </File>
     <File Include="Views/Purchases/Index.cshtml">
       <publishTime>05/24/2017 23:12:45</publishTime>
     </File>
     <File Include="Views/Purchases/List.cshtml">
-      <publishTime>06/29/2017 23:59:01</publishTime>
+      <publishTime>06/30/2017 01:09:18</publishTime>
+    </File>
+    <File Include="Views/Purchases/Print.cshtml">
+      <publishTime>06/30/2017 01:30:21</publishTime>
     </File>
     <File Include="Views/PurchaseSpecialOrders/Index.cshtml">
       <publishTime>06/06/2017 00:46:30</publishTime>

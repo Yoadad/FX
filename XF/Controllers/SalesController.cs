@@ -159,7 +159,7 @@ namespace XF.Controllers
 
                 db.Payments.RemoveRange(currentPayments);
                 db.Payments.AddRange(model.Invoice.Payments);
-                
+
                 db.Entry(model.Invoice).State = EntityState.Modified;
 
                 db.SaveChanges();
@@ -201,10 +201,13 @@ namespace XF.Controllers
         private ProductItemViewModel GetProductItemModel(Product p)
         {
             var itemModel = new ProductItemViewModel(p);
+            var invoiceDetails = db.InvoiceDetails.Where(id => id.ProductId == p.Id && id.Invoice.InvoiceStatusId == 2);
+            var stocks = db.Stocks.Where(s => s.ProductId == p.Id);
+            var stock = !stocks.Any() ? 0 : stocks.Sum(s => s.StockQuantity);
+            var inHold = !invoiceDetails.Any() ? 0 : invoiceDetails.Sum(id => id.Quantity);
+
             itemModel.Stock = db.Stocks.Any(s => s.ProductId == p.Id)
-                ? db.Stocks
-                .Where(s => s.ProductId == p.Id)
-                .Sum(s => s.StockQuantity)
+                ? stock - inHold
                 : 0;
             return itemModel;
         }
@@ -235,7 +238,8 @@ namespace XF.Controllers
                             .Include(i => i.Payments)
                             .FirstOrDefault(i => i.Id == id);
             var invoiceService = new InvoiceService();
-            var model = new InvoiceBalanceModel() {
+            var model = new InvoiceBalanceModel()
+            {
                 Invoice = invoice,
                 Balance = invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
             };
@@ -287,7 +291,7 @@ namespace XF.Controllers
                 return Json(new { Result = false, Message = ex.Message });
             }
         }
-        public JsonResult EmailInvoice(int id,string email)
+        public JsonResult EmailInvoice(int id, string email)
         {
             try
             {

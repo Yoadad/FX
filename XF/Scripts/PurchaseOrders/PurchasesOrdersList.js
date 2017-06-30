@@ -66,7 +66,7 @@
         columns:
             [
                 { field: "Id", template: $('#orderDetailTemplate').html() },
-                { field: "Created", format: "{0:MM/dd/yyyy}", filterable: true },
+                { field: "Created", format: "{0:MM/dd/yyyy}", filterable: false,hidden:true },
                 { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
                 { field: "ProviderName", filterable: false },
                 { field: "Total", filterable: false },
