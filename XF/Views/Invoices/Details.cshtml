@@ -1,4 +1,7 @@
 ﻿@model XF.Models.InvoiceViewModel
+
+<input type="hidden" id="hfInvoiceId" value="@Model.Invoice.Id" />
+<input type="hidden" id="hfEmail" value="@Model.Invoice.Client.Email" />
 <br />
 <h1>
 
@@ -8,7 +11,7 @@
     &nbsp;
     @if (Model.Invoice.InvoiceStatusId == 1)
     {
-        <a href="javascript:XF.convertToInvoice(@Model.Invoice.Id)" id="btnSendEmail" class="btn btn-warning" style="float:right; margin:8px;">Convert to Invoice</a>
+        <a href="javascript:XF.convertToInvoice(@Model.Invoice.Id)" class="btn btn-warning" style="float:right; margin:8px;">Convert to Invoice</a>
     }
 </h1>
 <div>

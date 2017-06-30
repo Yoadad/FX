@@ -135,9 +135,15 @@
         XF.showTotals();
     };
 
-    XF.sendInvoiceEmail = function (clientId) {
-        var url = '/Sales/Email/' + clientId;
-        var data = { id: clientId };
+    XF.confirmEmail = function (invoiceId, email) {
+        XF.prompt("Send Invoice to:", email, function (eml) {
+            XF.sendInvoiceEmail(invoiceId, eml);
+        });
+    };
+
+    XF.sendInvoiceEmail = function (invoiceId, email) {
+        var url = '/Sales/EmailInvoice';
+        var data = { id: invoiceId, email: email };
         $.post(url, data, XF.sendInvoiceEmailResponse, 'json');
     };
 
@@ -278,8 +284,7 @@
     $('#cmbIsDelivery').trigger('change');
 
     $('#btnSendEmail').on('click', function () {
-        var clientId = $('#cmbClient').val();
-        XF.sendInvoiceEmail(clientId);
+        XF.confirmEmail($('#hfInvoiceId').val(), $('#hfEmail').val());
     });
 
     $('.payment-amount:last,.payment-date:last').on('change', function () {

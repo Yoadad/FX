@@ -42,11 +42,11 @@ namespace XF.Controllers
                 invoice.InvoiceStatusId = 2;
                 db.Entry(invoice).State = EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { Result = true, Message = "Convert Estimate to Invoice success", InvoiceId = id});
+                return Json(new { Result = true, Message = "Convert Estimate to Invoice success", InvoiceId = id });
             }
             catch (Exception ex)
             {
-                return Json(new { Result=false,Message=ex.Message});
+                return Json(new { Result = false, Message = ex.Message });
             }
         }
 
@@ -106,6 +106,7 @@ namespace XF.Controllers
                 PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
                 Tax = decimal.Parse(ConfigService.GetValue("Tax", db)),
                 Invoice = db.Invoices
+                            .Include(i => i.Client)
                             .Include(i => i.InvoiceDetails)
                             .Include(i => i.InvoiceStatu)
                             .First(i => i.Id == id)
