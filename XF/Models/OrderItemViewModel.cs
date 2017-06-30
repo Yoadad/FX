@@ -14,6 +14,7 @@ namespace XF.Models
             Date = po.Date;
             Total = po.Total ?? 0;
             Created = po.Created;
+            Status = po.PurchaseOrderStatusId;
         }
 
         public int PurchaseOrderId { get; set; }
@@ -22,6 +23,7 @@ namespace XF.Models
         public decimal Total { get; set; }
         public string PurchaseOrderStatus { get; set; }
         public string ProviderName { get; set; }
+        public int Status { get; set; }
 
     }
 }

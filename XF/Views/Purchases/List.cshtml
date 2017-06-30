@@ -12,6 +12,14 @@
 <script type="text/html" id="orderDetailTemplate">
     <a href="/Orders/Detail/#=data.PurchaseOrderId#">#=data.PurchaseOrderId#</a>
 </script>
+
+<script type="text/html" id="actionsTemplate">
+    #if(data.Status != 3){#
+        <a href="javascript:XF.ReceivedOrder(#=data.PurchaseOrderId#)">Receive(#=data.Status#)</a>
+    #}#
+</script>
+
+
 @section scripts{
     @Scripts.Render("~/Scripts/PurchaseOrders/PurchasesOrdersList.js")
 }

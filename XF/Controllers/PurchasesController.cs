@@ -127,17 +127,16 @@ namespace XF.Controllers
             return Json(new { total = count, data = orders }, JsonRequestBehavior.AllowGet);
         }
         
-        public JsonResult ChangeStatus(string data)
+        public JsonResult ChangeStatus(int id)
         {
-            var order = JsonConvert.DeserializeObject<PurchaseOrderDetailViewModel>(data);
-            //var stockCtrl = new StockController();
-            var purchaseOrder = db.PurchaseOrders.FirstOrDefault(p => p.Id == order.PurchaseOrder.Id);
+            var purchaseOrder = db.PurchaseOrders.Find(id);
             try
             {
-                //stockCtrl.UpdateStock(purchaseOrder.PurchaseOrderDetails);
-                purchaseOrder.PurchaseOrderStatusId = db.PurchaseOrderStatus.FirstOrDefault(p => p.Name.ToUpper().Equals("DONE")).Id;
-                db.Entry(purchaseOrder).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
+                purchaseOrder.PurchaseOrderStatusId = db.PurchaseOrderStatus.FirstOrDefault(p => p.Name.ToUpper().Equals("ACCEPTED")).Id;
+                db.Entry(purchaseOrder).State = EntityState.Modified;
+                
+                var stockService = new StockService(db);
+                stockService.ReceiveOrder(id);
                 return Json(new { Result = true, Message = "Product Stock updated successful" });
             }
             catch (Exception ex)

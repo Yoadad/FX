@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>06/29/2017 01:38:40</publishTime>
+      <publishTime>06/29/2017 04:41:29</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -395,7 +395,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>06/27/2017 01:04:08</publishTime>
+      <publishTime>06/29/2017 03:32:37</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>06/27/2017 01:43:53</publishTime>
@@ -527,7 +527,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>06/27/2017 02:35:22</publishTime>
+      <publishTime>06/29/2017 04:40:12</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>

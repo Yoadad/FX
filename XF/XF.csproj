@@ -300,6 +300,7 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GridService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
+    <Compile Include="Services\StockService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

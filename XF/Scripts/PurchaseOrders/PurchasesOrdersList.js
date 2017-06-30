@@ -70,54 +70,31 @@
                 { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
                 { field: "ProviderName", filterable: false },
                 { field: "Total", filterable: false },
-                { command:{ text: "Received", click: receivedAction }, title: " "}
+                { template:$('#actionsTemplate').html(), title: "Actions"}
             ]
     });
 
-    XF.ChangeStatus = function (data) {
-        var url = 'ChangeStatus'
-        var data = { data: JSON.stringify(data) };
-       
+    XF.ChangeStatus = function (id) {
+        var url = '/Purchases/ChangeStatus';
+        var data = { id: id };
         $.post(url, data, XF.SaveChangeStatusResponse, 'json');
     };
 
     XF.SaveChangeStatusResponse = function (data) {
         if (data.Result) {
             XF.addInfoMessage(data.Message, 'success');
+            $('#grid').data('kendoGrid').dataSource.read();
         }
         else {
             XF.addInfoMessage(data.Message, 'danger');
         }
     };
 
-    XF.getPurchaseOrder = function (dataItem) {
-        
-        var result = {
-            Id: dataItem.PurchaseOrderId
-        };
-
-        return result;
-    };
-    XF.removeRow = function (dataItem)
-    {
-        var dataSource = $("#grid").data("kendoGrid").dataSource;
-        dataSource.remove(dataItem);
-        dataSource.sync();
-    };
-
-    function receivedAction(e)
-    {
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-  
+    XF.ReceivedOrder = function (id) {
         XF.confirm('This action will update this order as Received', function () {
-            var data = { PurchaseOrder: XF.getPurchaseOrder(dataItem) };
-            XF.ChangeStatus(data);
-                  XF.removeRow(dataItem);
+            XF.ChangeStatus(id);
         });
-       
-    }
+    };
 
     function titleFilter(element) {
         element.kendoAutoComplete({
