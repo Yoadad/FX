@@ -304,7 +304,16 @@ namespace XF.Controllers
                     .FirstOrDefault(i => i.Id == id);
                 var fileName = string.Format("Invoice_{0}_{1}.pdf", invoice.Id, invoice.Date.ToString("MM-dd-yyyy"));
                 var client = db.Clients.FirstOrDefault(c => c.Id == invoice.Client.Id);
-                var viewAsPef = new Rotativa.ViewAsPdf("~/Views/Sales/Print.cshtml", invoice)
+                var invoiceService = new InvoiceService();
+                var model = new InvoiceBalanceModel()
+                {
+                    Invoice = invoice,
+                    Balance = invoice.InvoiceStatusId == 1 || invoiceService.GetInvoiceBalances(invoice).Payments.Count() == 0
+                    ? invoice.Total.Value
+                    : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
+                };
+
+                var viewAsPef = new ViewAsPdf("~/Views/Sales/Print.cshtml", model)
                 {
                     FileName = fileName,
                     PageSize = Size.Letter,

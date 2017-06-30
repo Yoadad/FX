@@ -206,8 +206,8 @@
     });
 
     $('#btnCancelInvoice').on('click', function () {
-        XF.confirm("Are you sure that you want clear this form?", function () {
-            location.reload(true);
+        XF.confirm("Are you sure that you want cancel?", function () {
+            location.href = "/Invoices";
         });
     });
 
