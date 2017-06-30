@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Data.Entity;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 using XF.Entities;
 using XF.Models;
 using XF.Services;
+using Rotativa;
 
 namespace XF.Controllers
 {
@@ -35,7 +37,15 @@ namespace XF.Controllers
             ViewBag.PageSize = ConfigService.GetValue("PageSize", db);
             return View();
         }
+        public ActionResult Details(int id)
+        {
+            var order = db.PurchaseOrders
+                            .Include(po => po.PurchaseOrderDetails)
+                            .Include(po => po.PurchaseOrderDetails.Select(pod=>pod.Product.Provider))
+                            .FirstOrDefault(po=>po.Id == id);
 
+            return View(order);
+        }
         public JsonResult Save(string data)
         {
             try
@@ -125,6 +135,15 @@ namespace XF.Controllers
             var count = result.Count;
 
             return Json(new { total = count, data = orders }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Print(int id)
+        {
+            var order = db.PurchaseOrders
+                            .Include(po => po.PurchaseOrderDetails)
+                            .Include(po => po.PurchaseOrderDetails.Select(pod => pod.Product.Provider))
+                            .FirstOrDefault(po => po.Id == id);
+            return new ViewAsPdf(order);
         }
         
         public JsonResult ChangeStatus(int id)

@@ -40,6 +40,5 @@ namespace XF.Services
             }
             db.SaveChanges();
         }
-
     }
 }

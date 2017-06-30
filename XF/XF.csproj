@@ -500,6 +500,8 @@
     <Content Include="Views\Templates\Prompt.cshtml" />
     <Content Include="Views\Reports\Daily.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Purchases\Details.cshtml" />
+    <Content Include="Views\Purchases\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
