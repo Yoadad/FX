@@ -241,7 +241,9 @@ namespace XF.Controllers
             var model = new InvoiceBalanceModel()
             {
                 Invoice = invoice,
-                Balance = invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
+                Balance = invoice.InvoiceStatusId == 1 || invoiceService.GetInvoiceBalances(invoice).Payments.Count() == 0
+                ? invoice.Total.Value
+                : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
             };
             return new ViewAsPdf(model);
         }

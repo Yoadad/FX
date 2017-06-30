@@ -33,6 +33,23 @@ namespace XF.Controllers
             return itemModel;
         }
 
+        [HttpPost]
+        public JsonResult ConvertToInvoice(int id)
+        {
+            try
+            {
+                var invoice = db.Invoices.Find(id);
+                invoice.InvoiceStatusId = 2;
+                db.Entry(invoice).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { Result = true, Message = "Convert Estimate to Invoice success", InvoiceId = id});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result=false,Message=ex.Message});
+            }
+        }
+
         public JsonResult Invoices(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
             var filtersObject = JsonConvert.DeserializeObject<FiltersModel>(filter ?? "");

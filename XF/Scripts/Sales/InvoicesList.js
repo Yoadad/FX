@@ -2,13 +2,11 @@
 
 (function ($, XF) {
 
-    var baseUrl = document.URL;
-
     var _dataSource = new kendo.data.DataSource({
         transport: {
             read: function (option) {
                 $.ajax({
-                    url: baseUrl + '/Invoices',
+                    url: '/Invoices/Invoices',
                     dataType: 'json',
                     data:
                         {
@@ -55,7 +53,6 @@
         pageable: { refresh: true, pageSizes: true },
         dataBound: function () {
             $('.chk-released').on('click', function () {
-                console.log(':)');
                 XF.releasedInvoice($(this).data('invoiceid'), $(this).is(':checked'));
             });
         },

@@ -28,7 +28,7 @@
             <table class="table table-bordered table-striped">
                 <tr>
                     <th class="text-center">Date</th>
-                    <th class="text-center">Invoice #</th>
+                    <th class="text-center">@(Model.Invoice.InvoiceStatusId == 1 ? "Estimate": "Invoice")  #</th>
                 </tr>
                 <tr>
                     <td class="text-center">@Model.Invoice.Created.ToString("MM/dd/yyyy")</td>

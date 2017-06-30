@@ -239,6 +239,26 @@
             XF.showTotals();
         });
     });
+
+    XF.convertToInvoice = function (id) {
+        XF.confirm("This action will convert Estimate to Invoice, do you want to continue?",function () {
+            var url = "/Invoices/ConvertToInvoice";
+            var data = { id: id };
+            $.post(url, data, XF.convertToInvoiceResponse,'json');
+        });    
+    };
+
+    XF.convertToInvoiceResponse = function (data) {
+        if (data.Result) {
+            XF.addInfoMessage(data.Message, 'success');
+            location.href = '/Invoices/Details/' + data.InvoiceId;
+        }
+        else {
+            XF.addInfoMessage(data.Message, 'danger');
+        }
+    };
+    
+
     XF.showTotals();
 
     $('#chkTaxZero').on('change', function () {

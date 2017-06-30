@@ -11,6 +11,10 @@ namespace XF.Services
     {
         public Invoice GetInvoiceBalances(Invoice invoice)
         {
+            if (invoice.InvoiceStatusId == 1 || invoice.Payments.Count() == 0)
+            {
+                return invoice;
+            }
             var result = new Invoice()
             {
                 Id = invoice.Id,
