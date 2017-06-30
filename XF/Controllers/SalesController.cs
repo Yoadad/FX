@@ -102,7 +102,7 @@ namespace XF.Controllers
                     order.PurchaseOrderDetails.Add(new PurchaseOrderDetail()
                     {
                         ProductId = orderDetail.ProductId,
-                        UnitPrice = orderDetail.UnitPrice,
+                        UnitPrice = orderDetail.Product.PurchasePrice,
                         Quantity = orderDetail.InOrder
                     });
                 }
