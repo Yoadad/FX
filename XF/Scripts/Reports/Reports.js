@@ -44,6 +44,17 @@
         $('#reportViewer').html(data);
     };
 
+    XF.getProfitReport = function () {
+        var url = '/Reports/Profit';
+        var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
+        $.get(url, data, XF.getProfitReportResponse);
+    };
+
+    XF.getProfitReportResponse = function (data) {
+        $('#reportViewer').html(data);
+    };
+
+
 
     $('#btnFilter').on('click', function () {
         $('#reportViewer').html('<span class="label label-warning">Loading...</div>');
@@ -54,8 +65,14 @@
         else if (reportType == 2) {
             XF.getDeliveryReport();
         }
+        else if (reportType == 3) {
+            XF.getPickUpReport();
+        }
         else if (reportType == 4) {
             XF.getSalesReport();
+        }
+        else if (reportType == 5) {
+            XF.getProfitReport();
         }
     });
 
@@ -80,6 +97,9 @@
         }
         else if (reportType == 4) {
             url = "/Reports/PrintSales?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+        }
+        else if (reportType == 5) {
+            url = "/Reports/PrintProfit?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
         }
         var win = window.open(url, '_blank');
         win.focus();
