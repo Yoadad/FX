@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Sales Report";
     Layout = null;
+    var currentAmount = new decimal(0);
 }
 
 @if (ViewBag.HasStyles)
@@ -44,10 +45,11 @@
             {
                 <td class="text-right">
                     <em>
-                        @string.Format("{0:c}", item.Amounts.First())
+                        @{ currentAmount = item.Amounts.First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
                     </em>
                 </td>
-            }
+                            }
         </tr>
         <tr>
             <td>
@@ -59,10 +61,11 @@
             {
                 <td class="text-right">
                     <em>
-                        @string.Format("{0:c}", item.Amounts.Skip(1).First())
+                        @{ currentAmount = item.Amounts.Skip(1).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
                     </em>
                 </td>
-            }
+                            }
         </tr>
         <tr>
             <td>
@@ -74,10 +77,11 @@
             {
                 <td class="text-right">
                     <em>
-                        @string.Format("{0:c}", item.Amounts.Skip(2).First())
+                        @{ currentAmount = item.Amounts.Skip(2).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
                     </em>
                 </td>
-            }
+                            }
         </tr>
         <tr>
             <td>
@@ -89,10 +93,11 @@
             {
                 <td class="text-right">
                     <em>
-                        @string.Format("{0:c}", item.Amounts.Skip(3).First())
+                        @{ currentAmount = item.Amounts.Skip(3).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
                     </em>
                 </td>
-            }
+                            }
         </tr>
         @{ var index = 4;}
         @foreach (var finance in Model.Finances)
@@ -103,18 +108,19 @@
                         @finance.Name.Replace("Finance-", "")
                     </strong>
                 </td>
-                
+
                 @foreach (var item in Model.Items)
                 {
                     <td class="text-right">
                         <em>
-                            @string.Format("{0:c}", item.Amounts.Skip(index).First())
+                            @{ currentAmount = item.Amounts.Skip(index).First();}
+                            @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
                         </em>
                     </td>
-                }
+                                }
                 @{ index++;}
             </tr>
-        }
+                    }
         <tr>
             <td>
                 <strong>
@@ -126,12 +132,30 @@
                 <td class="text-right">
                     <strong>
                         <em>
-                            @string.Format("{0:c}", item.Amounts.Sum())
+                            @{ currentAmount = item.Amounts.Skip(index).First();}
+                            @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
                         </em>
                     </strong>
                 </td>
+                                }
+        </tr>
+        <tr>
+            <td>
+                <strong>
+                    Sales TAX
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <em>
+                        @{ currentAmount = item.Amounts.Skip(index + 1).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                    </em>
+                </td>
             }
         </tr>
+
 
 
     </tbody>

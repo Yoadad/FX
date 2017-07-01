@@ -53,6 +53,43 @@ namespace XF.Controllers
             return new ViewAsPdf("~/Views/Reports/Daily.cshtml", invoices);
         }
 
+        public ActionResult Delivery(DateTime startDate, DateTime endDate, bool hasStyles)
+        {
+            ViewBag.HasStyles = hasStyles;
+            var invoices = GetInvoices(startDate, endDate).Where(i => i.IsDelivery);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return View(invoices);
+        }
+
+        public ActionResult PrintDelivery(DateTime startDate, DateTime endDate, bool hasStyles)
+        {
+            ViewBag.HasStyles = hasStyles;
+            var invoices = GetInvoices(startDate, endDate).Where(i => i.IsDelivery);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return new ViewAsPdf("~/Views/Reports/Delivery.cshtml", invoices);
+        }
+
+        public ActionResult PickUp(DateTime startDate, DateTime endDate, bool hasStyles)
+        {
+            ViewBag.HasStyles = hasStyles;
+            var invoices = GetInvoices(startDate, endDate).Where(i=>!i.IsDelivery);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return View(invoices);
+        }
+
+        public ActionResult PrintPickUp(DateTime startDate, DateTime endDate, bool hasStyles)
+        {
+            ViewBag.HasStyles = hasStyles;
+            var invoices = GetInvoices(startDate, endDate).Where(i => !i.IsDelivery);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return new ViewAsPdf("~/Views/Reports/PickUp.cshtml", invoices);
+        }
+
+
         public ActionResult Sales(DateTime startDate, DateTime endDate, bool hasStyles)
         {
             ViewBag.HasStyles = hasStyles;
@@ -66,6 +103,20 @@ namespace XF.Controllers
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return View(model);
+        }
+        public ActionResult PrintSales(DateTime startDate, DateTime endDate, bool hasStyles)
+        {
+            ViewBag.HasStyles = hasStyles;
+            var invoices = GetInvoices(startDate, endDate);
+            var model = new ReportSalesModel()
+            {
+                Invoices = invoices,
+                Items = GetSalesItems(invoices, startDate, endDate),
+                Finances = db.PaymentTypes.Where(p => p.Name.Contains("Finance")).OrderBy(f => f.Id)
+            };
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return new ViewAsPdf("~/Views/Reports/Sales.cshtml", model);
         }
 
         private IEnumerable<SalesItemModel> GetSalesItems(IEnumerable<Invoice> invoices, DateTime startDate, DateTime endDate)
@@ -91,8 +142,14 @@ namespace XF.Controllers
                 //Finances
                 foreach (var finance in db.PaymentTypes.Where(p => p.Name.Contains("Finance")).OrderBy(f => f.Id))
                 {
-                    amounts.Add(invoicesInThisDate.Where(i => i.PaymentTypeId == finance.Id).Sum(i => i.Payments.Sum(p => p.Amount)));
+                    amounts.Add(invoicesInThisDate.Where(i => i.PaymentTypeId == finance.Id).Sum(i => i.Payments.Where(p=>p.PaymentOptionId == 5).Sum(p => p.Amount)));
                 }
+
+                //Totals
+                var total = amounts.Sum();
+                amounts.Add(total);
+                //Taxes
+                amounts.Add(invoicesInThisDate.Sum(i => i.Payments.Sum(p => p.Amount * i.Tax.Value)));
 
                 var item = new SalesItemModel()
                 {

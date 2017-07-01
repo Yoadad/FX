@@ -16,10 +16,10 @@ namespace XF.Models
             ClientEmail = invoice.Client.Email; 
             ClientId = invoice.ClientId;
             PaymentType = invoice.PaymentType.Name;
-            Subtotal = invoice.Subtotal.Value;
-            Tax = invoice.Tax.Value;
-            Discount = invoice.Discount.Value;
-            Total = invoice.Total.Value;
+            Subtotal = invoice.Subtotal ?? 0;
+            Tax = invoice.Tax ?? 0;
+            Discount = invoice.Discount ?? 0;
+            Total = invoice.Total ?? 0;
             IsReleased = invoice.InvoiceStatusId == 3;
             InvoiceStatusId = invoice.InvoiceStatusId;
         }

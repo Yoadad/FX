@@ -13,15 +13,26 @@
         $('#reportViewer').html(data);
     };
 
-    XF.getWeeklyReport = function () {
-        var url = '/Reports/Weekly';
+    XF.getDeliveryReport = function () {
+        var url = '/Reports/Delivery';
         var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
-        $.get(url, data, XF.getWeeklyReportResponse);
+        $.get(url, data, XF.getDeliveryReportResponse);
     };
 
-    XF.getWeeklyReportResponse = function (data) {
+    XF.getDeliveryReportResponse = function (data) {
         $('#reportViewer').html(data);
     };
+
+    XF.getPickUpReport = function () {
+        var url = '/Reports/PickUp';
+        var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
+        $.get(url, data, XF.getPickUpReportResponse);
+    };
+
+    XF.getPickUpReportResponse = function (data) {
+        $('#reportViewer').html(data);
+    };
+
 
     XF.getSalesReport = function () {
         var url = '/Reports/Sales';
@@ -41,22 +52,35 @@
             XF.getDailyReport();
         }
         else if (reportType == 2) {
-            XF.getWeeklyReport();
+            XF.getDeliveryReport();
         }
-        else if (reportType == 6) {
+        else if (reportType == 4) {
             XF.getSalesReport();
         }
     });
 
     $('#cmbReports').on('change', function () {
         $('#lblEndDate').hide();
-        if ($(this).val()>2) {
+        if ($(this).val()>1) {
             $('#lblEndDate').show();
         }
     });
 
     $('#btnPrint').on('click', function () {
-        var url = "/Reports/PrintDaily?date=" + $('#txtDate').val() + '&hasStyles=true'
+        var url = "";
+        var reportType = $('#cmbReports').val();
+        if (reportType == 1) {
+            url = "/Reports/PrintDaily?date=" + $('#txtStartDate').val() + '&hasStyles=true';
+        }
+        else if (reportType == 2) {
+            url = "/Reports/PrintDelivery?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+        }
+        else if (reportType == 3) {
+            url = "/Reports/PrintPickUp?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+        }
+        else if (reportType == 4) {
+            url = "/Reports/PrintSales?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+        }
         var win = window.open(url, '_blank');
         win.focus();
     });
