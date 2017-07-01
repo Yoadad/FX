@@ -115,6 +115,25 @@
                 @{ index++;}
             </tr>
         }
+        <tr>
+            <td>
+                <strong>
+                    TOTAL
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <strong>
+                        <em>
+                            @string.Format("{0:c}", item.Amounts.Sum())
+                        </em>
+                    </strong>
+                </td>
+            }
+        </tr>
+
+
     </tbody>
     <tfoot>
     </tfoot>
