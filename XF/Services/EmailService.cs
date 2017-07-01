@@ -46,7 +46,10 @@ namespace XF.Services
 
         public void SendInvoiceToClient(Invoice invoice,Client client,Stream stream,string fileName)
         {
-            var subjectTemplate = ConfigService.GetValue("EmailSubjectTemplate", _context);
+            var subjectTemplate = invoice.InvoiceStatusId == 1 ?
+            ConfigService.GetValue("EmailSubjectTemplate", _context).Replace("Invoice","Estimate")
+            : ConfigService.GetValue("EmailSubjectTemplate", _context);
+
             subjectTemplate = string.Format(subjectTemplate, invoice.Id);
             var emailToSend = client.Email;
             var emailTemplate = Resources.InvoiceEmailTemplate.ToString()

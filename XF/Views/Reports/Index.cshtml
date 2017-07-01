@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Reports";
 }
 
 <h2>Reports</h2>
@@ -10,10 +10,19 @@
             Reports:
             <select id="cmbReports" class="form-control">
                 <option value="1">Daily</option>
+                <option value="2">Weekly</option>
+                <option value="4">Delivery</option>
+                <option value="5">Pick Up</option>
+                <option value="6">Sales</option>
+                <option value="7">Profit</option>
             </select>
             <label>
-                Date:
-                <input type="date" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+                Start Date:
+                <input type="date" id="txtStartDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+            </label>
+            <label id="lblEndDate">
+                End Date:
+                <input type="date" id="txtEndDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
             </label>
 
         </label>

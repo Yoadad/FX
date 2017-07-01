@@ -288,6 +288,7 @@
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\RolesModel.cs" />
+    <Compile Include="Models\SalesItemModelcs.cs" />
     <Compile Include="Models\SalesModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -502,6 +503,7 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Purchases\Details.cshtml" />
     <Content Include="Views\Purchases\Print.cshtml" />
+    <Content Include="Views\Reports\Sales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

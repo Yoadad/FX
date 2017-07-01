@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>06/30/2017 04:17:16</publishTime>
+      <publishTime>06/30/2017 12:13:34</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -386,7 +386,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/04/2017 13:13:40</publishTime>
     </File>
     <File Include="Scripts/Reports/Reports.js">
-      <publishTime>06/28/2017 02:41:58</publishTime>
+      <publishTime>06/30/2017 12:10:51</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -395,7 +395,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>06/30/2017 04:07:13</publishTime>
+      <publishTime>06/30/2017 04:24:27</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>06/30/2017 03:34:28</publishTime>
@@ -527,7 +527,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>06/30/2017 03:40:37</publishTime>
+      <publishTime>06/30/2017 04:24:36</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
@@ -668,10 +668,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/06/2017 00:46:30</publishTime>
     </File>
     <File Include="Views/Reports/Daily.cshtml">
-      <publishTime>06/28/2017 02:51:49</publishTime>
+      <publishTime>06/30/2017 11:36:55</publishTime>
     </File>
     <File Include="Views/Reports/Index.cshtml">
-      <publishTime>06/28/2017 02:55:13</publishTime>
+      <publishTime>06/30/2017 11:54:17</publishTime>
+    </File>
+    <File Include="Views/Reports/Sales.cshtml">
+      <publishTime>06/30/2017 12:05:48</publishTime>
     </File>
     <File Include="Views/Roles/Create.cshtml">
       <publishTime>03/25/2017 17:26:05</publishTime>
