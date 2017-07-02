@@ -507,6 +507,7 @@
     <Content Include="Views\Reports\Delivery.cshtml" />
     <Content Include="Views\Reports\PickUp.cshtml" />
     <Content Include="Views\Reports\Profit.cshtml" />
+    <Content Include="Views\Products\PrintInventory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

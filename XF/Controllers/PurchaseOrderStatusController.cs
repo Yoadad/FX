@@ -10,6 +10,7 @@ using XF.Entities;
 
 namespace XF.Controllers
 {
+    [Authorize(Roles = "Super")]
     public class PurchaseOrderStatusController : Controller
     {
         private XFModel db = new XFModel();

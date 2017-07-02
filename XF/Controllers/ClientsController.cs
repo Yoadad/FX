@@ -10,6 +10,7 @@ using XF.Entities;
 
 namespace XF.Controllers
 {
+    [Authorize]
     public class ClientsController : Controller
     {
         private XFModel db = new XFModel();

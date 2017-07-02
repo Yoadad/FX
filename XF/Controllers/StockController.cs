@@ -7,6 +7,7 @@ using XF.Entities;
 
 namespace XF.Controllers
 {
+    [Authorize(Roles = "Super,Admin")]
     public class StockController : Controller
     {
         private XFModel db = new XFModel();

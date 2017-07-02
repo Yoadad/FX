@@ -13,7 +13,10 @@
                 <option value="2">Delivery</option>
                 <option value="3">Pick Up</option>
                 <option value="4">Sales</option>
-                <option value="5">Profit</option>
+                @if (this.User.IsInRole("Admin"))
+                {
+                    <option value="5">Profit</option>
+                }
             </select>
             <label>
                 Start Date:

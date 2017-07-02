@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Rotativa;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ using XF.Services;
 namespace XF.Controllers
 {
 
-    [Authorize(Roles = "Super,Admin")]
+    [Authorize]
     public class ProductsController : Controller
     {
         private XFModel db = new XFModel();
@@ -29,6 +30,14 @@ namespace XF.Controllers
         {
             ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
             return View();
+        }
+
+        public ActionResult PrintInventory()
+        {
+            var products = db.Products
+                .Include(p=>p.Stocks)
+                .Where(p => p.Stocks.Any(s => s.StockQuantity > 0));
+            return new ViewAsPdf("~/Views/Products/PrintInventory.cshtml", products);
         }
 
         public ActionResult Inventory()

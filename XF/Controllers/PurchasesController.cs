@@ -15,7 +15,7 @@ using Rotativa;
 
 namespace XF.Controllers
 {
-    [Authorize(Roles ="Super, Admin")]
+    [Authorize]
     public class PurchasesController : Controller
     {
         private XFModel db = new XFModel();

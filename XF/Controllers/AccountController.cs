@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace XF.Controllers
 {
-    [Authorize(Roles = "Super,Admin")]
+    
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

@@ -12,6 +12,7 @@ using XF.Models;
 
 namespace XF.Controllers
 {
+    //[Authorize(Roles = "Super,Admin")]
     public class NotesController : Controller
     {
         private XFModel db = new XFModel();

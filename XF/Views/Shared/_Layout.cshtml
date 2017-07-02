@@ -10,7 +10,7 @@
     @Styles.Render("~/Content/fontawesome")
     @Styles.Render("~/Content/kendo")
     @Scripts.Render("~/bundles/modernizr")
-  
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -32,17 +32,19 @@
         <div class="row">
             <div class="col-md-2 xf-menu-col">
                 @if (Request.IsAuthenticated)
-                {                    
+                {
                     <ul class="xf-menu">
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                        {
+                            <li class="xf-list-item">
+                                <h3>
+                                    <a href="/Products/Inventory">
+                                        <i class="fa fa-cubes" aria-hidden="true"></i> Inventory
+                                    </a>
+                                </h3>
 
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Products/Inventory">
-                                    <i class="fa fa-cubes" aria-hidden="true"></i> Inventory
-                                </a>
-                            </h3>
-
-                        </li>
+                            </li>
+                        }
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Products">
@@ -51,14 +53,17 @@
                             </h3>
 
                         </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Users">
-                                    <i class="fa fa-users" aria-hidden="true"></i> Users
-                                </a>
-                            </h3>
-                            
-                        </li>
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                        {
+                            <li class="xf-list-item">
+                                <h3>
+                                    <a href="/Users">
+                                        <i class="fa fa-users" aria-hidden="true"></i> Users
+                                    </a>
+                                </h3>
+
+                            </li>
+                        }
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Sales">
@@ -70,7 +75,7 @@
                         <li class="xf-list-item">
                             <h3>
                                 <a href="/Invoices">
-                                     <i class="fa fa-list-ol" aria-hidden="true"></i> Invoices
+                                    <i class="fa fa-list-ol" aria-hidden="true"></i> Invoices
                                 </a>
                             </h3>
 
@@ -110,14 +115,15 @@
                                 </a>
                             </h3>
                         </li>
-                        
+
                     </ul>
                 }
             </div>
             <div class="col-md-8 xf-main-container">
                 @RenderBody()
             </div>
-            @if (Request.IsAuthenticated) { 
+            @if (Request.IsAuthenticated)
+            {
                 <div class="col-md-2">
                     <br />
                     <div>
@@ -131,7 +137,7 @@
                 </div>
             }
         </div>
-        
+
     </div>
 
     <footer>
@@ -145,7 +151,7 @@
     @Html.Partial("~/Views/Templates/Note.cshtml")
 
 
-    
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 
@@ -159,6 +165,6 @@
     }
     @RenderSection("templates", required: false)
     @RenderSection("scripts", required: false)
-    
+
 </body>
 </html>

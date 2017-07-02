@@ -16,7 +16,7 @@ using XF.Services;
 
 namespace XF.Controllers
 {
-    [Authorize(Roles = "Super,Admin,Seller")]
+    [Authorize]
     public class SalesController : Controller
     {
         private XFModel db = new XFModel();
@@ -180,13 +180,6 @@ namespace XF.Controllers
                 }
                 return Json(new { Result = false, Message = message.ToString() });
             }
-        }
-
-
-        private void ExtractProductFromStock(SalesDetailViewModel model)
-        {
-            var stockCtrl = new StockController();
-            stockCtrl.ExtractFromStock(model.Invoice.InvoiceDetails);
         }
 
         protected override void Dispose(bool disposing)
