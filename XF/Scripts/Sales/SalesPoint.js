@@ -1,7 +1,7 @@
 ﻿var XF = XF || {};
 
 (function ($, XF) {
-    
+
     XF.InvoiceId = 0;
     XF.addItem = function () {
         var itemIndex = $('.item').size();
@@ -17,7 +17,7 @@
 
         XF.showItemData(itemIndex);
         XF.showTotals();
-        
+
     };
 
     XF.removeItem = function (index) {
@@ -34,12 +34,12 @@
     XF.saveInvoice = function (data) {
         var url = '/Sales/Save';
         var data = { data: JSON.stringify(data) };
-        $.post(url, data, XF.saveInvoiceResponse,'json');
+        $.post(url, data, XF.saveInvoiceResponse, 'json');
     };
 
-    XF.saveInvoiceResponse = function(data) {
+    XF.saveInvoiceResponse = function (data) {
         if (data.Result) {
-            XF.addInfoMessage(data.Message,'success');
+            XF.addInfoMessage(data.Message, 'success');
             XF.CurrentInvoiceId = data.Data.InvoiceId;
             location.href = '/Invoices';
         }
@@ -75,7 +75,7 @@
 
     XF.getInvoice = function () {
         var result = {
-            Id:XF.InvoiceId,
+            Id: XF.InvoiceId,
             Date: new Date($('#txtDate').val()),
             ClientId: $('#cmbClient').val(),
             Discount: $('#txtDiscount').val(),
@@ -84,7 +84,7 @@
             Subtotal: $('#lblSubtotal').data('value'),
             Total: $('#lblTotal').data('value'),
             IsDelivery: $('#cmbIsDelivery').val() == '1',
-            Address:$('#txtAddress').val(),
+            Address: $('#txtAddress').val(),
             InvoiceDetails: XF.getInvoiceDetail(XF.InvoiceId),
             Payments: XF.getPayments(XF.InvoiceId)
 
@@ -120,7 +120,7 @@
 
     XF.AddPaymentOption = function () {
         var paymentIndex = $('.payment-item').size() || 0;
-        var html = XF.getHtmlFromTemplate('#paymentOptionsTemplate', {Index:paymentIndex});
+        var html = XF.getHtmlFromTemplate('#paymentOptionsTemplate', { Index: paymentIndex });
         $('#tablePayments tbody').append(html);
         XF.showItemData();
         XF.showTotals();
@@ -168,7 +168,7 @@
             paymentsAmount += parseFloat($(this).val());
         });
 
-        var total = subtotal * (1 + tax) - discount;
+        var total = (subtotal - discount) * (1 + tax);
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
@@ -201,14 +201,14 @@
     $('#txtDiscountPercent').on('change unfocus', function (e) {
         var discountPercent = parseFloat($(this).val()).toFixed(2);
         var subtotal = $('#lblSubtotal').data('value');
-        var discount = discountPercent*subtotal/100;
+        var discount = discountPercent * subtotal / 100;
         $('#txtDiscount').val(discount.toFixed(2))
                         .trigger('change');
     });
 
     $('#cmbIsDelivery').on('change', function () {
 
-        if ($(this).val()==1) {
+        if ($(this).val() == 1) {
             $('#txtAddress').show();
         } else {
             $('#txtAddress').hide();
@@ -225,7 +225,7 @@
             tax = 0.0;
         }
         $('#lblTax')
-            .text(kendo.format('{0} %', tax*100))
+            .text(kendo.format('{0} %', tax * 100))
             .data({ value: tax });
         XF.showItemData();
         XF.showTotals();

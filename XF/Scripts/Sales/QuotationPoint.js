@@ -41,7 +41,7 @@
         $('.item').each(function (index) {
             subtotal += (parseFloat( $(this).find('.lbl-total').data('value')) || 0.00);
         });
-        var total = subtotal * (1 + tax) - discount;
+        var total = (subtotal - discount) * (1 + tax);
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
         $('#txtDiscountPercent').val(discountPercent);

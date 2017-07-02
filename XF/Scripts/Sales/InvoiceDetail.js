@@ -188,7 +188,7 @@
             paymentsAmount += parseFloat($(this).val());
         });
 
-        var total = subtotal * (1 + tax) - discount;
+        var total = (subtotal - discount) * (1 + tax);
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
