@@ -395,16 +395,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>06/30/2017 04:24:27</publishTime>
+      <publishTime>07/02/2017 01:51:02</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>06/30/2017 03:34:28</publishTime>
     </File>
     <File Include="Scripts/Sales/QuotationPoint.js">
-      <publishTime>05/12/2017 02:06:51</publishTime>
+      <publishTime>07/02/2017 01:52:45</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesPoint.js">
-      <publishTime>06/27/2017 00:24:18</publishTime>
+      <publishTime>07/02/2017 01:49:06</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesService.js">
       <publishTime>06/23/2017 00:14:23</publishTime>

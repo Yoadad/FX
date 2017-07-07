@@ -1,23 +1,33 @@
 ﻿var XF = XF || {};
 
 (function ($, XF) {
-
+    XF.Products = JSON.parse($('#hfProducts').val());
     XF.InvoiceId = 0;
     XF.addItem = function () {
         var itemIndex = $('.item').size();
         var itemHtml = XF.getHtmlFromTemplate('#newItemTemplate', { index: itemIndex });
 
         $('#invoiceTable > tbody').append(itemHtml);
-        $('#invoiceTable tbody .cmb-product:last').focus();
+        $('#invoiceTable tbody .autocomplete:last').focus();
 
         $('.item-' + itemIndex + ' .txt-quantity,#txtDiscount,.item-' + itemIndex + ' .cmb-product').on('change', function () {
             XF.showItemData(itemIndex);
             XF.showTotals();
         });
 
+        $('.item-' + itemIndex + ' .autocomplete').kendoAutoComplete({
+            dataSource: XF.Products,
+            template: '#=data.split("|")[0]#',
+            filter: "contains",
+            placeholder: "Select product...",
+            select: function (e) {
+                XF.showItemData(itemIndex);
+                XF.showTotals();
+            }
+        });
+
         XF.showItemData(itemIndex);
         XF.showTotals();
-
     };
 
     XF.removeItem = function (index) {
@@ -62,9 +72,12 @@
     XF.getInvoiceDetail = function (invoiceId) {
         var result = [];
         $('.item').each(function (index) {
+
+            console.log($(this).find('input.autocomplete').data('kendoAutoComplete').value());
+
             result.push({
                 InvoiceId: invoiceId,
-                ProductId: $(this).find('.cmb-product').val(),
+                ProductId: $(this).find('input.autocomplete').data('kendoAutoComplete').value(),
                 Quantity: $(this).find('.txt-quantity').val(),
                 UnitPrice: $(this).find('.lbl-price').data('value'),
                 InOrder: $(this).find('.lbl-inorder').data('value')
@@ -237,5 +250,15 @@
     });
 
     $('#divFee').hide();
+
+    $(".autocomplete").kendoAutoComplete({
+        dataSource: XF.Products,
+        template: '#=data.split("|")[0]#',
+        filter: "contains",
+        placeholder: "Select products...",
+        select: function (e) {
+            //this.dataItem(e.item.index());
+        }
+    });
 
 })(jQuery, XF);

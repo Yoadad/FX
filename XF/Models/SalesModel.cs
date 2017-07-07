@@ -13,6 +13,10 @@ namespace XF.Models
         public IEnumerable<PaymentType> PaymentTypes { get; set; }
         public IEnumerable<PaymentOption> PaymentOptions { get; set; }
         public float Tax { get; set; }
+        public string JsonProducts { get
+            {
+                return Newtonsoft.Json.JsonConvert.SerializeObject(Products.Select(p=>string.Format("{0} [{1}]|{2}",p.Name,p.Code,p.Id)));
+            } }
     }
     public class InvoiceViewModel
     {
