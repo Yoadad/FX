@@ -15,7 +15,7 @@ namespace XF.Models
         public float Tax { get; set; }
         public string JsonProducts { get
             {
-                return Newtonsoft.Json.JsonConvert.SerializeObject(Products.Select(p=>string.Format("{0} [{1}]|{2}",p.Name,p.Code,p.Id)));
+                return Newtonsoft.Json.JsonConvert.SerializeObject(Products.Select(p=>string.Format("{0} [{1}]|{2}|{3}|{4}",p.Name,p.Code,p.Id,p.SellPrice,p.Stock)));
             } }
     }
     public class InvoiceViewModel

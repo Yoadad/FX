@@ -10,7 +10,7 @@
         $('#invoiceTable > tbody').append(itemHtml);
         $('#invoiceTable tbody .autocomplete:last').focus();
 
-        $('.item-' + itemIndex + ' .txt-quantity,#txtDiscount,.item-' + itemIndex + ' .cmb-product').on('change', function () {
+        $('.item-' + itemIndex + ' .txt-quantity,#txtDiscount').on('change', function () {
             XF.showItemData(itemIndex);
             XF.showTotals();
         });
@@ -20,7 +20,7 @@
             template: '#=data.split("|")[0]#',
             filter: "contains",
             placeholder: "Select product...",
-            select: function (e) {
+            change: function (e) {
                 XF.showItemData(itemIndex);
                 XF.showTotals();
             }
@@ -72,12 +72,9 @@
     XF.getInvoiceDetail = function (invoiceId) {
         var result = [];
         $('.item').each(function (index) {
-
-            console.log($(this).find('input.autocomplete').data('kendoAutoComplete').value());
-
             result.push({
                 InvoiceId: invoiceId,
-                ProductId: $(this).find('input.autocomplete').data('kendoAutoComplete').value(),
+                ProductId: $(this).find('input.autocomplete').data('kendoAutoComplete').value().split('|')[1],
                 Quantity: $(this).find('.txt-quantity').val(),
                 UnitPrice: $(this).find('.lbl-price').data('value'),
                 InOrder: $(this).find('.lbl-inorder').data('value')
@@ -150,8 +147,9 @@
     };
 
     XF.showItemData = function (index) {
-        var price = $('.item-' + index + ' .cmb-product option:selected').data('price');
-        var stock = $('.item-' + index + ' .cmb-product option:selected').data('stock');
+        console.log($('.item-' + index + ' input.autocomplete').data('kendoAutoComplete').value());
+        var price = $('.item-' + index + ' input.autocomplete').data('kendoAutoComplete').value().split('|')[2];
+        var stock = $('.item-' + index + ' input.autocomplete').data('kendoAutoComplete').value().split('|')[3];
         var quantity = $('.item-' + index + ' .txt-quantity').val();
         var inorder = quantity - stock;
         inorder = inorder > 0 ? inorder : 0;
@@ -250,15 +248,5 @@
     });
 
     $('#divFee').hide();
-
-    $(".autocomplete").kendoAutoComplete({
-        dataSource: XF.Products,
-        template: '#=data.split("|")[0]#',
-        filter: "contains",
-        placeholder: "Select products...",
-        select: function (e) {
-            //this.dataItem(e.item.index());
-        }
-    });
 
 })(jQuery, XF);
