@@ -3,6 +3,7 @@
 <h1>Sales</h1>
 <hr />
 <input type="hidden" id="hfTax" value="@Model.Tax" />
+<input type="hidden" id="hfProducts" value="@Model.JsonProducts" />
 <div class="row">
     <div class="col-md-4">
         <label>Client</label>
@@ -182,12 +183,7 @@
 <script type="text/html" id="newItemTemplate">
     <tr class="item item-#=data.index#">
         <td>
-            <select class="form-control cmb-product">
-                @foreach (var item in Model.Products)
-                {
-                    <option value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
-                }
-            </select>
+            <input class="form-control autocomplete" style="width:100%;" />
         </td>
         <td>
             <input type="number" min="1" value="1" class="form-control txt-quantity text-right" style="width:89px;"/>
@@ -237,6 +233,7 @@
 </script>
 
 @section scripts{
+
     @Scripts.Render("~/Scripts/Sales/SalesService.js")
     @Scripts.Render("~/Scripts/Sales/SalesPoint.js")
 }
