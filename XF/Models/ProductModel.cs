@@ -22,7 +22,7 @@ namespace XF.Models
         public ProductItemViewModel(Product product)
         {
             this.Id = product.Id;
-            this.Code = product.Code;
+            this.Code = string.IsNullOrWhiteSpace(product.Code)?string.Empty: product.Code;
             this.Name = product.Name;
             this.SellPrice = product.SellPrice;
             this.PurchasePrice = product.PurchasePrice;
