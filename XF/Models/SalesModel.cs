@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,10 +14,23 @@ namespace XF.Models
         public IEnumerable<PaymentType> PaymentTypes { get; set; }
         public IEnumerable<PaymentOption> PaymentOptions { get; set; }
         public float Tax { get; set; }
-        public string JsonProducts { get
+        public string JsonProducts
+        {
+            get
             {
-                return Newtonsoft.Json.JsonConvert.SerializeObject(Products.Select(p=>string.Format("{0} [{1}]|{2}|{3}|{4}",p.Name,p.Code,p.Id,p.SellPrice,p.Stock)));
-            } }
+                return JsonConvert.SerializeObject(Products.Select(p =>
+                new
+                {
+                    Name = p.Name,
+                    Code = p.Code,
+                    Id = p.Id,
+                    SellPrice = p.SellPrice,
+                    Stock = p.Stock
+                }));
+            }
+        }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
     }
     public class InvoiceViewModel
     {
@@ -27,6 +41,9 @@ namespace XF.Models
         public IEnumerable<PaymentOption> PaymentOptions { get; set; }
         public decimal Tax { get; set; }
         public decimal Balance { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+
     }
 
     public class SalesDetailViewModel
@@ -57,7 +74,7 @@ namespace XF.Models
                 return Payments.OrderBy(p => p.Payment.Date).Last().BalanceAfter;
             }
         }
-        public bool HasFee{ get; set; }
+        public bool HasFee { get; set; }
         public bool HasPayments
         {
             get

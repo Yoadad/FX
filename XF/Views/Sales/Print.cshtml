@@ -16,7 +16,7 @@
                             PO BOX 2647<br />
                             Lindale Tx. 75771<br />
                             Phone: (903)6306292<br />
-                            Email: ximenasfur201@gmial.com<br />
+                            Email: ximenasfur2015@gmail.com<br />
                             Facebook: ximenasfurniture-muebleria<br />
                             Web: www.ximenasfurniture-muebleria.com<br />
                         </em>
@@ -28,7 +28,7 @@
             <table class="table table-bordered table-striped">
                 <tr>
                     <th class="text-center">Date</th>
-                    <th class="text-center">@(Model.Invoice.InvoiceStatusId == 1 ? "Estimate": "Invoice")  #</th>
+                    <th class="text-center">@(Model.Invoice.InvoiceStatusId == 1 ? "Estimate" : "Invoice")  #</th>
                 </tr>
                 <tr>
                     <td class="text-center">@Model.Invoice.Created.ToString("MM/dd/yyyy")</td>
@@ -53,7 +53,7 @@
             }
             else
             {
-                <span>Pick It Up</span>
+                <span>Pick Up</span>
             }
         </th>
     </tr>
@@ -96,7 +96,7 @@
         {
             <tr>
                 <td>
-                    @detail.Product.Name
+                    @detail.Product.NameCode
                 </td>
                 <td class="text-right">
                     @detail.Quantity
@@ -113,7 +113,14 @@
     <tfoot>
         <tr>
             <td colspan="2" rowspan="5">
-                Delivered Date
+                @if (Model.Invoice.IsDelivery)
+                {
+                    <span>Delivered Date</span>
+                }
+                else
+                {
+                    <span>Pick Up Date</span>
+                }
                 <hr />
                 Signature
                 <hr />
@@ -124,14 +131,14 @@
                 <br />
                 the full amount, we have the rigth to reposses the furniture.
                 <br /><br />
-                <strong>X</strong> 
+                <strong>X</strong>
                 <strong style="float:right; width:200px;">
                     Date
                 </strong>
                 <hr />
             </td>
             <td class="text-right"><strong>Subtotal</strong></td>
-            <td class="text-right">@string.Format("{0:c}",Model.Invoice.Subtotal)</td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Subtotal)</td>
         </tr>
         <tr>
             <td class="text-right"><strong>Tax</strong></td>
@@ -147,8 +154,7 @@
         </tr>
         <tr>
             <td class="text-right"><strong>Balance Due</strong></td>
-            <td class="text-right">@string.Format("{0:c}",Model.Balance)</td>            
+            <td class="text-right">@string.Format("{0:c}", Model.Balance)</td>
         </tr>
     </tfoot>
 </table>
-

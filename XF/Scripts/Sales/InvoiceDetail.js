@@ -192,6 +192,10 @@
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
+        if (Math.abs(balance) <= 0.09) {
+            balance = 0.0;
+        }
+
         $('#txtDiscountPercent').val(discountPercent);
         $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({ value: subtotal });
         $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });

@@ -16,11 +16,31 @@
         });
 
         $('.item-' + itemIndex + ' .autocomplete').kendoAutoComplete({
-            dataSource: XF.Products,
-            template: '#=data.split("|")[0]#',
+            dataSource: {
+                type: 'json',
+                serverFiltering: true,
+                transport: {
+                    read: '/Products/Find'
+                },
+                data: XF.Products,
+                schema: {
+                    model: {
+                        Id: 'Id',
+                        Name: 'Name',
+                        SellPrice: 'SellPrice',
+                        Code: 'Code',
+                        Stock: 'Stock',
+                        NameCode: 'NameCode'
+                    }
+                }
+            },
+            dataTextField: "NameCode",
+            template: '#=data.NameCode#',
             filter: "contains",
             placeholder: "Select product...",
-            change: function (e) {
+            select: function (e) {
+                var data = this.dataItem(e.item.index());
+                $('.item-' + itemIndex + ' input.autocomplete').data('product', JSON.stringify(data))
                 XF.showItemData(itemIndex);
                 XF.showTotals();
             }
@@ -72,9 +92,12 @@
     XF.getInvoiceDetail = function (invoiceId) {
         var result = [];
         $('.item').each(function (index) {
+            var productJson = $(this).find('input.autocomplete').data('product') || '{ "SellPrice": 0.0, "Stock": 0 }';
+            var product = JSON.parse(productJson);
+
             result.push({
                 InvoiceId: invoiceId,
-                ProductId: $(this).find('input.autocomplete').data('kendoAutoComplete').value().split('|')[1],
+                ProductId: product.Id,
                 Quantity: $(this).find('.txt-quantity').val(),
                 UnitPrice: $(this).find('.lbl-price').data('value'),
                 InOrder: $(this).find('.lbl-inorder').data('value')
@@ -115,7 +138,6 @@
 
     XF.getBalanceResponse = function (data) {
         if (data.Result) {
-            console.log(data);
             var balance = data.Data.Balance;
             $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
             if (data.Data.HasFee) {
@@ -147,9 +169,10 @@
     };
 
     XF.showItemData = function (index) {
-        console.log($('.item-' + index + ' input.autocomplete').data('kendoAutoComplete').value());
-        var price = $('.item-' + index + ' input.autocomplete').data('kendoAutoComplete').value().split('|')[2];
-        var stock = $('.item-' + index + ' input.autocomplete').data('kendoAutoComplete').value().split('|')[3];
+        var productJson = $('.item-' + index + ' input.autocomplete').data('product') || '{ "SellPrice": 0.0, "Stock": 0 }';
+        var product = JSON.parse(productJson);
+        var price = product.SellPrice;
+        var stock = product.Stock;
         var quantity = $('.item-' + index + ' .txt-quantity').val();
         var inorder = quantity - stock;
         inorder = inorder > 0 ? inorder : 0;
@@ -182,6 +205,10 @@
         var total = (subtotal - discount) * (1 + tax);
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
+
+        if (Math.abs(balance) <= 0.09) {
+            balance = 0.0;
+        }
 
         $('#txtDiscountPercent').val(discountPercent);
         $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({ value: subtotal });

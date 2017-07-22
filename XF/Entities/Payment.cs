@@ -25,6 +25,8 @@ namespace XF.Entities
 
         public bool HasFee { get; set; }
 
+        public string UserId { get; set; }
+
         public virtual Invoice Invoice { get; set; }
 
         public virtual PaymentOption PaymentOption { get; set; }

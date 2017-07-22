@@ -12,7 +12,8 @@
 
     XF.SetStockResponse = function (data) {
         if (data.Result) {
-            XF.addInfoMessage('Stock updated','success');
+            XF.addInfoMessage('Stock updated', 'success');
+            $('#cmbLocation option:selected').data('stock',$('#txtStock').val())
         }
         else {
             XF.addInfoMessage(data.Message,'danger');
@@ -22,11 +23,15 @@
     $('#btnUpdate').on('click', function () {
         XF.confirm('This action will update the current product stock, are you sure that you want to continue?',
         function () {
-            var locationId = $('#hfLocationId').val();
+            var locationId = $('#cmbLocation').val();
             var productId = $('#hfProductId').val();
             var stock = $('#txtStock').val();
             XF.SetStock(locationId,productId, stock);
         });
+    });
+
+    $('#cmbLocation').on('change', function () {
+        $('#txtStock').val($(this).find('option:selected').data('stock'));
     });
 
 }(jQuery, XF));

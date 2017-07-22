@@ -11,6 +11,7 @@ using System.Linq.Dynamic;
 using System.Linq.Expressions;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
@@ -35,7 +36,7 @@ namespace XF.Controllers
         public ActionResult PrintInventory()
         {
             var products = db.Products
-                .Include(p=>p.Stocks)
+                .Include(p => p.Stocks)
                 .Where(p => p.Stocks.Any(s => s.StockQuantity > 0));
             return new ViewAsPdf("~/Views/Products/PrintInventory.cshtml", products);
         }
@@ -78,7 +79,7 @@ namespace XF.Controllers
         public JsonResult InventoryProducts(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
             var result = GridService.GetData(db.Products
-                                                .Where(p=>p.Stocks.Any(s=>s.StockQuantity > 0))
+                                                .Where(p => p.Stocks.Any(s => s.StockQuantity > 0))
                                                 .OrderBy(p => p.Code),
                                                 sorting,
                                                 filter,
@@ -115,10 +116,25 @@ namespace XF.Controllers
         {
             ViewBag.ProviderId = new SelectList(db.Providers
                 .ToList()
-                .Select(p=>new {Id = p.Id,Name = p.BusinessName
+                .Select(p => new
+                {
+                    Id = p.Id,
+                    Name = p.BusinessName
                 })
                 , "Id", "Name");
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult Find([Bind(Prefix ="filter[filters][0][value]")]string filter)
+        {
+            filter = string.IsNullOrWhiteSpace(filter) ? string.Empty : filter;
+            var result = db.Products
+                .Where(p => p.Name.Contains(filter) || p.Code.Contains(filter))
+                .ToList()
+                .Select(p => GetProductItemModel(p));
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Products1/Create
@@ -153,7 +169,9 @@ namespace XF.Controllers
             }
             ViewBag.ProviderId = new SelectList(db.Providers
                 .ToList()
-                .Select(p=>new { Id=p.Id,
+                .Select(p => new
+                {
+                    Id = p.Id,
                     Name = p.BusinessName
                 }), "Id", "Name", product.ProviderId);
             return View(product);
@@ -204,10 +222,27 @@ namespace XF.Controllers
 
         public ActionResult Stock(int id)
         {
+            var locationsList = db.Locations
+                            .Include(l => l.Stocks)
+                            .ToList();
+            var locations = new List<StockLocation>();
+
+            foreach (var location in locationsList)
+            {
+                var stock = location
+                    .Stocks
+                    .FirstOrDefault(s=>s.LocationId == location.Id && s.ProductId == id);
+                var sl = new StockLocation() {
+                    Location = location,
+                    Stock = stock == null ? 0: stock.StockQuantity
+                };
+                locations.Add(sl);
+            }
             var model = new ProductStockViewModel()
             {
                 Product = db.Products.FirstOrDefault(p => p.Id == id),
                 Location = db.Locations.FirstOrDefault(),
+                Locations = locations,
                 Stock = 0
             };
 
@@ -286,7 +321,7 @@ namespace XF.Controllers
                 .Where(p => p.Code.Contains(name) ||
                             p.Name.Contains(name))
                 .ToList();
-            return Json(products,JsonRequestBehavior.AllowGet);
+            return Json(products, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

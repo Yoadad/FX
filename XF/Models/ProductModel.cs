@@ -22,7 +22,7 @@ namespace XF.Models
         public ProductItemViewModel(Product product)
         {
             this.Id = product.Id;
-            this.Code = string.IsNullOrWhiteSpace(product.Code)?string.Empty: product.Code;
+            this.Code = string.IsNullOrWhiteSpace(product.Code) ? string.Empty : product.Code;
             this.Name = product.Name;
             this.SellPrice = product.SellPrice;
             this.PurchasePrice = product.PurchasePrice;
@@ -30,11 +30,25 @@ namespace XF.Models
             this.Min = product.Min;
         }
         public int Stock { get; set; }
+        public string NameCode
+        {
+            get
+            {
+                return string.Format("{0} [{1}]",Name,Code);
+            }
+        }
     }
 
     public class ProductStockViewModel
     {
         public Product Product { get; set; }
+        public Location Location { get; set; }
+        public IEnumerable<StockLocation> Locations { get; set; }
+        public int Stock { get; set; }
+    }
+
+    public class StockLocation
+    {
         public Location Location { get; set; }
         public int Stock { get; set; }
     }

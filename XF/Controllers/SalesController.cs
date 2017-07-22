@@ -23,13 +23,17 @@ namespace XF.Controllers
         // GET: Sales
         public ActionResult Index()
         {
+            var userId = this.User.Identity.GetUserId();
+            var user = db.AspNetUsers.FirstOrDefault(u=>u.Id == userId);
             var model = new SalesViewModel()
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
                 Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
                 PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
-                Tax = float.Parse(ConfigService.GetValue("Tax", db))
+                Tax = float.Parse(ConfigService.GetValue("Tax", db)),
+                UserName = user == null ? string.Empty : user.FullName,
+                UserId = user == null ? string.Empty : user.Id
             };
             return View(model);
         }
@@ -121,6 +125,10 @@ namespace XF.Controllers
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
                 model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
+                foreach (Payment payment in model.Invoice.Payments)
+                {
+                    payment.UserId = this.User.Identity.GetUserId();
+                }
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
                 AddOrders(model);

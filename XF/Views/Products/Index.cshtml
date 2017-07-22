@@ -18,7 +18,7 @@
 </script>
 
 <script type="text/html" id="codeTemplate">
-    <a href="/Products/Edit/#=data.Id#">#=data.Code#</a>
+    <a href="/Products/Edit/#=data.Id#">#=(data.Code==''?'---':data.Code)#</a>
 </script>
 
 @section scripts{

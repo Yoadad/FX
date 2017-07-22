@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -97,7 +98,8 @@ namespace XF.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            var userid = this.User.Identity.GetUserId();
+            var user = db.AspNetUsers.FirstOrDefault(u=>u.Id == userid);
             var model = new InvoiceViewModel()
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
@@ -109,7 +111,9 @@ namespace XF.Controllers
                             .Include(i => i.Client)
                             .Include(i => i.InvoiceDetails)
                             .Include(i => i.InvoiceStatu)
-                            .First(i => i.Id == id)
+                            .First(i => i.Id == id),
+                UserName = user.FullName,
+                UserId = user.Id
             };
             return View(model);
         }

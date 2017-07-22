@@ -299,6 +299,10 @@
     <tr class="payment-item payment-item-#=data.Index#">
         <td>
             <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control payment-date" />
+            <h5>
+                <small class="user-item" data-userid="@Model.UserId">By: @Model.UserName</small>
+            </h5>
+
         </td>
         <td>
             <input type="number" min="0.0" value="0.0" class="form-control payment-amount" />
