@@ -97,6 +97,7 @@
 
             result.push({
                 InvoiceId: invoiceId,
+                Note: $(this).find('.txt-note').val(),
                 ProductId: product.Id,
                 Quantity: $(this).find('.txt-quantity').val(),
                 UnitPrice: $(this).find('.lbl-price').data('value'),

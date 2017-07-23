@@ -22,6 +22,8 @@ namespace XF.Entities
 
         public int InOrder { get; set; }
 
+        public string Note { get; set; }
+
         public virtual Invoice Invoice { get; set; }
 
         public virtual Product Product { get; set; }

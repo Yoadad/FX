@@ -1,5 +1,8 @@
 ﻿@model XF.Models.InvoiceBalanceModel
 @{
+    var maxRows = 13;
+    var rowsCount = Model.Invoice.InvoiceDetails.Count();
+    var rowsNumber = rowsCount > maxRows ? 0 : maxRows - rowsCount;
     ViewBag.Title = "Print";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
 }
@@ -85,6 +88,7 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
+            <th class="text-center">Provider</th>
             <th class="text-center">Description</th>
             <th class="text-center">Quantity</th>
             <th class="text-center">Rate</th>
@@ -96,7 +100,12 @@
         {
             <tr>
                 <td>
+                    @detail.Product.Provider.BusinessName
+                </td>
+                <td>
                     @detail.Product.NameCode
+                    &nbsp;&nbsp;&nbsp;
+                    <small>@(string.IsNullOrWhiteSpace(detail.Note) ? string.Empty : string.Format("({0})",detail.Note))</small>
                 </td>
                 <td class="text-right">
                     @detail.Quantity
@@ -109,10 +118,20 @@
                 </td>
             </tr>
         }
+        @for (int i = 0; i < rowsNumber; i++)
+        {
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+        }
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="2" rowspan="5">
+            <td colspan="3" rowspan="5">
                 @if (Model.Invoice.IsDelivery)
                 {
                     <span>Delivered Date</span>

@@ -236,6 +236,8 @@ namespace XF.Controllers
         {
             var invoice = db.Invoices
                             .Include(i => i.InvoiceDetails)
+                            .Include(i=>i.InvoiceDetails.Select(ids=>ids.Product))
+                            .Include(i => i.InvoiceDetails.Select(ids => ids.Product.Provider))
                             .Include(i => i.Payments)
                             .FirstOrDefault(i => i.Id == id);
             var invoiceService = new InvoiceService();

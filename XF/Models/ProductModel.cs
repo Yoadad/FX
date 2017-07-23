@@ -30,6 +30,7 @@ namespace XF.Models
             this.Min = product.Min;
         }
         public int Stock { get; set; }
+        public string Note { get; set; } 
         public string NameCode
         {
             get
