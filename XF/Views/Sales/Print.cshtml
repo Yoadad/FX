@@ -1,6 +1,6 @@
 ﻿@model XF.Models.InvoiceBalanceModel
 @{
-    var maxRows = 13;
+    var maxRows = 12;
     var rowsCount = Model.Invoice.InvoiceDetails.Count();
     var rowsNumber = rowsCount > maxRows ? 0 : maxRows - rowsCount;
     ViewBag.Title = "Print";
@@ -21,7 +21,6 @@
                             Phone: (903)6306292<br />
                             Email: ximenasfur2015@gmail.com<br />
                             Facebook: ximenasfurniture-muebleria<br />
-                            Web: www.ximenasfurniture-muebleria.com<br />
                         </em>
                     </small>
                 </h4>
@@ -84,6 +83,12 @@
             }
         </td>
     </tr>
+    <tr>
+        <td colspan="2" style="background-color:white;">
+            <strong>CREDIT TYPE:</strong>
+            <span>@Model.Invoice.PaymentType.Name</span>
+        </td>
+    </tr>
 </table>
 <table class="table table-striped table-bordered">
     <thead>
@@ -143,16 +148,17 @@
                 <hr />
                 Signature
                 <hr />
-                SIGNATURE CONFIRMS GOOD  RECEIVE AND ORDER IS ACCURATE.
+                SIGNATURE CONFIRM IS ACCURATE.
                 <br />
-                No money can be refunded back only as store credit.
-                If Ximena's Furniture finances furniture and customer  does not finish paying
+                TERMS AND CONDITION
+                <br/>
+                No returns will be accepted. If product is damage upon arrival it can be replaced.
+                Thank you for Choosing Ximena's Furniture/Muebleria
                 <br />
-                the full amount, we have the rigth to reposses the furniture.
                 <br /><br />
-                <strong>X</strong>
+                <strong>X_______________________________</strong>
                 <strong style="float:right; width:200px;">
-                    Date
+                    Date_______________
                 </strong>
                 <hr />
             </td>

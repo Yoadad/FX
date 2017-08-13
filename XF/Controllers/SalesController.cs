@@ -239,6 +239,7 @@ namespace XF.Controllers
                             .Include(i=>i.InvoiceDetails.Select(ids=>ids.Product))
                             .Include(i => i.InvoiceDetails.Select(ids => ids.Product.Provider))
                             .Include(i => i.Payments)
+                            .Include(i => i.PaymentType)
                             .FirstOrDefault(i => i.Id == id);
             var invoiceService = new InvoiceService();
             var model = new InvoiceBalanceModel()
@@ -248,6 +249,7 @@ namespace XF.Controllers
                 ? invoice.Total.Value
                 : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
             };
+            model.Balance = model.Balance < new decimal(0.09) ? 0 : model.Balance;
             return new ViewAsPdf(model);
         }
         public string RenderRazorViewToString(string viewName, object model)

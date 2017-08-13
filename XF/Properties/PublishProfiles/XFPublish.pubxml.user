@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>07/22/2017 18:46:36</publishTime>
+      <publishTime>07/26/2017 00:38:39</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -395,7 +395,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>07/22/2017 17:25:36</publishTime>
+      <publishTime>07/23/2017 02:30:42</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>06/30/2017 03:34:28</publishTime>
@@ -404,7 +404,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/02/2017 01:52:45</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesPoint.js">
-      <publishTime>07/22/2017 17:25:18</publishTime>
+      <publishTime>07/23/2017 02:29:12</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesService.js">
       <publishTime>06/23/2017 00:14:23</publishTime>
@@ -527,7 +527,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>07/22/2017 16:59:55</publishTime>
+      <publishTime>07/23/2017 02:37:26</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
@@ -710,13 +710,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 13:27:05</publishTime>
     </File>
     <File Include="Views/Sales/Index.cshtml">
-      <publishTime>07/22/2017 17:44:03</publishTime>
+      <publishTime>07/23/2017 02:32:57</publishTime>
     </File>
     <File Include="Views/Sales/PdfInvoice.cshtml">
       <publishTime>06/11/2017 17:11:30</publishTime>
     </File>
     <File Include="Views/Sales/Print.cshtml">
-      <publishTime>07/22/2017 14:16:14</publishTime>
+      <publishTime>07/26/2017 00:26:16</publishTime>
     </File>
     <File Include="Views/Sales/Quotation.cshtml">
       <publishTime>06/05/2017 02:07:58</publishTime>
