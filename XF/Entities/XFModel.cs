@@ -111,6 +111,11 @@ namespace XF.Entities
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Invoice>()
+                .HasMany(e => e.PurchaseOrders)
+                .WithMany(e => e.Invoices)
+                .Map(m => m.ToTable("InvoiceOrders").MapLeftKey("InvoiceId").MapRightKey("PurchaseOrderId"));
+
             modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.UnitPrice)
                 .HasPrecision(13, 2);
@@ -192,7 +197,7 @@ namespace XF.Entities
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Tax)
-                .HasPrecision(12, 5);
+                .HasPrecision(13, 2);
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Total)

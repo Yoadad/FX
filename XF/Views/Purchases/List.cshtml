@@ -14,12 +14,18 @@
 </script>
 
 <script type="text/html" id="actionsTemplate">
-    #if(data.Status != 3){#
+    #if(data.Status == 4){#
+    <h5>
+        <span class="label label-danger">Canceled</span>
+    </h5>
+    #}else if(data.Status != 3){#
+    <h5>
         <a href="javascript:XF.ReceivedOrder(#=data.PurchaseOrderId#)">Receive</a>
+    </h5>
     #}else{#
-        <h5>
-            <span class="label label-success">Received</span>
-        </h5>
+    <h5>
+        <span class="label label-success">Received</span>
+    </h5>
     #}#
 </script>
 

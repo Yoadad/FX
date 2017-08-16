@@ -7,9 +7,9 @@ namespace XF.Entities.Enumerations
 {
     public enum InvoiceStatus
     {
-        Quotation = 1,
-        Draft = 2,
-        InProgress = 3,
-        Accepted = 4
+        Draft = 1,
+        InProgress = 2,
+        Accepted = 3,
+        Refund = 4
     }
 }

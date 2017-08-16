@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using XF.Entities;
+using XF.Entities.Enumerations;
 using XF.Models;
 using XF.Services;
 
@@ -133,6 +134,34 @@ namespace XF.Controllers
                 return Json(new { Result = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult Refund(int id)
+        {
+            try
+            {
+                var invoice = db.Invoices
+                            .Include(i => i.PurchaseOrders)
+                            .FirstOrDefault(i=>i.Id == id);
+                invoice.InvoiceStatusId = (int)InvoiceStatus.Refund;
+                
+
+                //TODO: Refactor
+
+                foreach (var order in invoice.PurchaseOrders)
+                {
+                    order.PurchaseOrderStatusId = 4;
+                    db.Entry(order).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+
+                return Json(new { Result = true, Message = "Refund success"}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         private void ReleasedInvoice(int invoiceId, bool isReleased)
         {

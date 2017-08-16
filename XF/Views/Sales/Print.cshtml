@@ -173,10 +173,13 @@
             <td class="text-right"><strong>Total</strong></td>
             <td class="text-right">@string.Format("{0:c}", Model.Invoice.Total)</td>
         </tr>
-        <tr>
-            <td class="text-right"><strong>Payments/Credits</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Payments.Count() == 0 ? new decimal(0.0) : Model.Invoice.Payments.Sum(p => p.Amount))</td>
-        </tr>
+        @foreach (var payments in Model.Invoice.Payments.GroupBy(p => p.PaymentOptionId))
+        {
+            <tr>
+                <td class="text-right"><strong>@payments.First().PaymentOption.Name</strong></td>
+                <td class="text-right">@string.Format("{0:c}", payments.Sum(p => p.Amount))</td>
+            </tr>
+        }
         <tr>
             <td class="text-right"><strong>Balance Due</strong></td>
             <td class="text-right">@string.Format("{0:c}", Model.Balance)</td>

@@ -111,19 +111,39 @@
         }
     };
 
-    XF.releasedInvoice = function (invoiceId,isReleased) {
+    XF.releasedInvoice = function (invoiceId, isReleased) {
         var url = '/Invoices/Release';
         var data = { id: invoiceId, isReleased: isReleased };
-        $.post(url, data, XF.releasedInvoiceResponse,'json');
+        $.post(url, data, XF.releasedInvoiceResponse, 'json');
     };
 
     XF.releasedInvoiceResponse = function (data) {
         if (data.Result) {
             XF.addInfoMessage(data.Message, 'success');
+            $('#grid').data('kendoGrid').dataSource.read();
         }
         else {
             XF.addInfoMessage(data.Message,'danger');
         }
     };
+
+    XF.refundInvoice = function (invoiceId) {
+        XF.confirm("This action will refund this invoice", function () {
+            var url = '/Invoices/Refund';
+            var data = { id: invoiceId };
+            $.post(url, data, XF.refundInvoiceResponse, 'json');
+        });
+    };
+
+    XF.refundInvoiceResponse = function (data) {
+        if (data.Result) {
+            XF.addInfoMessage(data.Message, 'success');
+            $('#grid').data('kendoGrid').dataSource.read();
+        }
+        else {
+            XF.addInfoMessage(data.Message, 'danger');
+        }
+    };
+
 
 }(jQuery, XF));

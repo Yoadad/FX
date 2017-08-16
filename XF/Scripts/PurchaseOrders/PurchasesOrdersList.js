@@ -68,7 +68,7 @@
                 { field: "Id", template: $('#orderDetailTemplate').html() },
                 { field: "Created", format: "{0:MM/dd/yyyy}", filterable: false,hidden:true },
                 { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
-                { field: "ProviderName", filterable: false },
+                { field: "ProviderName", filterable: true },
                 { field: "Total", filterable: false, template: '<div class="text-right">#=kendo.toString(data.Total,"c")#</div>' },
                 { template:$('#actionsTemplate').html(), title: "Actions"}
             ]

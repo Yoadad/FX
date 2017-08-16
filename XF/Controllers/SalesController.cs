@@ -57,7 +57,7 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Quotation;
+                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
                 return Json(new { Result = true, Message = "New Invoice created successful", Data = new { InvoiceId = model.Invoice.Id } });
@@ -112,7 +112,7 @@ namespace XF.Controllers
                 }
                 var total = order.PurchaseOrderDetails.Sum(po => po.Quantity * po.UnitPrice);
                 order.Total = total;
-                db.PurchaseOrders.Add(order);
+                salesModel.Invoice.PurchaseOrders.Add(order);
             }
             db.SaveChanges();
         }
@@ -124,7 +124,7 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
+                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.InProgress;
                 foreach (Payment payment in model.Invoice.Payments)
                 {
                     payment.UserId = this.User.Identity.GetUserId();
@@ -158,7 +158,7 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
+                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.InProgress;
                 foreach (var detail in model.Invoice.InvoiceDetails)
                 {
                     db.Entry(detail).State = EntityState.Modified;
