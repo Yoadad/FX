@@ -31,7 +31,7 @@ namespace XF.Models
         }
         public int Stock { get; set; }
         public string Note { get; set; } 
-        public string NameCode
+        public string NameCode  
         {
             get
             {

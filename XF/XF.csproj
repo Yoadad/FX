@@ -365,6 +365,7 @@
     <Content Include="Scripts\Notes\NoteList.js" />
     <Content Include="Scripts\Notes\notes.js" />
     <Content Include="Scripts\Products\InventoryList.js" />
+    <Content Include="Scripts\PurchaseOrders\OrderDetail.js" />
     <Content Include="Scripts\PurchaseOrders\PurchasesOrdersList.js" />
     <Content Include="Scripts\Products\ProductsList.js" />
     <Content Include="Scripts\Products\ProductStock.js" />

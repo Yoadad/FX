@@ -41,10 +41,20 @@ namespace XF.Controllers
         {
             var order = db.PurchaseOrders
                             .Include(po => po.PurchaseOrderDetails)
-                            .Include(po => po.PurchaseOrderDetails.Select(pod=>pod.Product.Provider))
-                            .FirstOrDefault(po=>po.Id == id);
+                            .Include(po => po.PurchaseOrderDetails.Select(pod => pod.Product))
+                            .Include(po => po.PurchaseOrderDetails.Select(pod => pod.Product.Provider))
+                            .FirstOrDefault(po => po.Id == id);
+            var provider = order.PurchaseOrderDetails.First().Product.Provider;
+            var model = new OrderViewModel()
+            {
+                Order = order,
+                Products = db.Products
+                .Where(p => p.ProviderId == provider.Id)
+                .ToList()
+                .Select(p=>GetProductItemModel( p))
+            };
 
-            return View(order);
+            return View(model);
         }
         public JsonResult Save(string data)
         {
@@ -82,7 +92,7 @@ namespace XF.Controllers
             }
             base.Dispose(disposing);
         }
-        
+
         private PurchaseItemViewmodel GetPurchaseItemModel(PurchaseOrder p)
         {
             var itemModel = new PurchaseItemViewmodel(p);
@@ -95,15 +105,15 @@ namespace XF.Controllers
                                        .Where(pos => pos.Id == p.PurchaseOrderStatusId)
                                        .FirstOrDefault();
             return itemModel;
-       }
+        }
 
         public JsonResult GetPurchaseOrder(int PurchaseId)
         {
-            
+
             if (PurchaseId == 0)
                 return Json(new { }, JsonRequestBehavior.AllowGet);
             var orders = db.PurchaseOrders
-                            .Include(p=>p.PurchaseOrderDetails.First().Product.Provider)
+                            .Include(p => p.PurchaseOrderDetails.First().Product.Provider)
                             .Where(p => p.Id == PurchaseId)
                             .ToList()
                             .Select((p) => GetPurchaseItemModel(p));
@@ -114,14 +124,14 @@ namespace XF.Controllers
         private OrderItemViewModel GetOrderItemModel(PurchaseOrder order)
         {
             var itemModel = new OrderItemViewModel(order);
-            itemModel.ProviderName = db.Providers.First(pv=>pv.Products.Any(p=>p.PurchaseOrderDetails.Any(po=>po.PurchaseOrderId == order.Id)))
+            itemModel.ProviderName = db.Providers.First(pv => pv.Products.Any(p => p.PurchaseOrderDetails.Any(po => po.PurchaseOrderId == order.Id)))
                 .BusinessName;
             return itemModel;
         }
 
         public JsonResult Orders(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var result = GridService.GetData(db.PurchaseOrders.Where(p=> p.PurchaseOrderStatu.Name.ToUpper() != "DONE").OrderByDescending(i => i.Id),
+            var result = GridService.GetData(db.PurchaseOrders.Where(p => p.PurchaseOrderStatu.Name.ToUpper() != "DONE").OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,
                                                 skip,
@@ -145,7 +155,7 @@ namespace XF.Controllers
                             .FirstOrDefault(po => po.Id == id);
             return new ViewAsPdf(order);
         }
-        
+
         public JsonResult ChangeStatus(int id)
         {
             var purchaseOrder = db.PurchaseOrders.Find(id);
@@ -153,7 +163,7 @@ namespace XF.Controllers
             {
                 purchaseOrder.PurchaseOrderStatusId = db.PurchaseOrderStatus.FirstOrDefault(p => p.Name.ToUpper().Equals("ACCEPTED")).Id;
                 db.Entry(purchaseOrder).State = EntityState.Modified;
-                
+
                 var stockService = new StockService(db);
                 stockService.ReceiveOrder(id);
                 return Json(new { Result = true, Message = "Product Stock updated successful" });
@@ -174,6 +184,39 @@ namespace XF.Controllers
                 return Json(new { Result = false, Message = message.ToString() });
             }
         }
+
+        public JsonResult UpdateDetail(string data)
+        {
+            try
+            {
+                var details = JsonConvert.DeserializeObject<IEnumerable<PurchaseOrderDetail>>(data);
+                foreach (var item in details)
+                {
+                    db.Entry(item).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+                return Json(new { Result = true, Message = "Detail has upudated" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = false, Message = ex.Message}, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private ProductItemViewModel GetProductItemModel(Product p)
+        {
+            var itemModel = new ProductItemViewModel(p);
+            var invoiceDetails = db.InvoiceDetails.Where(id => id.ProductId == p.Id && id.Invoice.InvoiceStatusId == 2);
+            var stocks = db.Stocks.Where(s => s.ProductId == p.Id);
+            var stock = !stocks.Any() ? 0 : stocks.Sum(s => s.StockQuantity);
+            var inHold = !invoiceDetails.Any() ? 0 : invoiceDetails.Sum(id => id.Quantity);
+
+            itemModel.Stock = db.Stocks.Any(s => s.ProductId == p.Id)
+                ? stock - inHold
+                : 0;
+            return itemModel;
+        }
+
 
     }
 }

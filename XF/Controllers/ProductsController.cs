@@ -130,7 +130,7 @@ namespace XF.Controllers
         {
             filter = string.IsNullOrWhiteSpace(filter) ? string.Empty : filter;
             var result = db.Products
-                .Where(p => p.Name.Contains(filter) || p.Code.Contains(filter))
+                .Where(p => (p.Name.Contains(filter) || p.Code.Contains(filter)) && p.Provider.IsActive)
                 .ToList()
                 .Select(p => GetProductItemModel(p));
 

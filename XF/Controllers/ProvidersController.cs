@@ -79,7 +79,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,BusinessName,ContactName,Email,Phone,Address,WorkingHours")] Provider provider)
+        public ActionResult Edit([Bind(Include = "Id,BusinessName,ContactName,Email,Phone,Address,WorkingHours,IsActive")] Provider provider)
         {
             if (ModelState.IsValid)
             {

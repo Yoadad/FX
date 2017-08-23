@@ -1,26 +1,26 @@
-﻿@model XF.Entities.PurchaseOrder
+﻿@model XF.Models.OrderViewModel
 <br />
 <h1>
-    Purchase Order <small>(@Model.Id)</small>
+    Purchase Order <small>(@Model.Order.Id)</small>
     @*<a href="javascript:;" id="btnSendEmail" class="btn btn-primary" style="float:right; margin:8px;">Email&nbsp;&nbsp;<span class="fa fa-mail-forward"></span></a>&nbsp;*@
     <a href="/Purchases/List" class="btn btn-primary" style="float:right; margin:8px;">Return to List</a>
     &nbsp;
-    <a href="javascript:window.open('/Purchases/Print/@Model.Id', '_blank')" class="btn btn-primary" style="float:right; margin:8px;">Print&nbsp;&nbsp;<span class="fa fa-print"></span></a>
+    <a href="javascript:window.open('/Purchases/Print/@Model.Order.Id', '_blank')" class="btn btn-primary" style="float:right; margin:8px;">Print&nbsp;&nbsp;<span class="fa fa-print"></span></a>
     
     
 </h1>
 <hr />
-<input type="hidden" id="hfOrderId" value="@Model.Id" />
+<input type="hidden" id="hfOrderId" value="@Model.Order.Id" />
 <div class="row">
     <div class="col-md-6">
         <h3>
             Provider:
-            <small>@Model.PurchaseOrderDetails.First().Product.Provider.BusinessName</small>
+            <small>@Model.Order.PurchaseOrderDetails.First().Product.Provider.BusinessName</small>
         </h3>
     </div>
     <div class="col-md-6">
         <h3 class="text-right">
-            &nbsp;&nbsp;<small>@Model.Date.ToLongDateString()</small>
+            &nbsp;&nbsp;<small>@Model.Order.Date.ToLongDateString()</small>
         </h3>
     </div>
 </div>
@@ -31,7 +31,6 @@
             <thead>
                 <tr>
                     <th class="text-center">Item</th>
-                    <th class="text-center">Code</th>
                     <th class="text-center">Quantity</th>
                     <th class="text-center">Unit Price</th>
                     <th class="text-center">Total</th>
@@ -39,24 +38,26 @@
             </thead>
             <tbody>
                 @{ var index = 0;}
-                @foreach (var detail in Model.PurchaseOrderDetails)
+                @foreach (var detail in Model.Order.PurchaseOrderDetails)
                 {
                     <tr class="item item-@index" data-detailid="@detail.Id">
                         <td>
-                            @detail.Product.Name
-                        </td>
-                        <td>
-                            @detail.Product.Code
+                            <select class="item-product form-control" @(Model.Order.PurchaseOrderStatusId==4?"disabled":"")>
+                                @foreach (var product in Model.Products)
+                                {
+                                    <option value="@product.Id" data-price="@product.PurchasePrice"  @(product.Id == detail.ProductId ? "selected" : "")>@product.NameCode</option>
+                                }
+                            </select>
                         </td>
                         <td class="text-right">
-                            @detail.Quantity
+                            <input type="number" step="1" class="item-quantity form-control" value="@detail.Quantity" @(Model.Order.PurchaseOrderStatusId==4?"disabled":"")/>                            
                         </td>
                         <td class="text-right">
-                            <em class="lbl-price" data-value="@detail.UnitPrice">@string.Format("{0:c}", detail.UnitPrice)</em>
+                            <em class="lbl-price item-price" data-value="@detail.UnitPrice">@string.Format("{0:c}", detail.UnitPrice)</em>
                         </td>
 
                         <td class="text-right">
-                            <em class="lbl-total" data-value="@detail.UnitPrice*detail.Quantity">
+                            <em class="lbl-total item-subtotal" data-value="@detail.UnitPrice*detail.Quantity">
                                 @string.Format("{0:C}", detail.UnitPrice * detail.Quantity)
                             </em>
                         </td>
@@ -68,12 +69,12 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" class="text-right">
+                    <td colspan="3" class="text-right">
                         <strong>TOTAL</strong>
                     </td>
                     <td  class="text-right">
-                        <strong>
-                            @string.Format("{0:C}", Model.PurchaseOrderDetails.Sum(pod => pod.UnitPrice * pod.Quantity))
+                        <strong id="lblTotal">
+                            @string.Format("{0:C}", Model.Order.PurchaseOrderDetails.Sum(pod => pod.UnitPrice * pod.Quantity))
                         </strong>
                      </td>
                 </tr>
@@ -81,3 +82,13 @@
         </table>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <input type="button" id="btnSave" value="Save" class="btn btn-primary" />
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/PurchaseOrders/OrderDetail.js?v=1")    
+}

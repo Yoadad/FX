@@ -24,11 +24,11 @@ namespace XF.Controllers
         public ActionResult Index()
         {
             var userId = this.User.Identity.GetUserId();
-            var user = db.AspNetUsers.FirstOrDefault(u=>u.Id == userId);
+            var user = db.AspNetUsers.FirstOrDefault(u => u.Id == userId);
             var model = new SalesViewModel()
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
-                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
+                Products = db.Products.Where(p => p.Provider.IsActive).OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
                 PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db)),
@@ -43,7 +43,7 @@ namespace XF.Controllers
             var model = new SalesViewModel()
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
-                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
+                Products = db.Products.Where(p => p.Provider.IsActive).OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
                 PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db))
             };
@@ -220,7 +220,7 @@ namespace XF.Controllers
             if (string.IsNullOrEmpty(Concept))
                 return Json(new { }, JsonRequestBehavior.AllowGet);
             var products = db.Products
-                        .Where(p => p.Name.Contains(Concept))
+                        .Where(p => p.Name.Contains(Concept) && p.Provider.IsActive)
                         .ToList()
                         .Select((p) => GetProductItemModel(p)).FirstOrDefault();
             return Json(new { products }, JsonRequestBehavior.AllowGet);
@@ -236,7 +236,7 @@ namespace XF.Controllers
         {
             var invoice = db.Invoices
                             .Include(i => i.InvoiceDetails)
-                            .Include(i=>i.InvoiceDetails.Select(ids=>ids.Product))
+                            .Include(i => i.InvoiceDetails.Select(ids => ids.Product))
                             .Include(i => i.InvoiceDetails.Select(ids => ids.Product.Provider))
                             .Include(i => i.Payments)
                             .Include(i => i.PaymentType)

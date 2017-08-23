@@ -39,6 +39,8 @@ namespace XF.Entities
         [StringLength(128)]
         public string WorkingHours { get; set; }
 
+        public bool IsActive { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
 

@@ -51,4 +51,11 @@ namespace XF.Models
         public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
         
     }
+
+    public class OrderViewModel
+    {
+        public PurchaseOrder Order { get; set; }
+        public IEnumerable<ProductItemViewModel> Products { get; set; }
+
+    }
 }
