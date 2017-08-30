@@ -87,8 +87,10 @@
             IsDelivery: $('#cmbIsDelivery').val() == '1',
             Address: $('#txtAddress').val(),
             InvoiceDetails: XF.getInvoiceDetail(XF.InvoiceId),
-            Payments: XF.getPayments(XF.InvoiceId)
-
+            Payments: XF.getPayments(XF.InvoiceId),
+            SNAP: $('#txtSNAP').val(),
+            DeliveryFee: $('#txtDeliveryFee').val(),
+            InstalationFee: $('#txtInstalationFee').val()
         };
         return result;
     };
@@ -181,6 +183,9 @@
         var discount = parseFloat($('#txtDiscount').val() || 0.0);
         var tax = parseFloat($('#lblTax').data('value'));
         var paymentsAmount = 0;
+        var snapFee = parseFloat($('#txtSNAP').val());
+        var deliveryFee = parseFloat($('#txtDeliveryFee').val());
+        var instalationFee = parseFloat($('#txtInstalationFee').val());
 
         $('.item').each(function (index) {
             subtotal += (parseFloat($(this).find('.lbl-total').data('value')) || 0.00);
@@ -189,7 +194,7 @@
             paymentsAmount += parseFloat($(this).val());
         });
 
-        var total = (subtotal - discount) * (1 + tax);
+        var total = ((subtotal - discount) * (1 + tax)) + snapFee + deliveryFee + instalationFee;
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
@@ -245,7 +250,7 @@
 
     $('.item').each(function (index) {
         XF.showItemData(index);
-        $('.item-' + index + ' .txt-quantity,#txtDiscount,.item-' + index + ' .cmb-product').on('change', function () {
+        $('.item-' + index + ' .txt-quantity,#txtDiscount,.item-' + index + ' .cmb-product,#txtSNAP,#txtDeliveryFee,#txtInstalationFee').on('change', function () {
             XF.showItemData(index);
             XF.showTotals();
         });

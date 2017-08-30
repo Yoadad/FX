@@ -53,6 +53,15 @@
         $('#lblTotal').text(kendo.toString(total, "c"));
     };
 
+    XF.addNewItem = function () {
+        var index = $('.item').size();
+        var html = XF.getHtmlFromTemplate('#newItemTemplate', { Index: index });
+        $('#tblDetail').append(html);
+        $('#tblDetail tr:last .item-product,.item-quantity').on('change', function () {
+            XF.setTotals();
+        });
+    };
+
     $('.item-product,.item-quantity').on('change', function () {
         XF.setTotals();
     });
@@ -65,4 +74,7 @@
         
     });
 
+    $('.btn-add').on('click', function () {
+        XF.addNewItem();
+    });
 })(jQuery, XF);

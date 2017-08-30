@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<XF.Entities.Provider>
+@{
     ViewBag.Title = "Orders";
 }
 <input type="hidden" id="hfPageSize" value="@ViewBag.PageSize" />
@@ -6,8 +7,26 @@
 <h2>
     Orders 
 </h2>
+<div class="text-right">
+    <input type="button" value="Add New" id="btnAddNew" class="btn btn-primary" />
+</div>
 <br />
 <div id="grid"></div>
+<div id="winProvider">
+    <label>Provider:</label>
+    <select id="ddlProvider">
+        @foreach (XF.Entities.Provider item in Model)
+        {
+            <option value="@item.Id">@item.BusinessName</option>
+        }
+    </select>
+    <br />
+    <p class="text-right">
+        <a href="javscript:;" id="btnCancelAddNew">Cancel</a>
+        &nbsp;&nbsp;
+        <input type="button" id="btnAddNewProvider" class="btn btn-primary" value="Continue"/>
+    </p>
+</div>
 
 <script type="text/html" id="orderDetailTemplate">
     <a href="/Purchases/Details/#=data.PurchaseOrderId#">#=data.PurchaseOrderId#</a>

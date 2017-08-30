@@ -35,7 +35,7 @@ namespace XF.Controllers
         public ActionResult List()
         {
             ViewBag.PageSize = ConfigService.GetValue("PageSize", db);
-            return View();
+            return View(db.Providers.ToList());
         }
         public ActionResult Details(int id)
         {
@@ -51,11 +51,12 @@ namespace XF.Controllers
                 Products = db.Products
                 .Where(p => p.ProviderId == provider.Id)
                 .ToList()
-                .Select(p=>GetProductItemModel( p))
+                .Select(p => GetProductItemModel(p))
             };
 
             return View(model);
         }
+
         public JsonResult Save(string data)
         {
             try
@@ -185,23 +186,68 @@ namespace XF.Controllers
             }
         }
 
+        public ActionResult New(int id)
+        {
+            var order = new PurchaseOrder()
+            {
+                Created = DateTime.Now,
+                Date = DateTime.Now,
+                Total=0,
+                UserId = User.Identity.GetUserId(),
+                PurchaseOrderStatusId = 2
+            };
+
+            var product = db.Products.FirstOrDefault(p => p.ProviderId == id);
+            order.PurchaseOrderDetails.Add(new PurchaseOrderDetail
+            {
+                Product = product,
+                Quantity = 1,
+                UnitPrice = product.PurchasePrice                
+            });
+            order.Total = product.PurchasePrice;
+            db.PurchaseOrders.Add(order);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { @id = order.Id });
+        }
+
         public JsonResult UpdateDetail(string data)
         {
             try
             {
                 var details = JsonConvert.DeserializeObject<IEnumerable<PurchaseOrderDetail>>(data);
+                var order = new PurchaseOrder();
+                if (details.Count() > 0 && details.First().PurchaseOrderId == 0)
+                {
+                    order.Created = DateTime.Now;
+                    order.Date = DateTime.Now;
+                    order.Total = details.Sum(d => d.UnitPrice * d.Quantity);
+                    db.PurchaseOrders.Add(order);
+                }
+                else
+                {
+                    order = db.PurchaseOrders.Find(details.First().PurchaseOrderId);
+                }
+
                 foreach (var item in details)
                 {
-                    db.Entry(item).State = EntityState.Modified;
+                    if (item.Id == 0)
+                    {
+                        db.PurchaseOrderDetails.Add(item);
+                    }
+                    else
+                    {
+                        db.Entry(item).State = EntityState.Modified;
+                    }
                 }
                 db.SaveChanges();
                 return Json(new { Result = true, Message = "Detail has upudated" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { Result = false, Message = ex.Message}, JsonRequestBehavior.AllowGet);
+                return Json(new { Result = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
 
         private ProductItemViewModel GetProductItemModel(Product p)
         {

@@ -66,11 +66,11 @@
         columns:
             [
                 { field: "Id", template: $('#orderDetailTemplate').html() },
-                { field: "Created", format: "{0:MM/dd/yyyy}", filterable: false,hidden:true },
+                { field: "Created", format: "{0:MM/dd/yyyy}", filterable: false, hidden: true },
                 { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
                 { field: "ProviderName", filterable: true },
                 { field: "Total", filterable: false, template: '<div class="text-right">#=kendo.toString(data.Total,"c")#</div>' },
-                { template:$('#actionsTemplate').html(), title: "Actions"}
+                { template: $('#actionsTemplate').html(), title: "Actions" }
             ]
     });
 
@@ -95,6 +95,28 @@
             XF.ChangeStatus(id);
         });
     };
+
+    XF.winProvider = $('#winProvider').kendoWindow({
+        width: "340px",
+        title: "Select a provider",
+        visible: false,
+        actions: [
+            "Close"
+        ]
+    }).data("kendoWindow");
+
+    $('#btnAddNew').on('click', function () {
+        XF.winProvider.center().open();
+    });
+
+    $('#btnCancelAddNew').on('click',function () {
+        XF.winProvider.close();
+    });
+
+    $('#btnAddNewProvider').on('click', function () {
+        location.href = "/Purchases/New/" + $('#ddlProvider').val();
+    });
+
 
     function titleFilter(element) {
         element.kendoAutoComplete({

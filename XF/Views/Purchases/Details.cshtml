@@ -30,13 +30,18 @@
         <table class="table table-striped table-bordered" id="orderTable">
             <thead>
                 <tr>
+                    <th colspan="4" class="text-right">
+                        <input type="button" class="btn btn-primary btn-add" value="Add Item" />
+                    </th>
+                </tr>
+                <tr>
                     <th class="text-center">Item</th>
                     <th class="text-center">Quantity</th>
                     <th class="text-center">Unit Price</th>
                     <th class="text-center">Total</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tblDetail">
                 @{ var index = 0;}
                 @foreach (var detail in Model.Order.PurchaseOrderDetails)
                 {
@@ -69,6 +74,12 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <td colspan="4" class="text-right">
+                        <input type="button" class="btn btn-primary btn-add" value="Add Item" />
+                    </td>
+                </tr>
+
+                <tr>
                     <td colspan="3" class="text-right">
                         <strong>TOTAL</strong>
                     </td>
@@ -87,6 +98,32 @@
         <input type="button" id="btnSave" value="Save" class="btn btn-primary" />
     </div>
 </div>
+
+<script type="text/html" id="newItemTemplate">
+
+    <tr class="item item-#=data.index#" data-detailid="0">
+        <td>
+            <select class="item-product form-control">
+                @foreach (var product in Model.Products)
+                {
+                    <option value="@product.Id" data-price="@product.PurchasePrice">@product.NameCode</option>
+                }
+            </select>
+        </td>
+        <td class="text-right">
+            <input type="number" min="1" step="1" class="item-quantity form-control" value="1"/>
+        </td>
+        <td class="text-right">
+            <em class="lbl-price item-price" data-value="@Model.Products.First().PurchasePrice">@string.Format("{0:c}", Model.Products.First().PurchasePrice)</em>
+        </td>
+
+        <td class="text-right">
+            <em class="lbl-total item-subtotal" data-value="@Model.Products.First().PurchasePrice">
+                @string.Format("{0:C}", Model.Products.First().PurchasePrice)
+            </em>
+        </td>
+    </tr>
+</script>
 
 @section scripts
 {

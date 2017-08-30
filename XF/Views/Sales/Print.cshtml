@@ -1,6 +1,6 @@
 ﻿@model XF.Models.InvoiceBalanceModel
 @{
-    var maxRows = 12;
+    var maxRows = 9;
     var rowsCount = Model.Invoice.InvoiceDetails.Count();
     var rowsNumber = rowsCount > maxRows ? 0 : maxRows - rowsCount;
     ViewBag.Title = "Print";
@@ -136,7 +136,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" rowspan="5">
+            <td colspan="3" rowspan="8">
                 @if (Model.Invoice.IsDelivery)
                 {
                     <span>Delivered Date</span>
@@ -168,6 +168,18 @@
         <tr>
             <td class="text-right"><strong>Tax</strong></td>
             <td class="text-right">@string.Format("{0:p}", Model.Invoice.Tax)</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>SNAP</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.SNAP)</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Delivery Fee</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.DeliveryFee)</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Instalation Fee</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.InstalationFee)</td>
         </tr>
         <tr>
             <td class="text-right"><strong>Total</strong></td>

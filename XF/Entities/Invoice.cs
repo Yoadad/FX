@@ -55,6 +55,16 @@ namespace XF.Entities
         [StringLength(1024)]
         public string Address { get; set; }
 
+        [Column(TypeName = "numeric")]
+        public decimal? SNAP { get; set; }
+
+        [Column(TypeName = "numeric")]
+        public decimal? DeliveryFee { get; set; }
+
+        [Column(TypeName = "numeric")]
+        public decimal? InstalationFee { get; set; }
+
+
         public virtual AspNetUser AspNetUser { get; set; }
 
         public virtual Client Client { get; set; }
