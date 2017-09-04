@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>09/03/2017 01:55:44</publishTime>
+      <publishTime>09/03/2017 22:26:37</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -401,7 +401,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/29/2017 23:02:53</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
-      <publishTime>08/16/2017 01:01:12</publishTime>
+      <publishTime>09/03/2017 22:22:20</publishTime>
     </File>
     <File Include="Scripts/Sales/QuotationPoint.js">
       <publishTime>07/02/2017 01:52:45</publishTime>
@@ -530,13 +530,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>08/29/2017 23:00:31</publishTime>
+      <publishTime>09/03/2017 22:04:49</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
     </File>
     <File Include="Views/Invoices/Index.cshtml">
-      <publishTime>08/16/2017 01:04:34</publishTime>
+      <publishTime>09/03/2017 22:21:59</publishTime>
     </File>
     <File Include="Views/InvoiceStatus/Create.cshtml">
       <publishTime>03/26/2017 17:29:26</publishTime>
@@ -719,7 +719,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 17:11:30</publishTime>
     </File>
     <File Include="Views/Sales/Print.cshtml">
-      <publishTime>08/29/2017 22:48:54</publishTime>
+      <publishTime>09/03/2017 21:43:44</publishTime>
+    </File>
+    <File Include="Views/Sales/PrintDelivery.cshtml">
+      <publishTime>09/03/2017 22:07:16</publishTime>
     </File>
     <File Include="Views/Sales/Quotation.cshtml">
       <publishTime>06/05/2017 02:07:58</publishTime>

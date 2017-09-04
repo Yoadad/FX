@@ -36,20 +36,20 @@
                 total: "total",
                 model: {
                     fields: {
-                        Date: { type: "date"}
+                        Date: { type: "date" }
                     }
                 }
             }
 
     });
 
-    
-    $("#grid").kendoGrid({  
+
+    $("#grid").kendoGrid({
         dataSource: _dataSource,
-        sortable:  {
+        sortable: {
             mode: "single",
             allowUnsort: false
-           },
+        },
         pageable: { refresh: true, pageSizes: true },
         dataBound: function () {
             $('.chk-released').on('click', function () {
@@ -57,15 +57,15 @@
             });
         },
         filterable: {
-            extra:false,
-           operators:
-                {
-                    string: {
-                        //contains: "Contains",
-                        eq: "Is equal to",
-                        neq: "Is not equal to"
-                    }
-                }
+            extra: false,
+            operators:
+                 {
+                     string: {
+                         //contains: "Contains",
+                         eq: "Is equal to",
+                         neq: "Is not equal to"
+                     }
+                 }
         },
         //selectable: "multiple cell",
         columns:
@@ -73,14 +73,14 @@
                 { field: "Id", template: $('#invoiceDetailTemplate').html() },
                 //{ field: "Date", template: '#=kendo.toString(Date, \"MM/dd/yyyy\")#', filterable:true },
                 { field: "Date", format: "{0:MM/dd/yyyy}", filterable: true },
-                { field: "ClientName",title:"Client Name", filterable: true, width:155 },
+                { field: "ClientName", title: "Client Name", filterable: true, width: 155 },
                 { field: "PaymentType", title: "Payment Type", filterable: false, width: 155 },
                 { field: "Subtotal", filterable: false },
                 { field: "Tax", filterable: false },
                 { field: "Discount", filterable: false },
                 { field: "Total", filterable: false },
-                { field: "ClientEmail", filterable: false,hidden:true},
-                { field: "Actions", template: $('#PrintInvoiceDetailTemplate').html(),filterable: false }
+                { field: "ClientEmail", filterable: false, hidden: true },
+                { field: "Actions", template: $('#PrintInvoiceDetailTemplate').html(), filterable: false }
             ]
     });
 
@@ -91,7 +91,7 @@
     }
 
     XF.confirmEmail = function (invoiceId, email) {
-        XF.prompt("Send Invoice to:",email, function (eml) {
+        XF.prompt("Send Invoice to:", email, function (eml) {
             XF.sendInvoiceEmail(invoiceId, eml);
         });
     };
@@ -123,14 +123,14 @@
             $('#grid').data('kendoGrid').dataSource.read();
         }
         else {
-            XF.addInfoMessage(data.Message,'danger');
+            XF.addInfoMessage(data.Message, 'danger');
         }
     };
 
-    XF.refundInvoice = function (invoiceId) {
-        XF.confirm("This action will refund this invoice", function () {
+    XF.refundInvoice = function (invoiceId,amount) {
+        XF.prompt("This action will refund this invoice, please enter the amount:", amount, function () {
             var url = '/Invoices/Refund';
-            var data = { id: invoiceId };
+            var data = { id: invoiceId, amount: $('#txtPromptValue').val() };
             $.post(url, data, XF.refundInvoiceResponse, 'json');
         });
     };

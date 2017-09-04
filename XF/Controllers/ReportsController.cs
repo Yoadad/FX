@@ -29,7 +29,8 @@ namespace XF.Controllers
                 .Include(i => i.Payments)
                 .Include(i => i.Client)
                 .Include(i => i.AspNetUser)
-                .Where(i => i.Created >= startDate && i.Created < endDate && i.InvoiceStatusId > 1)
+                .Where(i => i.Created >= startDate && i.Created < endDate 
+                && i.InvoiceStatusId > 1 && i.InvoiceStatusId < 4)
                 .ToList();
             return invoices;
         }

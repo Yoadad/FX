@@ -135,7 +135,7 @@ namespace XF.Controllers
             }
         }
 
-        public JsonResult Refund(int id)
+        public JsonResult Refund(int id,decimal amount)
         {
             try
             {
@@ -143,15 +143,14 @@ namespace XF.Controllers
                             .Include(i => i.PurchaseOrders)
                             .FirstOrDefault(i=>i.Id == id);
                 invoice.InvoiceStatusId = (int)InvoiceStatus.Refund;
+                invoice.Refund = amount;
                 
-
-                //TODO: Refactor
-
                 foreach (var order in invoice.PurchaseOrders)
                 {
                     order.PurchaseOrderStatusId = 4;
                     db.Entry(order).State = EntityState.Modified;
                 }
+                db.Entry(invoice).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return Json(new { Result = true, Message = "Refund success"}, JsonRequestBehavior.AllowGet);

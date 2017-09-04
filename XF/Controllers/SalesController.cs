@@ -252,6 +252,30 @@ namespace XF.Controllers
             model.Balance = model.Balance < new decimal(0.09) ? 0 : model.Balance;
             return new ViewAsPdf(model);
         }
+
+        [AllowAnonymous]
+        public ActionResult PrintDelivery(int id)
+        {
+            var invoice = db.Invoices
+                            .Include(i => i.InvoiceDetails)
+                            .Include(i => i.InvoiceDetails.Select(ids => ids.Product))
+                            .Include(i => i.InvoiceDetails.Select(ids => ids.Product.Provider))
+                            .Include(i => i.Payments)
+                            .Include(i => i.PaymentType)
+                            .FirstOrDefault(i => i.Id == id);
+            var invoiceService = new InvoiceService();
+            var model = new InvoiceBalanceModel()
+            {
+                Invoice = invoice,
+                Balance = invoice.InvoiceStatusId == 1 || invoiceService.GetInvoiceBalances(invoice).Payments.Count() == 0
+                ? invoice.Total.Value
+                : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
+            };
+            model.Balance = model.Balance < new decimal(0.09) ? 0 : model.Balance;
+            return new ViewAsPdf(model);
+        }
+
+
         public string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;

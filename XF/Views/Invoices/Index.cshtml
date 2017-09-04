@@ -34,7 +34,7 @@
     <a href="javascript:XF.confirmEmail(#=data.InvoiceId#,'#=data.ClientEmail#');">Email</a>
     <br />
     #if(data.InvoiceStatusId==2){#
-        <a href="javascript:XF.refundInvoice(#=data.InvoiceId#);">Refund</a>
+        <a href="javascript:XF.refundInvoice(#=data.InvoiceId#,#=data.Subtotal*(0.80)#);">Refund</a>
         <br />
     #}#
     #if(data.InvoiceStatusId == 2 || data.InvoiceStatusId == 3){#
