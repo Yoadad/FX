@@ -12,6 +12,7 @@ using XF.Entities;
 using XF.Models;
 using XF.Services;
 using Rotativa;
+using System.Text.RegularExpressions;
 
 namespace XF.Controllers
 {
@@ -132,6 +133,20 @@ namespace XF.Controllers
 
         public JsonResult Orders(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
+            var filtersObject = JsonConvert.DeserializeObject<FiltersModel>(filter ?? "");
+            var hasFilterProviderName = string.IsNullOrWhiteSpace(filter) || filtersObject == null ? false : filtersObject.filters.Any(f => f.field == "ProviderName");
+            var providerNameFilter = string.Empty;
+            if (hasFilterProviderName)
+            {
+                var filterItem = filtersObject.filters.First(f => f.field == "ProviderName");
+                providerNameFilter = filterItem.value;
+                filtersObject.filters.Remove(filterItem);
+                filter = JsonConvert.SerializeObject(filtersObject);
+                if (!filtersObject.filters.Any())
+                {
+                    filter = string.Empty;
+                }
+            }
             var result = GridService.GetData(db.PurchaseOrders.Where(p => p.PurchaseOrderStatu.Name.ToUpper() != "DONE").OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,
@@ -139,11 +154,18 @@ namespace XF.Controllers
                                                 take,
                                                 pageSize,
                                                 page);
+
             var orders = result
                 .Data
                 .ToList()
                 .Select(i => GetOrderItemModel(i));
             var count = result.Count;
+            if (hasFilterProviderName)
+            {
+                orders = orders.Where(i =>
+                    Regex.Match(i.ProviderName.Trim().ToLower(),
+                    providerNameFilter.Trim().ToLower()).Success);
+            }
 
             return Json(new { total = count, data = orders }, JsonRequestBehavior.AllowGet);
         }

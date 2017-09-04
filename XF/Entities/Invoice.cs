@@ -64,6 +64,8 @@ namespace XF.Entities
         [Column(TypeName = "numeric")]
         public decimal? InstalationFee { get; set; }
 
+        [Column(TypeName = "numeric")]
+        public decimal? Refund { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
 

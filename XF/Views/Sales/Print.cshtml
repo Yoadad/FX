@@ -110,7 +110,7 @@
                 <td>
                     @detail.Product.NameCode
                     &nbsp;&nbsp;&nbsp;
-                    <small>@(string.IsNullOrWhiteSpace(detail.Note) ? string.Empty : string.Format("({0})",detail.Note))</small>
+                    <small>@(string.IsNullOrWhiteSpace(detail.Note) ? string.Empty : string.Format("({0})", detail.Note))</small>
                 </td>
                 <td class="text-right">
                     @detail.Quantity
@@ -151,7 +151,7 @@
                 SIGNATURE CONFIRM IS ACCURATE.
                 <br />
                 TERMS AND CONDITION
-                <br/>
+                <br />
                 No returns will be accepted. If product is damage upon arrival it can be replaced.
                 Thank you for Choosing Ximena's Furniture/Muebleria
                 <br />
@@ -169,18 +169,29 @@
             <td class="text-right"><strong>Tax</strong></td>
             <td class="text-right">@string.Format("{0:p}", Model.Invoice.Tax)</td>
         </tr>
-        <tr>
-            <td class="text-right"><strong>SNAP</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.SNAP)</td>
-        </tr>
-        <tr>
-            <td class="text-right"><strong>Delivery Fee</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.DeliveryFee)</td>
-        </tr>
-        <tr>
-            <td class="text-right"><strong>Instalation Fee</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.InstalationFee)</td>
-        </tr>
+        @if ((Model.Invoice.SNAP ?? 0) > 0)
+        {
+            <tr>
+                <td class="text-right"><strong>SNAP</strong></td>
+                <td class="text-right">@string.Format("{0:c}", Model.Invoice.SNAP)</td>
+            </tr>
+        }
+        @if ((Model.Invoice.DeliveryFee ?? 0) > 0)
+        {
+
+            <tr>
+                <td class="text-right"><strong>Delivery Fee</strong></td>
+                <td class="text-right">@string.Format("{0:c}", Model.Invoice.DeliveryFee)</td>
+            </tr>
+        }
+        @if ((Model.Invoice.InstalationFee ?? 0) > 0)
+        {
+
+            <tr>
+                <td class="text-right"><strong>Instalation Fee</strong></td>
+                <td class="text-right">@string.Format("{0:c}", Model.Invoice.InstalationFee)</td>
+            </tr>
+        }
         <tr>
             <td class="text-right"><strong>Total</strong></td>
             <td class="text-right">@string.Format("{0:c}", Model.Invoice.Total)</td>
