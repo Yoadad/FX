@@ -84,9 +84,21 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="background-color:white;">
+        <td style="background-color:white; width:50%;">
             <strong>CREDIT TYPE:</strong>
             <span>@Model.Invoice.PaymentType.Name</span>
+        </td>
+        <td style="background-color:white; width:50%;">
+            <label>
+                <input type="checkbox" @(Model.Invoice.DeliveryFee > 0 ? "checked" : "")>
+                Delivery Fee
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>
+                <input type="checkbox" @(Model.Invoice.InstalationFee > 0 ? "checked" : "")>
+                Intalation Fee
+            </label>
+
         </td>
     </tr>
 </table>
