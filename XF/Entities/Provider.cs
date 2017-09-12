@@ -20,10 +20,12 @@ namespace XF.Entities
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Business Name")]
         public string BusinessName { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Contact Name")]
         public string ContactName { get; set; }
 
         [StringLength(255)]
