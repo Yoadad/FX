@@ -108,14 +108,16 @@
                                 </a>
                             </h3>
                         </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Reports/Index">
-                                    <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports
-                                </a>
-                            </h3>
-                        </li>
-
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                        {
+                            <li class="xf-list-item">
+                                <h3>
+                                    <a href="/Reports/Index">
+                                        <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports
+                                    </a>
+                                </h3>
+                            </li>
+                        }
                     </ul>
                 }
             </div>

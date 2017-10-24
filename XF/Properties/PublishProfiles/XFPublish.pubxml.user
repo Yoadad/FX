@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>09/10/2017 16:49:38</publishTime>
+      <publishTime>10/23/2017 21:36:03</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -398,7 +398,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>08/29/2017 23:02:53</publishTime>
+      <publishTime>10/23/2017 11:41:06</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>09/03/2017 22:22:20</publishTime>
@@ -407,7 +407,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/02/2017 01:52:45</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesPoint.js">
-      <publishTime>08/29/2017 22:15:50</publishTime>
+      <publishTime>10/23/2017 11:40:33</publishTime>
     </File>
     <File Include="Scripts/Sales/SalesService.js">
       <publishTime>06/23/2017 00:14:23</publishTime>
@@ -530,7 +530,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>09/03/2017 22:04:49</publishTime>
+      <publishTime>10/23/2017 11:44:27</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
@@ -623,10 +623,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/06/2017 00:16:24</publishTime>
     </File>
     <File Include="Views/Providers/Edit.cshtml">
-      <publishTime>08/23/2017 01:40:46</publishTime>
+      <publishTime>10/23/2017 11:56:28</publishTime>
     </File>
     <File Include="Views/Providers/Index.cshtml">
-      <publishTime>09/10/2017 16:13:04</publishTime>
+      <publishTime>09/11/2017 21:50:16</publishTime>
     </File>
     <File Include="Views/PurchaseOrders/Create.cshtml">
       <publishTime>03/26/2017 17:36:20</publishTime>
@@ -713,13 +713,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 13:27:05</publishTime>
     </File>
     <File Include="Views/Sales/Index.cshtml">
-      <publishTime>08/29/2017 22:09:47</publishTime>
+      <publishTime>10/23/2017 11:38:41</publishTime>
     </File>
     <File Include="Views/Sales/PdfInvoice.cshtml">
       <publishTime>06/11/2017 17:11:30</publishTime>
     </File>
     <File Include="Views/Sales/Print.cshtml">
-      <publishTime>09/03/2017 21:43:44</publishTime>
+      <publishTime>10/23/2017 22:40:11</publishTime>
     </File>
     <File Include="Views/Sales/PrintDelivery.cshtml">
       <publishTime>09/05/2017 00:11:21</publishTime>
@@ -734,7 +734,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/01/2017 01:52:24</publishTime>
+      <publishTime>10/23/2017 23:06:47</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/15/2017 16:09:55</publishTime>
@@ -794,7 +794,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/01/2017 00:54:06</publishTime>
+      <publishTime>10/23/2017 11:34:48</publishTime>
     </File>
   </ItemGroup>
 </Project>

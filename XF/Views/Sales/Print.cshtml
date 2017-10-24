@@ -136,7 +136,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" rowspan="8">
+            <td colspan="3" rowspan="9">
                 @if (Model.Invoice.IsDelivery)
                 {
                     <span>Delivered Date</span>
@@ -166,8 +166,12 @@
             <td class="text-right">@string.Format("{0:c}", Model.Invoice.Subtotal)</td>
         </tr>
         <tr>
+            <td class="text-right"><strong>Discount</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Discount)</td>
+        </tr>
+        <tr>
             <td class="text-right"><strong>Tax</strong></td>
-            <td class="text-right">@string.Format("{0:p}", Model.Invoice.Tax)</td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Tax*Model.Invoice.Subtotal)</td>
         </tr>
         @if ((Model.Invoice.SNAP ?? 0) > 0)
         {

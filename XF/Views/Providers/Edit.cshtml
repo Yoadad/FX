@@ -89,7 +89,10 @@
 <script>
 
     $('#chkIsActive').on('click', function () {
-        $('#hfIsActive').val($(this).is(':checked') ? 'True':'False');
+        $('#hfIsActive').val($(this).is(':checked') ? 'true':'false');
     });
+
+    $('#hfIsActive').val($('#chkIsActive').is(':checked') ? 'true' : 'false');
+
 </script>
 }

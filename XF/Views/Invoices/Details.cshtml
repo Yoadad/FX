@@ -212,7 +212,8 @@
                 <tr>
                     <td class="text-right">Tax</td>
                     <td class="text-right text-info">
-                        <em id="lblTax" data-value="@Model.Invoice.Tax ">@string.Format("{0:p}", Model.Invoice.Tax)</em>
+                        <em id="lblTax" data-value="@Model.Invoice.Tax" style="display:none;">@string.Format("{0:p}", Model.Invoice.Tax)</em>
+                        <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
                     </td>
                     <td></td>
                 </tr>
