@@ -150,8 +150,15 @@ namespace XF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ProviderId = new SelectList(db.Providers
+                            .ToList()
+                            .Select(p => new
+                            {
+                                Id = p.Id,
+                                Name = p.BusinessName
+                            })
+                            , "Id", "Name");
 
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", product.ProviderId);
             return View(product);
         }
 

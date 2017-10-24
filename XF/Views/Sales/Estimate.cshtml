@@ -67,7 +67,8 @@
             <tr>
                 <td colspan="3" class="text-right">Tax</td>
                 <td class="text-right text-info">
-                    <em id="lblTax" data-value="@Model.Tax">@string.Format("{0:p}",Model.Tax)</em>
+                    <em id="lblTax" data-value="@Model.Tax" style="display:none;">@string.Format("{0:p}",Model.Tax)</em>
+                    <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
                 </td>
                 <td></td>
             </tr>
@@ -138,6 +139,6 @@
 </script>
 
 @section scripts{
-    @Scripts.Render("~/Scripts/Sales/QuotationPoint.js")    
+    @Scripts.Render("~/Scripts/Sales/QuotationPoint.js?v=1")    
 }
 

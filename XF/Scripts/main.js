@@ -42,7 +42,8 @@ var XF = XF || {};
     };
 
     XF.getHtmlFromTemplate = function (selector, data) {
-        var template = kendo.template($(selector).html());
+        var html = $(selector).html().replace('&#39;', '\'')
+        var template = kendo.template(html);
         var html = template(data);
         return html;
     };

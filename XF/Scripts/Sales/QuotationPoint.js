@@ -46,7 +46,8 @@
 
         $('#txtDiscountPercent').val(discountPercent);
         $('#lblSubtotal').text(kendo.format('{0:C}', subtotal)).data({value:subtotal});
-        $('#lblTotal').text(kendo.format('{0:C}', total)).data({value:total});
+        $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });
+        $('#lblTaxDisplay').text(kendo.format('{0:C}', subtotal * tax));
     };
 
     XF.addItem();
