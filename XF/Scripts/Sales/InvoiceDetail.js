@@ -207,6 +207,7 @@
         $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });
         $('#lblPaymentsAmount').text(kendo.format('{0:C}', paymentsAmount)).data({ value: paymentsAmount });
         $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
+        $('#lblTaxDisplay').text(kendo.format('{0:C}', subtotal * tax));
         XF.getBalance();
     };
 

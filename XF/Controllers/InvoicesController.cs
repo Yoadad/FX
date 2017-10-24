@@ -89,7 +89,7 @@ namespace XF.Controllers
                     clientNameFilter.Trim().ToLower()).Success);
             }
 
-            return Json(new { total = invoices.Count(), data = invoices }, JsonRequestBehavior.AllowGet);
+            return Json(new { total = count, data = invoices }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Invoices1/Details/5

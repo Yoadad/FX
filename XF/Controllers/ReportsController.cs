@@ -10,7 +10,7 @@ using XF.Models;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Super,Admin")]
     public class ReportsController : Controller
     {
         private XFModel db = new XFModel();
