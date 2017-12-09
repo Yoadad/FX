@@ -118,7 +118,7 @@
             <select class="form-control cmb-product">
                 @foreach (var item in Model.Products)
                 {
-                    <option value="@item.Id" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
+                    <option value="@item.Id" data-price="@item.SellPrice">@item.Name.Replace("#", "\\\\#") [@item.Code.Replace("#", "\\\\#,")]</option>
                 }
             </select>
         </td>

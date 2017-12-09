@@ -22,7 +22,6 @@ namespace XF.Controllers
 
         private IEnumerable<Invoice> GetInvoices(DateTime startDate, DateTime endDate)
         {
-            endDate = endDate.Date.AddDays(1);
             var invoices = db.Invoices
                 .Include(i => i.InvoiceDetails)
                 .Include(i => i.InvoiceDetails.Select(id => id.Product))

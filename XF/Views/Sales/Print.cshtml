@@ -13,7 +13,12 @@
         </td>
         <td>
             <div>
+                @if (Model.Invoice.InvoiceStatusId == 4)
+                {
+                    <h1 class="text-center" style="color:black;">REFUND</h1>
+                }
                 <h4>
+
                     <small>
                         <em>
                             PO BOX 2647<br />
@@ -136,7 +141,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" rowspan="9">
+            <td colspan="3" rowspan="@(10+Model.Invoice.Payments.GroupBy(p => p.PaymentOptionId).Count())">
                 @if (Model.Invoice.IsDelivery)
                 {
                     <span>Delivered Date</span>
@@ -161,17 +166,35 @@
                     Date_______________
                 </strong>
                 <hr />
+                @if (Model.Invoice.InvoiceStatusId == 4)
+                {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2 text-right">
+                            <h4 style="color:black;">Refund amount @string.Format("{0:C}", Model.Invoice.Refund)</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 text-right">
+                            <h4 style="color:black;">Balance Due @string.Format("{0:C}", (Model.Invoice.Total - Model.Invoice.Refund))</h4>
+                        </div>
+                    </div>                    
+                </div>
+                }
             </td>
             <td class="text-right"><strong>Subtotal</strong></td>
             <td class="text-right">@string.Format("{0:c}", Model.Invoice.Subtotal)</td>
         </tr>
-        <tr>
-            <td class="text-right"><strong>Discount</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Discount)</td>
-        </tr>
+        @if (Model.Invoice.Discount > 0)
+        {
+            <tr>
+                <td class="text-right"><strong>Subtotal w/discount</strong></td>
+                <td class="text-right">@string.Format("{0:c}", Model.Invoice.Subtotal - Model.Invoice.Discount)</td>
+            </tr>
+        }
         <tr>
             <td class="text-right"><strong>Tax</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Tax*Model.Invoice.Subtotal)</td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Tax * (Model.Invoice.Subtotal - Model.Invoice.Discount))</td>
         </tr>
         @if ((Model.Invoice.SNAP ?? 0) > 0)
         {
@@ -205,6 +228,13 @@
             <tr>
                 <td class="text-right"><strong>@payments.First().PaymentOption.Name</strong></td>
                 <td class="text-right">@string.Format("{0:c}", payments.Sum(p => p.Amount))</td>
+            </tr>
+        }
+        @if (Model.Invoice.Payments.Any())
+        {
+            <tr>
+                <td class="text-right"><strong>Last Payment</strong></td>
+                <td class="text-right">@string.Format("{0:c}", Model.Invoice.Payments.OrderBy(p => p.Date).Last().Amount)</td>
             </tr>
         }
         <tr>
