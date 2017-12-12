@@ -21,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="~/Content/Images/Ximenas_transparent.png?v=2" width="89" />
+                <img src="~/Content/Images/Ximenas_transparent.png?v=2" width="89" style="cursor:pointer;" onclick="javascript: window.location ='/Home'" />
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
@@ -30,98 +30,7 @@
     </div>
     <div class="container-fluent body-content xf-container">
         <div class="row">
-            <div class="col-md-2 xf-menu-col">
-                @if (Request.IsAuthenticated)
-                {
-                    <ul class="xf-menu">
-                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
-                        {
-                            <li class="xf-list-item">
-                                <h3>
-                                    <a href="/Products/Inventory">
-                                        <i class="fa fa-cubes" aria-hidden="true"></i> Inventory
-                                    </a>
-                                </h3>
-
-                            </li>
-                        }
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Products">
-                                    <i class="fa fa-barcode" aria-hidden="true"></i> Products
-                                </a>
-                            </h3>
-
-                        </li>
-                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
-                        {
-                            <li class="xf-list-item">
-                                <h3>
-                                    <a href="/Users">
-                                        <i class="fa fa-users" aria-hidden="true"></i> Users
-                                    </a>
-                                </h3>
-
-                            </li>
-                        }
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Sales">
-                                    <i class="fa fa-tags" aria-hidden="true"></i> Sales
-                                </a>
-                            </h3>
-
-                        </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Invoices">
-                                    <i class="fa fa-list-ol" aria-hidden="true"></i> Invoices
-                                </a>
-                            </h3>
-
-                        </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Purchases/List">
-                                    <i class="fa fa-list-alt" aria-hidden="true"></i> Orders
-                                </a>
-                            </h3>
-                        </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Sales/Estimate">
-                                    <i class="fa fa-money" aria-hidden="true"></i> Estimates
-                                </a>
-                            </h3>
-                        </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Clients/Index">
-                                    <i class="fa fa-address-book-o" aria-hidden="true"></i> Clients
-                                </a>
-                            </h3>
-                        </li>
-                        <li class="xf-list-item">
-                            <h3>
-                                <a href="/Providers/Index">
-                                    <i class="fa fa-address-card-o" aria-hidden="true"></i> Providers
-                                </a>
-                            </h3>
-                        </li>
-                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
-                        {
-                            <li class="xf-list-item">
-                                <h3>
-                                    <a href="/Reports/Index">
-                                        <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports
-                                    </a>
-                                </h3>
-                            </li>
-                        }
-                    </ul>
-                }
-            </div>
-            <div class="col-md-8 xf-main-container">
+            <div class="col-md-10 xf-main-container">
                 @RenderBody()
             </div>
             @if (Request.IsAuthenticated)

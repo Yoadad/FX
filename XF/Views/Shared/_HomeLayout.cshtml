@@ -1,0 +1,169 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html lang="eu">
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Ximena's Furniture </title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/boostrap")
+    @Styles.Render("~/Content/fontawesome")
+    @Styles.Render("~/Content/kendo")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="~/Content/Images/Ximenas_transparent.png?v=2" width="89" />
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container-fluent body-content xf-container">
+        <div class="row">
+            <div class="col-md-10 xf-menu-col">
+                @if (Request.IsAuthenticated)
+                {
+                    <ul class="xf-menu">
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                        {
+                            <li class="xf-list-item">
+                                <h3>
+                                    <a href="javascript:window.open('/Products/Inventory','_blank','width=1100,height=550,menubar=false')">
+                                        <i class="fa fa-cubes" aria-hidden="true"></i> Inventory
+                                    </a>
+                                </h3>
+
+                            </li>
+                        }
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Products','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-barcode" aria-hidden="true"></i> Products
+                                </a>
+                            </h3>
+
+                        </li>
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                        {
+                            <li class="xf-list-item">
+                                <h3>
+                                    <a href="javascript:window.open('/Users','_blank','width=1100,height=550,menubar=false')">
+                                        <i class="fa fa-users" aria-hidden="true"></i> Users
+                                    </a>
+                                </h3>
+
+                            </li>
+                        }
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Sales','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-tags" aria-hidden="true"></i> Sales
+                                </a>
+                            </h3>
+
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Invoices','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-list-ol" aria-hidden="true"></i> Invoices
+                                </a>
+                            </h3>
+
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Purchases/List','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> Orders
+                                </a>
+                            </h3>
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Sales/Estimate','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-money" aria-hidden="true"></i> Estimates
+                                </a>
+                            </h3>
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Clients/Index','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-address-book-o" aria-hidden="true"></i> Clients
+                                </a>
+                            </h3>
+                        </li>
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Providers/Index','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-address-card-o" aria-hidden="true"></i> Providers
+                                </a>
+                            </h3>
+                        </li>
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                        {
+                            <li class="xf-list-item">
+                                <h3>
+                                    <a href="javascript:window.open('/Reports/Index','_blank','width=1100,height=550,menubar=false')">
+                                        <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports
+                                    </a>
+                                </h3>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <div class="col-md-2">
+                    <br />
+                    <div>
+                        @Html.Action("Edition", "Notes")
+                    </div>
+                    <hr />
+                    <div>
+                        <h5><strong>Application Info</strong></h5>
+                        <div id="info"></div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+    @RenderBody()
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Ximena's Furniture</p>
+    </footer>
+
+    @Html.Partial("~/Views/Templates/Info.cshtml")
+    @Html.Partial("~/Views/Templates/Alert.cshtml")
+    @Html.Partial("~/Views/Templates/Confirm.cshtml")
+    @Html.Partial("~/Views/Templates/Prompt.cshtml")
+    @Html.Partial("~/Views/Templates/Note.cshtml")
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/Scripts/main.js?v=1")
+    @if (Request.IsAuthenticated)
+    {
+        @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.min.js")
+        @Scripts.Render("~/signalr/js")
+        @Scripts.Render("~/Scripts/Notes/notes.js")
+    }
+    @RenderSection("templates", required: false)
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
