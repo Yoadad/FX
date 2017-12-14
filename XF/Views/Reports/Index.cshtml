@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<KeyValuePair<string,string>>
+@{
     ViewBag.Title = "Reports";
 }
 
@@ -6,7 +7,7 @@
 
 <div class="row">
     <div class="col-sm-6">
-        <label>
+        <div>
             Reports:
             <select id="cmbReports" class="form-control">
                 <option value="1">Daily</option>
@@ -18,16 +19,27 @@
                     <option value="5">Profit</option>
                 }
             </select>
-            <label>
-                Start Date:
-                <input type="date" id="txtStartDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
-            </label>
-            <label id="lblEndDate">
-                End Date:
-                <input type="date" id="txtEndDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
-            </label>
-
-        </label>
+        </div>
+        <div>
+            Start Date:
+            <input type="date" id="txtStartDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        
+        <div id="lblEndDate">
+            End Date:
+            <input type="date" id="txtEndDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div>
+            User:
+            <select id="ddlUser" class="form-control">
+                <option value="">All Salers</option>
+                @foreach (KeyValuePair<string,string> user in Model)
+                {
+                    <option value="@user.Key">@user.Value</option>
+                }
+            </select>
+        </div>
+        
     </div>
     <div class="col-sm-6 text-right">
         <input type="button" value="Filter" class="btn btn-primary" id="btnFilter" />

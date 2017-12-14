@@ -3,6 +3,14 @@
     ViewBag.Title = "Sales Report";
     Layout = null;
     var currentAmount = new decimal(0);
+    var userName = Model.Invoices.Any()
+                ? (Model.Invoices.First().UserId != Model.Invoices.Last().UserId
+                    ? string.Empty
+                    : string.Format("{0} {1}",
+                    Model.Invoices.First().AspNetUser.FirstName,
+                    Model.Invoices.First().AspNetUser.LastName))
+                : string.Empty;
+
 }
 
 @if (ViewBag.HasStyles)
@@ -11,6 +19,8 @@
 }
 <h2 class="text-center">
     Sales Report
+    <br />
+    <small>@userName</small>
     <br />
     <small class="text-right">@ViewBag.StartDate &nbsp;to&nbsp;@ViewBag.EndDate</small>
     <br />

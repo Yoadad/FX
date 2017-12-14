@@ -4,8 +4,11 @@
 
     XF.getDailyReport = function () {
         var url = '/Reports/daily';
-        var data = { date: $('#txtStartDate').val(), hasStyles: false
-    };
+        var data = {
+            date: $('#txtStartDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
         $.get(url, data, XF.getDailyReportResponse);
     };
 
@@ -15,7 +18,12 @@
 
     XF.getDeliveryReport = function () {
         var url = '/Reports/Delivery';
-        var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
         $.get(url, data, XF.getDeliveryReportResponse);
     };
 
@@ -25,7 +33,12 @@
 
     XF.getPickUpReport = function () {
         var url = '/Reports/PickUp';
-        var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
         $.get(url, data, XF.getPickUpReportResponse);
     };
 
@@ -36,7 +49,12 @@
 
     XF.getSalesReport = function () {
         var url = '/Reports/Sales';
-        var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
         $.get(url, data, XF.getSalesReportsResponse);
     };
 
@@ -46,7 +64,12 @@
 
     XF.getProfitReport = function () {
         var url = '/Reports/Profit';
-        var data = { startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val(), hasStyles: false };
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
         $.get(url, data, XF.getProfitReportResponse);
     };
 

@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "Dayli Report";
     Layout = null;
+
+    var userName = Model.Any()
+                ?(  Model.First().UserId == Model.Last().UserId
+                    ? string.Empty
+                    : string.Format("{0} {1}", 
+                    Model.First().AspNetUser.FirstName,
+                    Model.First().AspNetUser.LastName))
+                :string.Empty;
 }
 
 @if (ViewBag.HasStyles)
@@ -10,6 +18,8 @@
 }
 <h2 class="text-center">
     Daily Balance
+    <br />
+    <small>@userName</small>
     <br />
     <small class="text-right">@ViewBag.Date</small>
     <br />

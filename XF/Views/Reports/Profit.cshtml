@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "Profit Report";
     Layout = null;
+    var userName = Model.Any()
+                ? (Model.First().UserId == Model.Last().UserId
+                    ? string.Empty
+                    : string.Format("{0} {1}",
+                    Model.First().AspNetUser.FirstName,
+                    Model.First().AspNetUser.LastName))
+                : string.Empty;
+
 }
 
 @if (ViewBag.HasStyles)
@@ -10,6 +18,8 @@
 }
 <h2 class="text-center">
     Profit Report
+    <br />
+    <small>@userName</small>
     <br />
     <small>@ViewBag.StartDate &nbsp;to&nbsp;@ViewBag.EndDate</small>
     <br />
