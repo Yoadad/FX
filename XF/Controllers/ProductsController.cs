@@ -78,9 +78,26 @@ namespace XF.Controllers
 
         public JsonResult InventoryProducts(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var result = GridService.GetData(db.Products
-                                                .Where(p => p.Stocks.Any(s => s.StockQuantity > 0))
-                                                .OrderBy(p => p.Code),
+            var filtersObject = JsonConvert.DeserializeObject<FiltersModel>(filter ?? "");
+            var hasFilterProviderName = string.IsNullOrWhiteSpace(filter) || filtersObject == null ? false : filtersObject.filters.Any(f => f.field == "ProviderName");
+            var providerNameFilter = string.Empty;
+            if (hasFilterProviderName)
+            {
+                var filterItem = filtersObject.filters.First(f => f.field == "ProviderName");
+                providerNameFilter = filterItem.value;
+                filtersObject.filters.Remove(filterItem);
+                filter = JsonConvert.SerializeObject(filtersObject);
+                if (!filtersObject.filters.Any())
+                {
+                    filter = string.Empty;
+                }
+            }
+
+            var pr = db.Products
+                .Include(p=>p.Provider)
+                .Where(p => p.Stocks.Any(s => s.StockQuantity > 0))
+                .OrderBy(p => p.Code);
+            var result = GridService.GetData(pr,
                                                 sorting,
                                                 filter,
                                                 skip,
@@ -92,6 +109,13 @@ namespace XF.Controllers
                 .ToList()
                 .Select(p => GetProductItemModel(p));
             var count = result.Count;
+
+            if (hasFilterProviderName)
+            {
+                products = products.Where(i =>
+                    Regex.Match(i.ProviderName.Trim().ToLower(),
+                    providerNameFilter.Trim().ToLower()).Success);
+            }
 
             return Json(new { total = count, data = products }, JsonRequestBehavior.AllowGet);
         }

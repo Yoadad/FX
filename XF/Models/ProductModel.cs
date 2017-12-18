@@ -28,6 +28,7 @@ namespace XF.Models
             this.PurchasePrice = product.PurchasePrice;
             this.Max = product.Max;
             this.Min = product.Min;
+            this.ProviderName = product.Provider.BusinessName;
         }
         public int Stock { get; set; }
         public string Note { get; set; } 
@@ -38,6 +39,7 @@ namespace XF.Models
                 return string.Format("{0} [{1}]",Name,Code);
             }
         }
+        public string ProviderName { get; set; }
     }
 
     public class ProductStockViewModel

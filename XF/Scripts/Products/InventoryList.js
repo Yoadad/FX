@@ -5,7 +5,6 @@
     var _dataSource = new kendo.data.DataSource({
         transport: {
             read: function (option) {
-                console.log(JSON.stringify(option.data.sort));
                 $.ajax({
                     url: '/Products/InventoryProducts',
                     dataType: 'json',
@@ -61,9 +60,10 @@
         //selectable: "multiple cell",
         columns:
             [
-                { field: "Id" , hidden: true },
+                { field: "Id", hidden: true },
                 { field: "Code",template:$("#codeTemplate").html() },
                 { field: "Name" },
+                { field: "ProviderName",title:'Provider Name', hidden: false },
                 { field: "SellPrice",title:"Sell Price", filterable: false },
                 { field: "PurchasePrice",title:"Puchase Price", filterable: false },
                 { field: "Max", filterable: false },
