@@ -13,7 +13,7 @@
     XF.SetStockResponse = function (data) {
         if (data.Result) {
             XF.addInfoMessage('Stock updated', 'success');
-            $('#cmbLocation option:selected').data('stock',$('#txtStock').val())
+            //$('#cmbLocation option:selected').data('stock',$('#txtStock').val())
         }
         else {
             XF.addInfoMessage(data.Message,'danger');
@@ -23,15 +23,19 @@
     $('#btnUpdate').on('click', function () {
         XF.confirm('This action will update the current product stock, are you sure that you want to continue?',
         function () {
-            var locationId = $('#cmbLocation').val();
-            var productId = $('#hfProductId').val();
-            var stock = $('#txtStock').val();
-            XF.SetStock(locationId,productId, stock);
+            $('.stock').each(function () {
+                var locationId = $(this).find('.location-stock').data('locationid');
+                var productId = $('#hfProductId').val();
+                var stock = $(this).find('.location-stock').val();
+                console.log(locationId);
+                console.log(stock);
+                XF.SetStock(locationId, productId, stock);
+            });
         });
     });
 
-    $('#cmbLocation').on('change', function () {
-        $('#txtStock').val($(this).find('option:selected').data('stock'));
-    });
+    //$('#cmbLocation').on('change', function () {
+    //    $('#txtStock').val($(this).find('option:selected').data('stock'));
+    //});
 
 }(jQuery, XF));

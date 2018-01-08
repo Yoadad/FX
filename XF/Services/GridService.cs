@@ -162,6 +162,7 @@ namespace XF.Services
         }
         public static ResultViewModel<T> GetData<T>(IQueryable<T> results, string sorting, string filter, int skip, int take, int pageSize, int page)
         {
+            filter = filter == "null" ? string.Empty : filter;
             if (!string.IsNullOrEmpty(filter) && filter != "null")
             {
                 results = GridService.ApplyfilterToProducts(results, filter);

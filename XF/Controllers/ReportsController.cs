@@ -42,26 +42,52 @@ namespace XF.Controllers
             return invoices;
         }
 
-
-        // GET: Reports
-        public ActionResult Daily(DateTime date, bool hasStyles)
+        public ActionResult Daily(DateTime date, bool hasStyles,string userId)
         {
             ViewBag.HasStyles = hasStyles;
             var endDate = date.AddDays(1);
             var invoices = GetInvoices(date, 
                 endDate,
-                User.Identity.GetUserId());
+                userId);
             ViewBag.Date = date.ToLongDateString();
             return View(invoices);
         }
 
-        public ActionResult PrintDaily(DateTime date, bool hasStyles)
+        public ActionResult SalesRange(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+            var invoices = GetInvoices(startDate,
+                endDate,
+                userId);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            ViewBag.UserID = userId;
+            return View(invoices);
+        }
+
+
+        public ActionResult PrintSalesRange(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+            var invoices = GetInvoices(startDate, 
+                endDate,
+                userId);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            ViewBag.UserID = userId;
+            return new ViewAsPdf("~/Views/Reports/SalesRange.cshtml", invoices);
+        }
+        public ActionResult PrintDaily(DateTime date, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
             var endDate = date.AddDays(1);
-            var invoices = GetInvoices(date, 
+            var invoices = GetInvoices(date,
                 endDate,
-                User.Identity.GetUserId());
+                userId);
             ViewBag.Date = date.ToLongDateString();
             return new ViewAsPdf("~/Views/Reports/Daily.cshtml", invoices);
         }
@@ -111,12 +137,12 @@ namespace XF.Controllers
         }
 
 
-        public ActionResult Sales(DateTime startDate, DateTime endDate, bool hasStyles)
+        public ActionResult Sales(DateTime startDate, DateTime endDate, bool hasStyles,string userId)
         {
             ViewBag.HasStyles = hasStyles;
             var invoices = GetInvoices(startDate,
                 endDate,
-                User.Identity.GetUserId());
+                userId);
             var model = new ReportSalesModel()
             {
                 Invoices = invoices,
@@ -127,12 +153,12 @@ namespace XF.Controllers
             ViewBag.EndDate = endDate.ToLongDateString();
             return View(model);
         }
-        public ActionResult PrintSales(DateTime startDate, DateTime endDate, bool hasStyles)
+        public ActionResult PrintSales(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
             var invoices = GetInvoices(startDate, 
                 endDate,
-                User.Identity.GetUserId());
+                userId);
             var model = new ReportSalesModel()
             {
                 Invoices = invoices,

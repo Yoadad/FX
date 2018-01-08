@@ -68,7 +68,16 @@ namespace XF.Controllers
                     filter = string.Empty;
                 }
             }
+            //if (hasFilterCLientName)
+            //{
+            //    invoices = invoices.Where(i =>
+            //        Regex.Match(i.ClientName.Trim().ToLower(),
+            //        clientNameFilter.Trim().ToLower()).Success);
+            //    count = invoices.Count();
+            //}
+
             var result = GridService.GetData(db.Invoices
+                .Where(i => !hasFilterCLientName ||(hasFilterCLientName && (i.Client.FirstName.Contains(clientNameFilter) || i.Client.MiddleName.Contains(clientNameFilter) || i.Client.LastName.Contains(clientNameFilter))))
                                                 .OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,
@@ -81,13 +90,6 @@ namespace XF.Controllers
                 .ToList()
                 .Select(i => GetInvoiceItemModel(i));
             var count = result.Count;
-
-            if (hasFilterCLientName)
-            {
-                invoices = invoices.Where(i =>
-                    Regex.Match(i.ClientName.Trim().ToLower(),
-                    clientNameFilter.Trim().ToLower()).Success);
-            }
 
             return Json(new { total = count, data = invoices }, JsonRequestBehavior.AllowGet);
         }

@@ -6,6 +6,7 @@
 <h1>
 
     @(Model.Invoice.InvoiceStatusId == 1 ? "Estimate Detail" : "Invoice Detail") <small>(@Model.Invoice.Id)</small>
+    <a href="/Invoices" class="btn btn-primary" style="float:right; margin:8px;">Return List&nbsp;&nbsp;<span class="fa fa-list"></span></a>&nbsp;
     <a href="javascript:;" id="btnSendEmail" class="btn btn-primary" style="float:right; margin:8px;">Email&nbsp;&nbsp;<span class="fa fa-mail-forward"></span></a>&nbsp;
     <a href="javascript:window.open('/Sales/Print/@Model.Invoice.Id', '_blank')" class="btn btn-primary" style="float:right; margin:8px;">Print&nbsp;&nbsp;<span class="fa fa-print"></span></a>
     <a href="javascript:window.open('/Sales/PrintDelivery/@Model.Invoice.Id', '_blank')" class="btn btn-primary" style="float:right; margin:8px;">Delivery's Print&nbsp;&nbsp;<span class="fa fa-print"></span></a>

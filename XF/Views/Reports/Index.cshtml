@@ -14,10 +14,11 @@
                 <option value="2">Delivery</option>
                 <option value="3">Pick Up</option>
                 <option value="4">Sales</option>
-                @if (this.User.IsInRole("Admin"))
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
                 {
                     <option value="5">Profit</option>
                 }
+                <option value="6">Sales by Date</option>
             </select>
         </div>
         <div>
@@ -32,7 +33,7 @@
         <div>
             User:
             <select id="ddlUser" class="form-control">
-                <option value="">All Salers</option>
+                <option value="">All Sellers</option>
                 @foreach (KeyValuePair<string,string> user in Model)
                 {
                     <option value="@user.Key">@user.Value</option>

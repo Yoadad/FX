@@ -29,25 +29,15 @@
             <input type="text" id="txtProduct" readonly value="@Model.Product.Name" class="form-control" />
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Location</label>
-        <div class="col-md-10">
-            <select id="cmbLocation" class="form-control">
-                @foreach (var item in Model.Locations)
-                {
-                    <option value="@item.Location.Id" @(Model.Location.Id == item.Location.Id ? "selected" : "") data-stock="@item.Stock">@item.Location.Name</option>
-                }
-            </select>
-        </div>
+    @foreach (var item in Model.Locations)
+    {
+    <div class="form-group stock">
+            <label class="control-label col-md-2">@item.Location.Name</label>
+            <div class="col-md-10">
+                <input type="number" min="1" class="form-control location-stock" data-locationid="@item.Location.Id" value="@item.Stock" />
+            </div>
     </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">Stock</label>
-        <div class="col-md-10">
-            <input type="number" min="1" id="txtStock" value="@Model.Stock" class="form-control" />
-        </div>
-    </div>
-
+    }
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">
             <input type="button" id="btnUpdate" value="Update Stock" class="form-control" />
@@ -57,5 +47,5 @@
 </div>
 @section Scripts{
 
-    @Scripts.Render("~/Scripts/Products/ProductStock.js")
+    @Scripts.Render("~/Scripts/Products/ProductStock.js?v=1")
 }

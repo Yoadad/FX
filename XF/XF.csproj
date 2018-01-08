@@ -348,6 +348,7 @@
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\XFPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Clients\Clients.js" />
     <Content Include="Scripts\doT.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -511,6 +512,7 @@
     <Content Include="Views\Products\PrintInventory.cshtml" />
     <Content Include="Views\Sales\PrintDelivery.cshtml" />
     <Content Include="Views\Shared\_HomeLayout.cshtml" />
+    <Content Include="Views\Reports\SalesRange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,12 +1,10 @@
 ﻿@model IEnumerable<XF.Entities.Invoice>
 @{
-    ViewBag.Title = "Dayli Report";
+    ViewBag.Title = "Sales by Date";
     Layout = null;
 
-    var userName = Model.Any()
-                ?(  Model.First().UserId == Model.Last().UserId
-                    ? string.Empty
-                    : string.Format("{0} {1}", 
+    var userName = !string.IsNullOrWhiteSpace(ViewBag.UserID)
+                ? (string.Format("{0} {1}",
                     Model.First().AspNetUser.FirstName,
                     Model.First().AspNetUser.LastName))
                 :string.Empty;
@@ -17,11 +15,11 @@
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
 }
 <h2 class="text-center">
-    Daily Balance
+    Sales by Date Balance
     <br />
     <small>@userName</small>
     <br />
-    <small class="text-right">@ViewBag.Date</small>
+    <small>@ViewBag.StartDate &nbsp;to&nbsp;@ViewBag.EndDate</small>
     <br />
 </h2>
 <table id="report" class="table table-striped table-bordered">
@@ -29,6 +27,7 @@
         <tr>
             <th class="text-center">Seller</th>
             <th class="text-center">Inv ID</th>
+            <th class="text-center">Date</th>
             <th class="text-center">Customer</th>
             <th class="text-center">Cash</th>
             <th class="text-center">CC</th>
@@ -50,6 +49,9 @@
                 </td>
                 <td>
                     @item.Id
+                </td>
+                <td>
+                    @item.Created.ToShortDateString()
                 </td>
                 <td>
                     @item.Client.FullName
@@ -94,7 +96,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3"></td>
+            <td colspan="4"></td>
             <td class="text-right">
                 <div>
                     <strong>

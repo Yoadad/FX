@@ -16,6 +16,21 @@
         $('#reportViewer').html(data);
     };
 
+    XF.getSalesRangeReport = function () {
+        var url = '/Reports/SalesRange';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
+        $.get(url, data, XF.getSalesRangeReportResponse);
+    };
+
+    XF.getSalesRangeReportResponse = function (data) {
+        $('#reportViewer').html(data);
+    };
+
     XF.getDeliveryReport = function () {
         var url = '/Reports/Delivery';
         var data = {
@@ -97,6 +112,10 @@
         else if (reportType == 5) {
             XF.getProfitReport();
         }
+        else if (reportType == 6) {
+            console.log(':)');
+            XF.getSalesRangeReport();
+        }
     });
 
     $('#cmbReports').on('change', function () {
@@ -110,7 +129,7 @@
         var url = "";
         var reportType = $('#cmbReports').val();
         if (reportType == 1) {
-            url = "/Reports/PrintDaily?date=" + $('#txtStartDate').val() + '&hasStyles=true';
+            url = "/Reports/PrintDaily?date=" + $('#txtStartDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 2) {
             url = "/Reports/PrintDelivery?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
@@ -119,10 +138,13 @@
             url = "/Reports/PrintPickUp?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
         }
         else if (reportType == 4) {
-            url = "/Reports/PrintSales?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+            url = "/Reports/PrintSales?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 5) {
             url = "/Reports/PrintProfit?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+        }
+        else if (reportType == 6) {
+            url = "/Reports/PrintSalesRange?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         var win = window.open(url, '_blank');
         win.focus();

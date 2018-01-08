@@ -20,6 +20,23 @@ namespace XF.Controllers
         {
             return View(db.Clients.ToList());
         }
+        // GET: Clients/Clients
+        public JsonResult Clients()
+        {
+            var clients = db
+                .Clients
+                .ToList()
+                .Select(c => new Client() {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    MiddleName = c.LastName,
+                    Email = c.Email,
+                    Phone = c.Phone,
+                    Address = c.Address
+                });
+            return Json(clients, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Clients/Details/5
         public ActionResult Details(int? id)
