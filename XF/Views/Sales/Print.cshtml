@@ -192,10 +192,6 @@
                 <td class="text-right">@string.Format("{0:c}", Model.Invoice.Subtotal - Model.Invoice.Discount)</td>
             </tr>
         }
-        <tr>
-            <td class="text-right"><strong>Tax</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Tax * (Model.Invoice.Subtotal - Model.Invoice.Discount))</td>
-        </tr>
         @if ((Model.Invoice.SNAP ?? 0) > 0)
         {
             <tr>
@@ -219,6 +215,10 @@
                 <td class="text-right">@string.Format("{0:c}", Model.Invoice.InstalationFee)</td>
             </tr>
         }
+        <tr>
+            <td class="text-right"><strong>Tax</strong></td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Tax * (Model.Invoice.Subtotal - Model.Invoice.Discount + (Model.Invoice.DeliveryFee ?? 0) + (Model.Invoice.InstalationFee ?? 0)))</td>
+        </tr>
         <tr>
             <td class="text-right"><strong>Total</strong></td>
             <td class="text-right">@string.Format("{0:c}", Model.Invoice.Total)</td>
