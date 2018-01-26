@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td class="text-right"><strong>Total</strong></td>
-            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Total)</td>
+            <td class="text-right">@string.Format("{0:c}", Model.Invoice.Total + Model.Invoice.Tax * ((Model.Invoice.DeliveryFee ?? 0) + (Model.Invoice.InstalationFee ?? 0)))</td>
         </tr>
         @foreach (var payments in Model.Invoice.Payments.GroupBy(p => p.PaymentOptionId))
         {
