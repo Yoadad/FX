@@ -211,13 +211,25 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="text-right">Tax</td>
-                    <td class="text-right text-info">
-                        <em id="lblTax" data-value="@Model.Invoice.Tax" style="display:none;">@string.Format("{0:p}", Model.Invoice.Tax)</em>
-                        <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
+                    <td class="text-right">Discount</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="@Model.Invoice.Discount" step="0.5" pattern="0.00" readonly />
+                            </div>
+                        </div>
                     </td>
-                    <td></td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00" readonly />
+                                <div class="input-group-addon">%</div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
+                
                 <tr>
                     <td>SNAP</td>
                     <td class="text-right" style="width:144px;">
@@ -256,23 +268,12 @@
                 </tr>
 
                 <tr>
-                    <td class="text-right">Discount</td>
-                    <td class="text-right" style="width:144px;">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">$</div>
-                                <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="@Model.Invoice.Discount" step="0.5" pattern="0.00" readonly />
-                            </div>
-                        </div>
+                    <td class="text-right">Tax</td>
+                    <td class="text-right text-info">
+                        <em id="lblTax" data-value="@Model.Invoice.Tax" style="display:none;">@string.Format("{0:p}", Model.Invoice.Tax)</em>
+                        <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
                     </td>
-                    <td class="text-right" style="width:144px;">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00" readonly />
-                                <div class="input-group-addon">%</div>
-                            </div>
-                        </div>
-                    </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td class="text-right">TOTAL</td>
@@ -372,5 +373,5 @@
 </script>
 
 @section scripts{
-    @Scripts.Render("~/Scripts/Sales/InvoiceDetail.js")
+    @Scripts.Render("~/Scripts/Sales/InvoiceDetail.js?v=1.0")
 }

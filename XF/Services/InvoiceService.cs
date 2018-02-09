@@ -9,6 +9,13 @@ namespace XF.Services
 {
     public class InvoiceService
     {
+
+        public Invoice GetFixedInvoice(Invoice invoice)
+        {
+            invoice.Total = ((invoice.Subtotal - invoice.Discount + invoice.DeliveryFee + invoice.InstalationFee) * (1 + invoice.Tax)) + invoice.SNAP;
+            invoice = GetInvoiceBalances(invoice);
+            return invoice;
+        }
         public Invoice GetInvoiceBalances(Invoice invoice)
         {
             if (invoice.InvoiceStatusId == 1 || invoice.Payments.Count() == 0)
@@ -60,7 +67,8 @@ namespace XF.Services
                     ? mountsWithFee + 1
                     : 0;
             }
-            return result;
+            invoice.Payments = result.Payments;
+            return invoice;
         }
 
         public IEnumerable<PeriodModel> GetPeriods(Invoice invoice, DateTime lastDate)

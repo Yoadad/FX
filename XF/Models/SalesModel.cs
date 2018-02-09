@@ -95,6 +95,7 @@ namespace XF.Models
     {
         public Invoice Invoice { get; set; }
         public decimal Balance { get; set; }
+        public decimal Taxas { get; set; }
     }
 
 

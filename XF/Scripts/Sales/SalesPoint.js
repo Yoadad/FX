@@ -209,7 +209,7 @@
             paymentsAmount += parseFloat($(this).val());
         });
 
-        var total = ((subtotal - discount) * (1 + tax)) + snapFee + deliveryFee + instalationFee;
+        var total = ((subtotal - discount + deliveryFee + instalationFee) * (1 + tax)) + snapFee;
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 

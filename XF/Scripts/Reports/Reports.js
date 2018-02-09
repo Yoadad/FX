@@ -132,16 +132,16 @@
             url = "/Reports/PrintDaily?date=" + $('#txtStartDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 2) {
-            url = "/Reports/PrintDelivery?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+            url = "/Reports/PrintDelivery?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 3) {
-            url = "/Reports/PrintPickUp?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+            url = "/Reports/PrintPickUp?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 4) {
             url = "/Reports/PrintSales?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 5) {
-            url = "/Reports/PrintProfit?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true';
+            url = "/Reports/PrintProfit?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         else if (reportType == 6) {
             url = "/Reports/PrintSalesRange?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();

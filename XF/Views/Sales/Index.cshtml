@@ -120,19 +120,25 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="text-right">Tax</td>
-                    <td class="text-right text-info">
-                        <em id="lblTax" data-value="@Model.Tax" style="display:none;">@string.Format("{0:p}",Model.Tax)</em>
-                        <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
+                    <td class="text-right">Discount</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                            </div>
+                        </div>
                     </td>
-                    <td class="text-center">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="chkTaxZero" /> No Tax
-                            </label>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00" />
+                                <div class="input-group-addon">%</div>
+                            </div>
                         </div>
                     </td>
                 </tr>
+
                 <tr>
                     <td>SNAP</td>
                     <td class="text-right" style="width:144px;">
@@ -170,21 +176,16 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="text-right">Discount</td>
-                    <td class="text-right" style="width:144px;">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">$</div>
-                                <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
-                            </div>
-                        </div>
+                    <td class="text-right">Tax</td>
+                    <td class="text-right text-info">
+                        <em id="lblTax" data-value="@Model.Tax" style="display:none;">@string.Format("{0:p}", Model.Tax)</em>
+                        <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
                     </td>
-                    <td class="text-right" style="width:144px;">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00"/>
-                                <div class="input-group-addon">%</div>
-                            </div>
+                    <td class="text-center">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="chkTaxZero" /> No Tax
+                            </label>
                         </div>
                     </td>
                 </tr>
@@ -281,5 +282,5 @@
 @section scripts{
 
     @Scripts.Render("~/Scripts/Sales/SalesService.js")
-    @Scripts.Render("~/Scripts/Sales/SalesPoint.js?v=2.0")
+    @Scripts.Render("~/Scripts/Sales/SalesPoint.js?v=3.0")  
 }

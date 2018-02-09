@@ -28,6 +28,7 @@ namespace XF.Controllers
 
         private IEnumerable<Invoice> GetInvoices(DateTime startDate, DateTime endDate, string userID)
         {
+            endDate = endDate.Date.AddDays(1);
             var invoices = db.Invoices
                 .Include(i => i.InvoiceDetails)
                 .Include(i => i.InvoiceDetails.Select(id => id.Product))
@@ -45,8 +46,9 @@ namespace XF.Controllers
         public ActionResult Daily(DateTime date, bool hasStyles,string userId)
         {
             ViewBag.HasStyles = hasStyles;
-            var endDate = date.AddDays(1);
-            var invoices = GetInvoices(date, 
+            var startDate = date.Date;
+            var endDate = date.Date;
+            var invoices = GetInvoices(startDate, 
                 endDate,
                 userId);
             ViewBag.Date = date.ToLongDateString();
@@ -84,8 +86,9 @@ namespace XF.Controllers
         public ActionResult PrintDaily(DateTime date, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
-            var endDate = date.AddDays(1);
-            var invoices = GetInvoices(date,
+            var startDate = date.Date;
+            var endDate = date.Date;
+            var invoices = GetInvoices(startDate,
                 endDate,
                 userId);
             ViewBag.Date = date.ToLongDateString();
@@ -95,9 +98,11 @@ namespace XF.Controllers
         public ActionResult Delivery(DateTime startDate, DateTime endDate, bool hasStyles)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate, 
                 endDate,
-                User.Identity.GetUserId()).Where(i => i.IsDelivery);
+                string.Empty).Where(i => i.IsDelivery);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return View(invoices);
@@ -106,9 +111,11 @@ namespace XF.Controllers
         public ActionResult PrintDelivery(DateTime startDate, DateTime endDate, bool hasStyles)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                User.Identity.GetUserId()).Where(i => i.IsDelivery);
+                string.Empty).Where(i => i.IsDelivery);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return new ViewAsPdf("~/Views/Reports/Delivery.cshtml", invoices);
@@ -117,9 +124,11 @@ namespace XF.Controllers
         public ActionResult PickUp(DateTime startDate, DateTime endDate, bool hasStyles)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                User.Identity.GetUserId()).Where(i=>!i.IsDelivery);
+                string.Empty).Where(i=>!i.IsDelivery);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return View(invoices);
@@ -128,9 +137,11 @@ namespace XF.Controllers
         public ActionResult PrintPickUp(DateTime startDate, DateTime endDate, bool hasStyles)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                User.Identity.GetUserId()).Where(i => !i.IsDelivery);
+                string.Empty).Where(i => !i.IsDelivery);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return new ViewAsPdf("~/Views/Reports/PickUp.cshtml", invoices);
@@ -140,6 +151,8 @@ namespace XF.Controllers
         public ActionResult Sales(DateTime startDate, DateTime endDate, bool hasStyles,string userId)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
                 userId);
@@ -156,6 +169,8 @@ namespace XF.Controllers
         public ActionResult PrintSales(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate, 
                 endDate,
                 userId);
@@ -170,23 +185,25 @@ namespace XF.Controllers
             return new ViewAsPdf("~/Views/Reports/Sales.cshtml", model);
         }
 
-        public ActionResult Profit(DateTime startDate, DateTime endDate, bool hasStyles)
+        public ActionResult Profit(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                User.Identity.GetUserId()).Where(i => !i.IsDelivery);
+                userId).Where(i => !i.IsDelivery);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return View(invoices);
         }
 
-        public ActionResult PrintProfit(DateTime startDate, DateTime endDate, bool hasStyles)
+        public ActionResult PrintProfit(DateTime startDate, DateTime endDate, bool hasStyles,string userId)
         {
             ViewBag.HasStyles = hasStyles;
             var invoices = GetInvoices(startDate,
                 endDate,
-                User.Identity.GetUserId()).Where(i => !i.IsDelivery);
+                userId).Where(i => !i.IsDelivery);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return new ViewAsPdf("~/Views/Reports/Profit.cshtml", invoices);

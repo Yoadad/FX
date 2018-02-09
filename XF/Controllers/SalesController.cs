@@ -231,8 +231,7 @@ namespace XF.Controllers
         //{
         //}
 
-        [AllowAnonymous]
-        public ActionResult Print(int id)
+        public Invoice GetInvoideWithDetails(int id)
         {
             var invoice = db.Invoices
                             .Include(i => i.InvoiceDetails)
@@ -241,38 +240,41 @@ namespace XF.Controllers
                             .Include(i => i.Payments)
                             .Include(i => i.PaymentType)
                             .FirstOrDefault(i => i.Id == id);
+            return invoice;
+        }
+
+
+        public InvoiceBalanceModel GetInvoiceBalanceModel(int id)
+        {
+            var invoice = GetInvoideWithDetails(id);
             var invoiceService = new InvoiceService();
+
+            var fixedInvoice = invoiceService.GetFixedInvoice(invoice);
+
             var model = new InvoiceBalanceModel()
             {
                 Invoice = invoice,
-                Balance = invoice.InvoiceStatusId == 1 || invoiceService.GetInvoiceBalances(invoice).Payments.Count() == 0
+                Balance = invoice.InvoiceStatusId == 1 || fixedInvoice.Payments.Count() == 0
                 ? invoice.Total.Value
-                : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
+                : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance,
+                Taxas = (invoice.Tax ?? 0) * ((invoice.Subtotal ?? 0) - (invoice.Discount ?? 0) + (invoice.DeliveryFee ?? 0) + (invoice.InstalationFee ?? 0))
             };
             model.Balance = model.Balance < new decimal(0.09) ? 0 : model.Balance;
+            return model;
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult Print(int id)
+        {
+            var model = GetInvoiceBalanceModel(id);
             return new ViewAsPdf(model);
         }
 
         [AllowAnonymous]
         public ActionResult PrintDelivery(int id)
         {
-            var invoice = db.Invoices
-                            .Include(i => i.InvoiceDetails)
-                            .Include(i => i.InvoiceDetails.Select(ids => ids.Product))
-                            .Include(i => i.InvoiceDetails.Select(ids => ids.Product.Provider))
-                            .Include(i => i.Payments)
-                            .Include(i => i.PaymentType)
-                            .FirstOrDefault(i => i.Id == id);
-            var invoiceService = new InvoiceService();
-            var model = new InvoiceBalanceModel()
-            {
-                Invoice = invoice,
-                Balance = invoice.InvoiceStatusId == 1 || invoiceService.GetInvoiceBalances(invoice).Payments.Count() == 0
-                ? invoice.Total.Value
-                : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
-            };
-            model.Balance = model.Balance < new decimal(0.09) ? 0 : model.Balance;
-            return new ViewAsPdf(model);
+            var model = GetInvoiceBalanceModel(id); return new ViewAsPdf(model);
         }
 
 
@@ -326,21 +328,10 @@ namespace XF.Controllers
         {
             try
             {
-                var invoice = db.Invoices
-                    .Include(i => i.InvoiceDetails)
-                    .Include(i => i.Payments)
-                    .Include(i => i.Client)
-                    .FirstOrDefault(i => i.Id == id);
-                var fileName = string.Format("Invoice_{0}_{1}.pdf", invoice.Id, invoice.Date.ToString("MM-dd-yyyy"));
-                var client = db.Clients.FirstOrDefault(c => c.Id == invoice.Client.Id);
+                var model = GetInvoiceBalanceModel(id);
+                var fileName = string.Format("Invoice_{0}_{1}.pdf", model.Invoice.Id, model.Invoice.Date.ToString("MM-dd-yyyy"));
+                var client = db.Clients.FirstOrDefault(c => c.Id == model.Invoice.Client.Id);
                 var invoiceService = new InvoiceService();
-                var model = new InvoiceBalanceModel()
-                {
-                    Invoice = invoice,
-                    Balance = invoice.InvoiceStatusId == 1 || invoiceService.GetInvoiceBalances(invoice).Payments.Count() == 0
-                    ? invoice.Total.Value
-                    : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance
-                };
 
                 var viewAsPef = new ViewAsPdf("~/Views/Sales/Print.cshtml", model)
                 {
@@ -354,7 +345,7 @@ namespace XF.Controllers
                 var stream = new MemoryStream(bytesPDFData);
                 var emailService = new SendEmailService(db);
                 client.Email = email;
-                emailService.SendInvoiceToClient(invoice, client, stream, fileName);
+                emailService.SendInvoiceToClient(model.Invoice, client, stream, fileName);
 
                 return Json(new { Result = true, Data = new { ClientId = client.Id }, Message = "The Invoice has send" });
             }
