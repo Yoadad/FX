@@ -37,6 +37,7 @@ namespace XF.Controllers
         {
             var products = db.Products
                 .Include(p => p.Stocks)
+                .Include(p => p.Providers)
                 .Where(p => p.Stocks.Any(s => s.StockQuantity > 0));
             return new ViewAsPdf("~/Views/Products/PrintInventory.cshtml", products);
         }

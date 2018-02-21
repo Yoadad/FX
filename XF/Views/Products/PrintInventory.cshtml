@@ -19,29 +19,51 @@
             <th class="text-center">Name</th>
             <th class="text-center">Sell Price</th>
             <th class="text-center">Purchase Price</th>
-            <th class="text-center">Stock</th>
+            <th class="text-center">Storage</th>
+            <th class="text-center">Floor</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.GroupBy(p => p.ProviderId))
         {
             <tr>
-                <td>
-                    @item.Code
-                </td>
-                <td>
-                    @item.Name
-                </td>
-                <td class="text-right">
-                    @string.Format("{0:C}", item.SellPrice)
-                </td>
-                <td class="text-right">
-                    @string.Format("{0:C}", item.PurchasePrice)
-                </td>
-                <td class="text-right">
-                    @string.Format("{0}", item.Stocks.Sum(s => s.StockQuantity))
+                <td colspan="6">
+                    <h4>
+                        @(item.Any() ? item.First().Provider.BusinessName : string.Empty)
+                    </h4>
                 </td>
             </tr>
+            foreach (var product in item)
+            {
+                <tr>
+                    <td>
+                        @product.Code
+                    </td>
+                    <td>
+                        @product.Name
+                    </td>
+                    <td class="text-right">
+                        @string.Format("{0:C}", product.SellPrice)
+                    </td>
+                    <td class="text-right">
+                        @string.Format("{0:C}", product.PurchasePrice)
+                    </td>
+                    @foreach (var stock in product.Stocks.OrderBy(s=>s.Id))
+                    {
+                        <td class="text-right">
+                            @string.Format("{0}", stock.StockQuantity)
+                        </td>
+                    }
+
+                    @if (product.Stocks.Count() == 1)
+                    {
+                        <td class="text-right">0</td>
+                    }
+                </tr>
+
+            }
+
         }
+
     </tbody>
 </table>
