@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>02/20/2018 23:57:50</publishTime>
+      <publishTime>03/11/2018 21:01:03</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -592,6 +592,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Notes/Edition.cshtml">
       <publishTime>06/12/2017 22:52:50</publishTime>
     </File>
+    <File Include="Views/PaymentTypes/Create.cshtml">
+      <publishTime>02/21/2018 00:14:26</publishTime>
+    </File>
+    <File Include="Views/PaymentTypes/Delete.cshtml">
+      <publishTime>02/21/2018 00:14:27</publishTime>
+    </File>
+    <File Include="Views/PaymentTypes/Details.cshtml">
+      <publishTime>02/21/2018 00:14:27</publishTime>
+    </File>
+    <File Include="Views/PaymentTypes/Edit.cshtml">
+      <publishTime>02/21/2018 00:14:28</publishTime>
+    </File>
+    <File Include="Views/PaymentTypes/Index.cshtml">
+      <publishTime>02/21/2018 00:14:29</publishTime>
+    </File>
     <File Include="Views/Products/Create.cshtml">
       <publishTime>06/04/2017 16:25:28</publishTime>
     </File>
@@ -740,7 +755,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Views/Shared/_HomeLayout.cshtml">
-      <publishTime>12/12/2017 01:48:46</publishTime>
+      <publishTime>03/11/2018 21:00:02</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>12/12/2017 01:03:20</publishTime>

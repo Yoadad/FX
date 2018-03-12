@@ -46,8 +46,9 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] PaymentType paymentType)
+        public ActionResult Create([Bind(Include = "Name")] PaymentType paymentType)
         {
+            paymentType.Id = db.PaymentTypes.Max(p => p.Id + 1);
             if (ModelState.IsValid)
             {
                 db.PaymentTypes.Add(paymentType);

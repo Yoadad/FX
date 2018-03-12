@@ -36,7 +36,7 @@
             <th class="text-center">Check</th>
             <th class="text-center">Finance</th>
             <th class="text-center">New<br />Layaway</th>
-            <th class="text-center">Subtot</th>
+            <th class="text-center">Total</th>
             <th class="text-center">Cost</th>
             <th class="text-center">Tax Due</th>
         </tr>
@@ -81,13 +81,13 @@
                     @(string.Format("{0:C}", (item.PaymentTypeId == 1 ? item.Total : 0)))
                 </td>
                 <td class="text-rigth">
-                    @(string.Format("{0:C}", item.Subtotal))
+                    @(string.Format("{0:C}", ((item.Subtotal - item.Discount + item.DeliveryFee + item.InstalationFee) * (1 + item.Tax)) + item.SNAP))
                 </td>
                 <td class="text-rigth">
                     @(string.Format("{0:C}", item.InvoiceDetails.Sum(id=>id.Product.PurchasePrice)))
                 </td>
                 <td class="text-rigth">
-                    @(string.Format("{0:C}", item.Tax * item.Subtotal))
+                    @(string.Format("{0:C}", ((item.Subtotal - item.Discount + item.DeliveryFee + item.InstalationFee) * (item.Tax))))
                 </td>
             </tr>
         }
