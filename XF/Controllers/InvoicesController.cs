@@ -77,7 +77,7 @@ namespace XF.Controllers
             //}
 
             var result = GridService.GetData(db.Invoices
-                .Where(i => !hasFilterCLientName ||(hasFilterCLientName && (i.Client.FirstName.Contains(clientNameFilter) || i.Client.MiddleName.Contains(clientNameFilter) || i.Client.LastName.Contains(clientNameFilter))))
+                .Where(i => !hasFilterCLientName || (hasFilterCLientName && (i.Client.FirstName.Contains(clientNameFilter) || i.Client.MiddleName.Contains(clientNameFilter) || i.Client.LastName.Contains(clientNameFilter))))
                                                 .OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,
@@ -102,22 +102,23 @@ namespace XF.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userid = this.User.Identity.GetUserId();
-            var user = db.AspNetUsers.FirstOrDefault(u=>u.Id == userid);
-            var model = new InvoiceViewModel()
-            {
-                Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
-                Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
-                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
-                PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
-                Tax = decimal.Parse(ConfigService.GetValue("Tax", db)),
-                Invoice = db.Invoices
-                            .Include(i => i.Client)
-                            .Include(i => i.InvoiceDetails)
-                            .Include(i => i.InvoiceStatu)
-                            .First(i => i.Id == id),
-                UserName = user.FullName,
-                UserId = user.Id
-            };
+            var user = db.AspNetUsers.FirstOrDefault(u => u.Id == userid);
+            var model = new InvoiceViewModel();
+            model.Clients = db.Clients.OrderBy(c => c.FirstName).ToList();
+            model.Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p));
+            model.PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList();
+            model.PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList();
+            model.Tax = decimal.Parse(ConfigService.GetValue("Tax", db));
+            model.Invoice = db.Invoices
+                        .Where(i => i.Id == id)
+                        .Include(i => i.Client)
+                        .Include(i => i.InvoiceDetails)
+                        .Include(i => i.InvoiceDetails.Select(idt => idt.Product))
+                        .Include(i => i.InvoiceStatu)
+                        .First();
+            model.UserName = user.FullName;
+            model.UserId = user.Id;
+
             return View(model);
         }
 
@@ -137,16 +138,16 @@ namespace XF.Controllers
             }
         }
 
-        public JsonResult Refund(int id,decimal amount)
+        public JsonResult Refund(int id, decimal amount)
         {
             try
             {
                 var invoice = db.Invoices
                             .Include(i => i.PurchaseOrders)
-                            .FirstOrDefault(i=>i.Id == id);
+                            .FirstOrDefault(i => i.Id == id);
                 invoice.InvoiceStatusId = (int)InvoiceStatus.Refund;
                 invoice.Refund = amount;
-                
+
                 foreach (var order in invoice.PurchaseOrders)
                 {
                     order.PurchaseOrderStatusId = 4;
@@ -155,7 +156,7 @@ namespace XF.Controllers
                 db.Entry(invoice).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return Json(new { Result = true, Message = "Refund success"}, JsonRequestBehavior.AllowGet);
+                return Json(new { Result = true, Message = "Refund success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

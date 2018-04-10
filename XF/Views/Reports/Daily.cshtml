@@ -146,7 +146,7 @@
             <td class="text-right">
                 <div>
                     <strong>
-                        @(string.Format("{0:C}", Model.Sum(i => i.Subtotal)))
+                        @(string.Format("{0:C}", Model.Sum(P => (P.Subtotal - P.Discount + P.DeliveryFee + P.InstalationFee) * (1+P.Tax) + P.SNAP)))
                     </strong>
                 </div>
 
@@ -162,7 +162,7 @@
             <td class="text-right">
                 <div>
                     <strong>
-                        @(string.Format("{0:C}", Model.Sum(p => p.Subtotal * p.Tax)))
+                        @(string.Format("{0:C}", Model.Sum(P=> (P.Subtotal - P.Discount + P.DeliveryFee + P.InstalationFee) * (P.Tax))))
                     </strong>
                 </div>
             </td>
