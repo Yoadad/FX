@@ -156,9 +156,11 @@ namespace XF.Controllers
             try
             {
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
-                model.Invoice.UserId = User.Identity.GetUserId();
-                model.Invoice.Created = DateTime.Now;
-                model.Invoice.InvoiceStatusId = (int)InvoiceStatus.InProgress;
+                var invoice = db.Invoices.Find(model.Invoice.Id);
+                invoice.InvoiceStatusId = (int)InvoiceStatus.InProgress;
+                db.Entry(invoice).State = EntityState.Modified;
+                //db.SaveChanges();
+                //
                 foreach (var detail in model.Invoice.InvoiceDetails)
                 {
                     db.Entry(detail).State = EntityState.Modified;
@@ -167,8 +169,6 @@ namespace XF.Controllers
 
                 db.Payments.RemoveRange(currentPayments);
                 db.Payments.AddRange(model.Invoice.Payments);
-
-                db.Entry(model.Invoice).State = EntityState.Modified;
 
                 db.SaveChanges();
                 return Json(new { Result = true, Message = string.Format(" Invoice ({0}) updated successful", model.Invoice.Id), Data = new { InvoiceId = model.Invoice.Id } });
