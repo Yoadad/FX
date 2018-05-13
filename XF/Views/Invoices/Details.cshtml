@@ -106,12 +106,18 @@
                 {
                     <tr class="item item-@index" data-detailid="@detail.Id">
                         <td>
-                            <select class="form-control cmb-product">
+                            @{ 
+                                var productStock = Model.Products.FirstOrDefault(ps => ps.Id == detail.ProductId);
+                            }
+                            <a href="javascript:;" class="cmb-product" data-value="@productStock.Id" data-stock="@productStock.Stock" data-price="@detail.UnitPrice">
+                                <span   >@productStock.Name [@productStock.Code]</span>
+                            </a>
+                            @*<select class="form-control cmb-product">
                                 @foreach (var item in Model.Products)
                                 {
                                     <option @(item.Id == detail.ProductId ? "selected" : "") value="@item.Id" data-stock="@item.Stock" data-price="@item.SellPrice">@item.Name [@item.Code]</option>
                                 }
-                            </select>
+                            </select>*@
                         </td>
                         <td>
                             <input type="text" class="form-control txt-note" placeholder="Color, Size, etc." value="@detail.Note" />

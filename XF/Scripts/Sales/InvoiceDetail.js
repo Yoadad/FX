@@ -65,7 +65,7 @@
                 Id: $(this).data('detailid'),
                 InvoiceId: invoiceId,
                 Note: $(this).find('.txt-note').val(),
-                ProductId: $(this).find('.cmb-product').val(),
+                ProductId: $(this).find('.cmb-product').data('value'),
                 Quantity: $(this).find('.txt-quantity').val(),
                 UnitPrice: $(this).find('.lbl-price').data('value'),
                 InOrder: $(this).find('.lbl-inorder').data('value')
@@ -160,8 +160,8 @@
     };
 
     XF.showItemData = function (index) {
-        var price = $('.item-' + index + ' .cmb-product option:selected').data('price');
-        var stock = $('.item-' + index + ' .cmb-product option:selected').data('stock');
+        var price = $('.item-' + index + ' .cmb-product').data('price');
+        var stock = $('.item-' + index + ' .cmb-product').data('stock');
         var quantity = $('.item-' + index + ' .txt-quantity').val();
         var inorder = quantity - stock;
         inorder = inorder > 0 ? inorder : 0;
