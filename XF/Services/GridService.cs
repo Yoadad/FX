@@ -112,11 +112,18 @@ namespace XF.Services
                     switch (f.field.ToLower())
                     {
                         case "date":
-                                condition.AppendLine(string.Format("{0} >= @" + count + " AND {0} <= @" + (count + 1), f.field));
-                                var dateInit = DateTime.Parse(f.value);
-                                var dateEnd = dateInit.AddHours(23).AddMinutes(59).AddSeconds(29);
-                                paramsArray.Add(dateInit);
-                                paramsArray.Add(dateEnd);
+                            condition.AppendLine(string.Format("{0} >= @" + count + " AND {0} <= @" + (count + 1), f.field));
+                            var dateInit = DateTime.Parse(f.value);
+                            var dateEnd = dateInit.AddHours(23).AddMinutes(59).AddSeconds(29);
+                            paramsArray.Add(dateInit);
+                            paramsArray.Add(dateEnd);
+                            break;
+                        case "created":
+                            condition.AppendLine(string.Format("{0} >= @" + count + " AND {0} <= @" + (count + 1), f.field));
+                            var dateInit2 = DateTime.Parse(f.value);
+                            var dateEnd2 = dateInit2.AddHours(23).AddMinutes(59).AddSeconds(29);
+                            paramsArray.Add(dateInit2);
+                            paramsArray.Add(dateEnd2);
                             break;
                         case "code":
                                 condition.AppendLine(string.Format("{0} = @" + count + " ", f.field));

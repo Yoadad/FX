@@ -185,7 +185,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>04/13/2018 03:59:55</publishTime>
+      <publishTime>05/13/2018 22:10:49</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -401,10 +401,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>04/13/2018 02:53:18</publishTime>
+      <publishTime>05/13/2018 00:30:28</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
-      <publishTime>02/09/2018 00:37:19</publishTime>
+      <publishTime>05/13/2018 21:58:01</publishTime>
     </File>
     <File Include="Scripts/Sales/QuotationPoint.js">
       <publishTime>10/23/2017 23:40:33</publishTime>
@@ -533,13 +533,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>04/13/2018 02:53:18</publishTime>
+      <publishTime>05/13/2018 00:32:43</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
     </File>
     <File Include="Views/Invoices/Index.cshtml">
-      <publishTime>02/09/2018 00:35:55</publishTime>
+      <publishTime>05/13/2018 21:34:17</publishTime>
     </File>
     <File Include="Views/InvoiceStatus/Create.cshtml">
       <publishTime>03/26/2017 17:29:26</publishTime>
@@ -626,7 +626,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/01/2017 02:14:39</publishTime>
     </File>
     <File Include="Views/Products/PrintInventory.cshtml">
-      <publishTime>02/20/2018 23:57:43</publishTime>
+      <publishTime>05/13/2018 21:23:36</publishTime>
     </File>
     <File Include="Views/Products/Stock.cshtml">
       <publishTime>12/19/2017 00:20:07</publishTime>
@@ -734,13 +734,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/24/2017 00:43:27</publishTime>
     </File>
     <File Include="Views/Sales/Index.cshtml">
-      <publishTime>04/13/2018 01:18:49</publishTime>
+      <publishTime>05/12/2018 21:54:33</publishTime>
     </File>
     <File Include="Views/Sales/PdfInvoice.cshtml">
       <publishTime>06/11/2017 17:11:30</publishTime>
     </File>
     <File Include="Views/Sales/Print.cshtml">
-      <publishTime>02/09/2018 09:20:12</publishTime>
+      <publishTime>05/13/2018 01:41:42</publishTime>
     </File>
     <File Include="Views/Sales/PrintDelivery.cshtml">
       <publishTime>09/05/2017 00:11:21</publishTime>

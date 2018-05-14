@@ -167,9 +167,13 @@ namespace XF.Controllers
                 }
                 var currentPayments = db.Payments.Where(p => p.InvoiceId == model.Invoice.Id);
 
+                foreach (Payment payment in model.Invoice.Payments.Where(p => p.UserId == null))
+                {
+                    payment.UserId = this.User.Identity.GetUserId();
+                }
+
                 db.Payments.RemoveRange(currentPayments);
                 db.Payments.AddRange(model.Invoice.Payments);
-
                 db.SaveChanges();
                 return Json(new { Result = true, Message = string.Format(" Invoice ({0}) updated successful", model.Invoice.Id), Data = new { InvoiceId = model.Invoice.Id } });
             }
@@ -231,7 +235,7 @@ namespace XF.Controllers
         //{
         //}
 
-        public Invoice GetInvoideWithDetails(int id)
+        public Invoice GetInvoiceWithDetails(int id)
         {
             var invoice = db.Invoices
                             .Include(i => i.InvoiceDetails)
@@ -240,13 +244,26 @@ namespace XF.Controllers
                             .Include(i => i.Payments)
                             .Include(i => i.PaymentType)
                             .FirstOrDefault(i => i.Id == id);
+            foreach (var payment in invoice.Payments.Where(p => p.UserId != null))
+            {
+                try
+                {
+                    payment.UserName = db.AspNetUsers
+                .FirstOrDefault(u => u.Id == payment.UserId)
+                .FullName;
+
+                }
+                catch
+                {
+                }
+            }
             return invoice;
         }
 
 
         public InvoiceBalanceModel GetInvoiceBalanceModel(int id)
         {
-            var invoice = GetInvoideWithDetails(id);
+            var invoice = GetInvoiceWithDetails(id);
             var invoiceService = new InvoiceService();
 
             var fixedInvoice = invoiceService.GetFixedInvoice(invoice);

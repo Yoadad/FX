@@ -171,6 +171,7 @@
                                 {
                                     <tr class="payment-item payment-item-@index" data-paymentid="@paymentDetail.Id">
                                         <td>
+                                            <input type="hidden" class="payment-userid" value="@paymentDetail.UserId" />
                                             <input type="date" value="@paymentDetail.Date.ToString("yyyy-MM-dd")" class="form-control payment-date" />
                                         </td>
                                         <td>

@@ -11,7 +11,7 @@ namespace XF.Models
         public InvoiceItemViewModel(Invoice invoice)
         {
             InvoiceId = invoice.Id;
-            Date = invoice.Created;
+            Created = invoice.Created;
             ClientName = invoice.Client.FullName;
             ClientEmail = invoice.Client.Email; 
             ClientId = invoice.ClientId;
@@ -24,7 +24,7 @@ namespace XF.Models
             InvoiceStatusId = invoice.InvoiceStatusId;
         }
         public int InvoiceId { get; set; }
-        public DateTime Date{ get; set; }
+        public DateTime Created{ get; set; }
         public string ClientName { get; set; }
 
         public int ClientId { get; set; }

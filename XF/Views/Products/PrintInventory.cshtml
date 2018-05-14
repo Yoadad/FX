@@ -12,26 +12,25 @@
     <small class="text-right">@DateTime.Now.ToLongDateString()</small>
     <br />
 </h2>
+
 <table id="report" class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th class="text-center">Code </th>
-            <th class="text-center">Name</th>
-            <th class="text-center">Sell Price</th>
-            <th class="text-center">Purchase Price</th>
-            <th class="text-center">Storage</th>
-            <th class="text-center">Floor</th>
-        </tr>
-    </thead>
     <tbody>
         @foreach (var item in Model.GroupBy(p => p.ProviderId))
-        {
+            {
             <tr>
                 <td colspan="6">
                     <h4>
                         @(item.Any() ? item.First().Provider.BusinessName : string.Empty)
                     </h4>
                 </td>
+            </tr>
+            <tr>
+                <td class="text-center">Code </td>
+                <td class="text-center">Name</td>
+                <td class="text-center">Sell Price</td>
+                <td class="text-center">Purchase Price</td>
+                <td class="text-center">Storage</td>
+                <td class="text-center">Floor</td>
             </tr>
             foreach (var product in item)
             {
@@ -48,7 +47,7 @@
                     <td class="text-right">
                         @string.Format("{0:C}", product.PurchasePrice)
                     </td>
-                    @foreach (var stock in product.Stocks.OrderBy(s=>s.Id))
+                    @foreach (var stock in product.Stocks.OrderBy(s => s.Id))
                     {
                         <td class="text-right">
                             @string.Format("{0}", stock.StockQuantity)

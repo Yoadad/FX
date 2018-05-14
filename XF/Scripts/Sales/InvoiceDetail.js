@@ -54,6 +54,7 @@
                 PaymentOptionId: $(this).find('.payment-option').val(),
                 Amount: $(this).find('.payment-amount').val(),
                 Date: $(this).find('.payment-date').val(),
+                UserId: $(this).find('.payment-userid').val()
             });
         });
         return result;

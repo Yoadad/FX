@@ -172,6 +172,7 @@
                 }
                 <table class="table table-striped table-bordered">
                     <tr>
+                        <th class="text-center"><small>Seller</small></th>
                         <th class="text-center"><small>Date</small></th>
                         <th class="text-center"><small>Payment Option</small></th>
                         <th class="text-center"><small>Amount</small></th>
@@ -179,6 +180,7 @@
                     @foreach (var payment in Model.Invoice.Payments)
                     {
                     <tr>
+                        <td class="text-center"><small>@(payment.UserName)</small></td>
                         <td class="text-center"><small>@payment.Date.ToShortDateString()</small></td>
                         <td class="text-center"><small>@payment.PaymentOption.Name</small></td>
                         <td class="text-right"><small>@string.Format("{0:c}", payment.Amount)</small></td>
