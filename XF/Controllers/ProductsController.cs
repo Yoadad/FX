@@ -85,7 +85,7 @@ namespace XF.Controllers
             if (hasFilterProviderName)
             {
                 var filterItem = filtersObject.filters.First(f => f.field == "ProviderName");
-                providerNameFilter = filterItem.value.ToLower();
+                providerNameFilter = filterItem.value;
                 filtersObject.filters.Remove(filterItem);
                 filter = JsonConvert.SerializeObject(filtersObject);
                 if (!filtersObject.filters.Any())
@@ -95,17 +95,15 @@ namespace XF.Controllers
             }
 
             var pr = db.Products
-                .Include(p=>p.Provider)
                 .Where(p => 
-                    p.Stocks.Any(s => s.StockQuantity > 0)
-                    && (
                         !hasFilterProviderName
                         || (
                             hasFilterProviderName 
-                            && p.Providers.Any(pro => pro.BusinessName.Trim().ToLower().Contains(providerNameFilter))
+                            && p.Providers.Any(pro => pro.BusinessName.Contains(providerNameFilter))
                         )
-                    )
                 )
+                .Where(p => p.Stocks.Any(s => s.StockQuantity > 0))
+                .Include(p => p.Provider)
                 .OrderBy(p => p.Code);
 
             var result = GridService.GetData(pr,

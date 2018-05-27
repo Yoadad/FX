@@ -172,15 +172,20 @@ namespace XF.Entities
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.Providers)
-                .WithMany(e => e.Products1)
-                .Map(m => m.ToTable("ProductsProvider").MapLeftKey("ProductId").MapRightKey("ProviderId"));
+            //modelBuilder.Entity<Product>()
+            //    .HasMany(e => e.Providers)
+            //    .WithMany(e => e.Products1)
+            //    .Map(m => m.ToTable("ProductsProvider").MapLeftKey("ProductId").MapRightKey("ProviderId"));
+
+            //modelBuilder.Entity<Provider>()
+            //    .HasMany(e => e.Products)
+            //    .WithRequired(e => e.Provider)
+            //    .HasForeignKey(e => e.ProviderId)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Provider>()
                 .HasMany(e => e.Products)
                 .WithRequired(e => e.Provider)
-                .HasForeignKey(e => e.ProviderId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<PurchaseOrder>()
@@ -222,6 +227,7 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
+
         }
     }
 }

@@ -56,7 +56,11 @@ namespace XF.Controllers
         {
             var filtersObject = JsonConvert.DeserializeObject<FiltersModel>(filter ?? "");
             var hasFilterCLientName = string.IsNullOrWhiteSpace(filter) || filtersObject == null ? false : filtersObject.filters.Any(f => f.field == "ClientName");
+            var hasFilterPaymentType = string.IsNullOrWhiteSpace(filter) || filtersObject == null ? false : filtersObject.filters.Any(f => f.field == "PaymentType");
+
             var clientNameFilter = string.Empty;
+            var paymentTypeFilter = string.Empty;
+
             if (hasFilterCLientName)
             {
                 var filterItem = filtersObject.filters.First(f => f.field == "ClientName");
@@ -68,6 +72,19 @@ namespace XF.Controllers
                     filter = string.Empty;
                 }
             }
+
+            if (hasFilterPaymentType)
+            {
+                var filterItem = filtersObject.filters.First(f => f.field == "PaymentType");
+                paymentTypeFilter = filterItem.value;
+                filtersObject.filters.Remove(filterItem);
+                filter = JsonConvert.SerializeObject(filtersObject);
+                if (!filtersObject.filters.Any())
+                {
+                    filter = string.Empty;
+                }
+            }
+
             //if (hasFilterCLientName)
             //{
             //    invoices = invoices.Where(i =>
@@ -78,6 +95,10 @@ namespace XF.Controllers
 
             var result = GridService.GetData(db.Invoices
                 .Where(i => !hasFilterCLientName || (hasFilterCLientName && (i.Client.FirstName.Contains(clientNameFilter) || i.Client.MiddleName.Contains(clientNameFilter) || i.Client.LastName.Contains(clientNameFilter))))
+                .Where(i=> !hasFilterPaymentType || 
+                (hasFilterPaymentType &&
+                    i.PaymentType.Name.Contains(paymentTypeFilter)
+                ))
                                                 .OrderByDescending(i => i.Id),
                                                 sorting,
                                                 filter,

@@ -74,7 +74,7 @@
                 //{ field: "Date", template: '#=kendo.toString(Date, \"MM/dd/yyyy\")#', filterable:true },
                 { field: "Created", title: 'Date', format: "{0:MM/dd/yyyy}", filterable: true },
                 { field: "ClientName", title: "Client Name", filterable: true, width: 155 },
-                { field: "PaymentType", title: "Payment Type", filterable: false, width: 155 },
+                { field: "PaymentType", title: "Payment Type", filterable: true, width: 155 },
                 { field: "Subtotal", filterable: false },
                 { field: "Tax", filterable: false },
                 { field: "Discount", filterable: false },
