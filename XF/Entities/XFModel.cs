@@ -102,6 +102,22 @@ namespace XF.Entities
                 .HasPrecision(13, 2);
 
             modelBuilder.Entity<Invoice>()
+                .Property(e => e.SNAP)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Invoice>()
+                .Property(e => e.DeliveryFee)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Invoice>()
+                .Property(e => e.InstalationFee)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Invoice>()
+                .Property(e => e.Refund)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Invoice>()
                 .HasMany(e => e.InvoiceDetails)
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
@@ -172,17 +188,6 @@ namespace XF.Entities
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Product>()
-            //    .HasMany(e => e.Providers)
-            //    .WithMany(e => e.Products1)
-            //    .Map(m => m.ToTable("ProductsProvider").MapLeftKey("ProductId").MapRightKey("ProviderId"));
-
-            //modelBuilder.Entity<Provider>()
-            //    .HasMany(e => e.Products)
-            //    .WithRequired(e => e.Provider)
-            //    .HasForeignKey(e => e.ProviderId)
-            //    .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Provider>()
                 .HasMany(e => e.Products)
                 .WithRequired(e => e.Provider)
@@ -227,7 +232,6 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
-
         }
     }
 }

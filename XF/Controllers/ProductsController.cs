@@ -37,7 +37,6 @@ namespace XF.Controllers
         {
             var products = db.Products
                 .Include(p => p.Stocks)
-                .Include(p => p.Providers)
                 .Where(p => p.Stocks.Any(s => s.StockQuantity > 0));
             return new ViewAsPdf("~/Views/Products/PrintInventory.cshtml", products);
         }
@@ -99,7 +98,7 @@ namespace XF.Controllers
                         !hasFilterProviderName
                         || (
                             hasFilterProviderName 
-                            && p.Providers.Any(pro => pro.BusinessName.Contains(providerNameFilter))
+                            && p.Provider.BusinessName.Contains(providerNameFilter)
                         )
                 )
                 .Where(p => p.Stocks.Any(s => s.StockQuantity > 0))

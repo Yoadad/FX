@@ -13,19 +13,16 @@ namespace XF.Entities
         public Provider()
         {
             Products = new HashSet<Product>();
-            Products1 = new HashSet<Product>();
         }
 
         public int Id { get; set; }
 
         [Required]
         [StringLength(255)]
-        [Display(Name = "Business Name")]
         public string BusinessName { get; set; }
 
         [Required]
         [StringLength(255)]
-        [Display(Name = "Contact Name")]
         public string ContactName { get; set; }
 
         [StringLength(255)]
@@ -45,8 +42,5 @@ namespace XF.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products1 { get; set; }
     }
 }
