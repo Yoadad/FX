@@ -228,6 +228,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClientNotesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\ConfigsController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Entities\AspNetUserClaim.cs" />
     <Compile Include="Entities\AspNetUserLogin.cs" />
     <Compile Include="Entities\Branch.cs" />
+    <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\ClientNote.cs" />
     <Compile Include="Entities\Config.cs" />
@@ -324,16 +326,32 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fontawesome-all.min.css" />
     <Content Include="Content\Images\Ximenas_transparent.png" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common-bootstrap.min.css" />
     <Content Include="Content\kendo.dataviz.bootstrap.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fa-brands-400.svg" />
+    <Content Include="fonts\fa-regular-400.svg" />
+    <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="fonts\fa-brands-400.eot" />
+    <Content Include="fonts\fa-brands-400.ttf" />
+    <Content Include="fonts\fa-brands-400.woff" />
+    <Content Include="fonts\fa-brands-400.woff2" />
+    <Content Include="fonts\fa-regular-400.eot" />
+    <Content Include="fonts\fa-regular-400.ttf" />
+    <Content Include="fonts\fa-regular-400.woff" />
+    <Content Include="fonts\fa-regular-400.woff2" />
+    <Content Include="fonts\fa-solid-900.eot" />
+    <Content Include="fonts\fa-solid-900.ttf" />
+    <Content Include="fonts\fa-solid-900.woff" />
+    <Content Include="fonts\fa-solid-900.woff2" />
     <None Include="Resources\PurchaseOrdersEmailTemplate.html" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
@@ -519,6 +537,11 @@
     <Content Include="Views\PaymentTypes\Details.cshtml" />
     <Content Include="Views\PaymentTypes\Edit.cshtml" />
     <Content Include="Views\PaymentTypes\Index.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

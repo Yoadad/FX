@@ -17,6 +17,7 @@ namespace XF.Entities
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Branch> Branches { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<ClientNote> ClientNotes { get; set; }
         public virtual DbSet<Config> Configs { get; set; }
@@ -70,6 +71,11 @@ namespace XF.Entities
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(e => e.Products)
+                .WithMany(e => e.Categories)
+                .Map(m => m.ToTable("CategoriesProducts").MapLeftKey("CategoryId").MapRightKey("ProductId"));
 
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.ClientNotes)

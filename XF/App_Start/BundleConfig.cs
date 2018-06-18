@@ -32,7 +32,7 @@ namespace XF
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/font-awesome.min.css",
+                      "~/Content/fontawesome-all.min",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/boostrap").Include(

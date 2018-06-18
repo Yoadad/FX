@@ -27,9 +27,10 @@ namespace XF.Entities
 
         [StringLength(128)]
         public string UserId { get; set; }
-
         [NotMapped]
+        [StringLength(128)]
         public string UserName { get; set; }
+
 
         public virtual Invoice Invoice { get; set; }
 

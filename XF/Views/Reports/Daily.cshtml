@@ -37,7 +37,7 @@
             <th class="text-center">Finance</th>
             <th class="text-center">New<br />Layaway</th>
             <th class="text-center">Total</th>
-            <th class="text-center">Cost</th>
+            @*<th class="text-center">Cost</th>*@
             <th class="text-center">Tax Due</th>
         </tr>
     </thead>
@@ -83,9 +83,9 @@
                 <td class="text-rigth">
                     @(string.Format("{0:C}", ((item.Subtotal - item.Discount + item.DeliveryFee + item.InstalationFee) * (1 + item.Tax)) + item.SNAP))
                 </td>
-                <td class="text-rigth">
+                @*<td class="text-rigth">
                     @(string.Format("{0:C}", item.InvoiceDetails.Sum(id=>id.Product.PurchasePrice)))
-                </td>
+                </td>*@
                 <td class="text-rigth">
                     @(string.Format("{0:C}", ((item.Subtotal - item.Discount + item.DeliveryFee + item.InstalationFee) * (item.Tax))))
                 </td>
@@ -151,14 +151,14 @@
                 </div>
 
             </td>
-            <td class="text-right">
+            @*<td class="text-right">
                 <div>
                     <strong>
                         @(string.Format("{0:C}", Model.SelectMany(i => i.InvoiceDetails).Sum(p => p.Product.PurchasePrice)))
                     </strong>
                 </div>
 
-            </td>
+            </td>*@
             <td class="text-right">
                 <div>
                     <strong>
