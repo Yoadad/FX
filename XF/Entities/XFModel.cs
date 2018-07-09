@@ -72,11 +72,6 @@ namespace XF.Entities
                 .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Products)
-                .WithMany(e => e.Categories)
-                .Map(m => m.ToTable("CategoriesProducts").MapLeftKey("CategoryId").MapRightKey("ProductId"));
-
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.ClientNotes)
                 .WithRequired(e => e.Client)

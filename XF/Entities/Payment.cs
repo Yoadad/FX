@@ -30,8 +30,6 @@ namespace XF.Entities
         [NotMapped]
         [StringLength(128)]
         public string UserName { get; set; }
-
-
         public virtual Invoice Invoice { get; set; }
 
         public virtual PaymentOption PaymentOption { get; set; }

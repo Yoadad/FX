@@ -66,6 +66,7 @@
                 { field: "Id" , hidden: true },
                 { field: "Code",template:$("#codeTemplate").html() },
                 { field: "Name" },
+                { field: "CategoryName",title:"Category", filterable: false },
                 { field: "SellPrice",title:"Sell Price", filterable: false },
                 { field: "PurchasePrice",title:"Puchase Price", filterable: false },
                 { field: "Max", filterable: false },

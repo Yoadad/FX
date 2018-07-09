@@ -40,12 +40,17 @@ namespace XF.Controllers
 
         public ActionResult Estimate()
         {
+            var userId = this.User.Identity.GetUserId();
+            var user = db.AspNetUsers.FirstOrDefault(u => u.Id == userId);
             var model = new SalesViewModel()
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
                 Products = db.Products.Where(p => p.Provider.IsActive).OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
-                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id),
-                Tax = float.Parse(ConfigService.GetValue("Tax", db))
+                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
+                PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
+                Tax = float.Parse(ConfigService.GetValue("Tax", db)),
+                UserName = user == null ? string.Empty : user.FullName,
+                UserId = user == null ? string.Empty : user.Id
             };
             return View(model);
         }
@@ -58,8 +63,13 @@ namespace XF.Controllers
                 model.Invoice.UserId = User.Identity.GetUserId();
                 model.Invoice.Created = DateTime.Now;
                 model.Invoice.InvoiceStatusId = (int)InvoiceStatus.Draft;
+                foreach (Payment payment in model.Invoice.Payments)
+                {
+                    payment.UserId = this.User.Identity.GetUserId();
+                }
                 db.Invoices.Add(model.Invoice);
                 db.SaveChanges();
+                
                 return Json(new { Result = true, Message = "New Invoice created successful", Data = new { InvoiceId = model.Invoice.Id } });
             }
             catch (Exception ex)
@@ -71,8 +81,8 @@ namespace XF.Controllers
                 while (innerException != null)
                 {
                     message.AppendLine(string.IsNullOrWhiteSpace(innerException.Message)
-                        ? string.Empty
-                        : innerException.Message);
+                                        ? string.Empty
+                                        : innerException.Message);
                     innerException = innerException.InnerException;
                 }
                 return Json(new { Result = false, Message = message.ToString() });

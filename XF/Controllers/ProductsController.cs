@@ -55,12 +55,18 @@ namespace XF.Controllers
                 .Where(s => s.ProductId == p.Id)
                 .Sum(s => s.StockQuantity)
                 : 0;
+            if (p.CategoryId != null)
+            {
+                itemModel.CategoryName = db.Categories.FirstOrDefault(c => c.Id == p.CategoryId).Name;
+            }
             return itemModel;
         }
 
         public JsonResult Products(string sorting, string filter, int skip, int take, int pageSize, int page)
         {
-            var result = GridService.GetData(db.Products.OrderBy(p => p.Code),
+            var result = GridService.GetData(db.Products
+                .Include(p => p.Category)
+                .OrderBy(p => p.Code),
                                                 sorting,
                                                 filter,
                                                 skip,
@@ -94,10 +100,10 @@ namespace XF.Controllers
             }
 
             var pr = db.Products
-                .Where(p => 
+                .Where(p =>
                         !hasFilterProviderName
                         || (
-                            hasFilterProviderName 
+                            hasFilterProviderName
                             && p.Provider.BusinessName.Contains(providerNameFilter)
                         )
                 )
@@ -147,11 +153,13 @@ namespace XF.Controllers
                     Name = p.BusinessName
                 })
                 , "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name")
+                .ToList();
             return View();
         }
 
         [HttpGet]
-        public JsonResult Find([Bind(Prefix ="filter[filters][0][value]")]string filter)
+        public JsonResult Find([Bind(Prefix = "filter[filters][0][value]")]string filter)
         {
             filter = string.IsNullOrWhiteSpace(filter) ? string.Empty : filter;
             var result = db.Products
@@ -167,7 +175,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -183,6 +191,8 @@ namespace XF.Controllers
                                 Name = p.BusinessName
                             })
                             , "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", product.CategoryId)
+                .ToList();
 
             return View(product);
         }
@@ -206,6 +216,10 @@ namespace XF.Controllers
                     Id = p.Id,
                     Name = p.BusinessName
                 }), "Id", "Name", product.ProviderId);
+
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", product.CategoryId)
+                .ToList();
+
             return View(product);
         }
 
@@ -214,7 +228,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -222,7 +236,16 @@ namespace XF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProviderId = new SelectList(db.Providers, "Id", "Name", product.ProviderId);
+            ViewBag.ProviderId = new SelectList(db.Providers
+                .ToList()
+                .Select(p => new
+                {
+                    Id = p.Id,
+                    Name = p.BusinessName
+                }), "Id", "Name", product.ProviderId);
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", product.CategoryId)
+                .ToList();
+
             return View(product);
         }
 
@@ -263,10 +286,11 @@ namespace XF.Controllers
             {
                 var stock = location
                     .Stocks
-                    .FirstOrDefault(s=>s.LocationId == location.Id && s.ProductId == id);
-                var sl = new StockLocation() {
+                    .FirstOrDefault(s => s.LocationId == location.Id && s.ProductId == id);
+                var sl = new StockLocation()
+                {
                     Location = location,
-                    Stock = stock == null ? 0: stock.StockQuantity
+                    Stock = stock == null ? 0 : stock.StockQuantity
                 };
                 locations.Add(sl);
             }

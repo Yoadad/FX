@@ -1,35 +1,55 @@
 ﻿@model XF.Models.SalesViewModel
 <br />
-<h1>Estimates</h1>
+<h1>Sales</h1>
 <hr />
-
+<input type="hidden" id="hfTax" value="@Model.Tax" />
+<input type="hidden" id="hfProducts" value="@Model.JsonProducts" />
 <div class="row">
     <div class="col-md-4">
         <label>Client</label>
         <select class="form-control" id="cmbClient">
+            <option id="0"></option>
             @foreach (var item in Model.Clients)
             {
-                <option value="@item.Id">@(string.Format("{0}{1} {2}",
+                <option value="@item.Id">
+                    @(string.Format("{0}{1} {2}",
                         item.FirstName,
                         item.MiddleName == null
                         ? string.Empty
                         : string.Format(" {0}", item.MiddleName)
-                        , item.LastName))</option>
+                        , item.LastName))
+            </option>
             }
         </select>
+        <div class="text-right">
+            <a href="/Clients/Create">Add Client</a>
+        </div>
     </div>
     <div class="col-md-4">
-        <label>Payment Type</label>
+        <label>Credit Type</label>
         <select class="form-control" id="cmbPaymentType">
+            <option id="0"></option>
             @foreach (var item in Model.PaymentTypes)
             {
                 <option value="@item.Id">@item.Name</option>
             }
-        </select>        
+        </select>
     </div>
     <div class="col-md-4">
+        <label>
+            <select id="cmbIsDelivery">
+                <option value="1">Delivery</option>
+                <option value="0" selected>Pick Up</option>
+            </select>
+        </label>
         <label>Date</label>
         <input type="date" id="txtDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+        <textarea rows="3" style="display:none;" class="form-control" placeholder="Address" id="txtAddress"></textarea>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
     </div>
 </div>
 <br />
@@ -37,76 +57,165 @@
     <div class="col-md-12">
         <table class="table table-striped table-bordered" id="invoiceTable">
             <thead>
-            <tr>
-                <th colspan="5" class="text-right">
-                    <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
-                </th>
-            </tr>
-            <tr>
-                <th class="text-center">Item</th>
-                <th class="text-center">Quantity</th>
-                <th class="text-center">Unit Price</th>
-                <th class="text-center">Total</th>
-                <th class="text-center">Actions</th>
-            </tr>                
+                <tr>
+                    <th colspan="7" class="text-right">
+                        <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center">Item</th>
+                    <th class="text-center">Note</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">
+                        <em>In Stock / OS</em>
+                    </th>
+                    <th class="text-center">Unit Price</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Actions</th>
+                </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
-            <tr>
-                <td colspan="5" class="text-right">
-                    <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right">Subtotal</td>
-                <td class="text-right text-info">
-                    <em id="lblSubtotal" data-value="0.0">0.00</em>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right">Tax</td>
-                <td class="text-right text-info">
-                    <em id="lblTax" data-value="@Model.Tax" style="display:none;">@string.Format("{0:p}",Model.Tax)</em>
-                    <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right">Discount</td>
-                <td class="text-right" style="width:144px;">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">$</div>
-                            <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                <tr>
+                    <td colspan="7" class="text-right">
+                        <a href="javascript:;" class="btn btn-primary lnk-addnew">Add new Item</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" rowspan="8">
+
+                        @*<table class="table table-striped" id="tablePayments">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment Option</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="text-right">
+                                        PAYMENTS AMOUNT
+                                    </td>
+                                    <td class="text-right">
+                                        <em id="lblPaymentsAmount" data-value="0.0">$0.00</em>
+                                    </td>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">
+                                        <input type="button" value="Add Payment" class="btn btn-primary" id="btnAddPaymentOption" style="display:none" />
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>*@
+
+                    </td>
+                    <td class="text-right">Subtotal</td>
+                    <td class="text-right text-info">
+                        <em id="lblSubtotal" data-value="0.0">0.00</em>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Discount</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtDiscount" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td class="text-right" style="width:144px;">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00"/>
-                            <div class="input-group-addon">%</div>
+                    </td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control text-right text-info" id="txtDiscountPercent" type="number" min="0.0" value="0.0" step="0.1" pattern="0.00" />
+                                <div class="input-group-addon">%</div>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right">TOTAL</td>
-                <td class="text-right text-danger">
-                    <strong>
-                        <em id="lblTotal" data-value="0.0">$0.00</em>
-                    </strong>
-                </td>
-                <td></td>
-            </tr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>SNAP</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtSNAP" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Delivery Fee</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtDeliveryFee" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Instalation Fee</td>
+                    <td class="text-right" style="width:144px;">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control text-right text-info" id="txtInstalationFee" type="number" min="0.0" value="0.0" step="0.5" pattern="0.00" />
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Tax</td>
+                    <td class="text-right text-info">
+                        <em id="lblTax" data-value="@Model.Tax" style="display:none;">@string.Format("{0:p}", Model.Tax)</em>
+                        <em id="lblTaxDisplay" data-value="@Model.Tax">@string.Format("{0:c}", 0)</em>
+                    </td>
+                    <td class="text-center">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="chkTaxZero" /> No Tax
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">TOTAL</td>
+                    <td class="text-right text-danger">
+                        <strong>
+                            <em id="lblTotal" data-value="0.0">$0.00</em>
+                        </strong>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">BALANCE</td>
+                    <td class="text-right text-danger">
+                        <small>
+                            <em id="lblBalance" data-value="0.0">$0.00</em>
+                        </small>
+                    </td>
+                    <td>
+                        <div id="divFee" class="label label-danger">Fee 10%</div>
+                    </td>
+                </tr>
 
             </tfoot>
         </table>
         <div class="text-right">
-            <input type="button" value="Cancel" id="btnCancelQuotation" class="btn btn-danger" />
-            
-            <input type="button" value="Save" id="btnSaveQuotation" class="btn btn-primary"/>
+            <input type="button" value="Cancel" id="btnCancelInvoice" class="btn btn-danger" />
+
+            <input type="button" value="Save" id="btnSaveInvoice" class="btn btn-primary" />
         </div>
     </div>
 </div>
@@ -115,30 +224,63 @@
 <script type="text/html" id="newItemTemplate">
     <tr class="item item-#=data.index#">
         <td>
-            <select class="form-control cmb-product">
-                @foreach (var item in Model.Products)
-                {
-                    <option value="@item.Id" data-price="@item.SellPrice">@item.Name.Replace("#", "\\\\#") [@item.Code.Replace("#", "\\\\#,")]</option>
-                }
-            </select>
+            <input class="form-control autocomplete" style="width:100%;" />
         </td>
         <td>
-            <input type="number" min="1" value="1" class="form-control txt-quantity text-right" style="width:89px;"/>
+            <input type="text" class="form-control txt-note" placeholder="Color, Size, etc." />
         </td>
+        <td>
+            <input type="number" min="1" value="1" class="form-control txt-quantity text-right" style="width:89px;" />
+        </td>
+        <td class="text-center">
+            <em class="lbl-stock label label-success" data-value="0.0"></em>
+            &nbsp;/&nbsp;
+            <em class="lbl-inorder label label-warning" data-value="0.0"></em>
+        </td>
+
         <td class="text-right">
             <em class="lbl-price" data-value="0.0"></em>
         </td>
+
         <td class="text-right">
             <em class="lbl-total" data-value="0.0"></em>
         </td>
         <td class="text-center">
             <a href="javascript:XF.removeItem(#=data.index#)">Remove</a>
         </td>
-    </tr>       
+    </tr>
+
+</script>
+
+<script type="text/html" id="paymentOptionsTemplate">
+
+    <tr class="payment-item payment-item-#=data.Index#">
+        <td>
+            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control payment-date" />
+            <h5>
+                <small class="user-item" data-userid="@Model.UserId">By: @Model.UserName</small>
+            </h5>
+        </td>
+        <td>
+            <input type="number" min="0.0" value="0.0" class="form-control payment-amount" />
+        </td>
+        <td>
+            <select class="form-control payment-option">
+                @foreach (var item in Model.PaymentOptions)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </td>
+        <td class="text-center">
+            <a href="javascript: XF.removePaymentItem(#=data.Index#)">Remove</a>
+        </td>
+    </tr>
 
 </script>
 
 @section scripts{
-    @Scripts.Render("~/Scripts/Sales/QuotationPoint.js?v=1")    
-}
 
+    @Scripts.Render("~/Scripts/Sales/SalesService.js")
+    @Scripts.Render("~/Scripts/Sales/QuotationPoint.js?v=2.0")
+}

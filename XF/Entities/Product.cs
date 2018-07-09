@@ -15,7 +15,6 @@ namespace XF.Entities
             InvoiceDetails = new HashSet<InvoiceDetail>();
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             Stocks = new HashSet<Stock>();
-            Categories = new HashSet<Category>();
         }
 
         public int Id { get; set; }
@@ -26,10 +25,10 @@ namespace XF.Entities
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
-        [Display(Name="Sell Price")]
+
         [Column(TypeName = "numeric")]
         public decimal SellPrice { get; set; }
-        [Display(Name = "Purchase Price")]
+
         [Column(TypeName = "numeric")]
         public decimal PurchasePrice { get; set; }
 
@@ -38,18 +37,13 @@ namespace XF.Entities
         public int Min { get; set; }
 
         public int ProviderId { get; set; }
-        [Display(Name="Display as")]
+
         [StringLength(255)]
         public string Display { get; set; }
 
-        [NotMapped]
-        public string NameCode
-        {
-            get
-            {
-                return string.Format("{0} [{1}]", Name, Code);
-            }
-        }
+        public int? CategoryId { get; set; }
+
+        public virtual Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
@@ -61,8 +55,5 @@ namespace XF.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock> Stocks { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Categories { get; set; }
     }
 }

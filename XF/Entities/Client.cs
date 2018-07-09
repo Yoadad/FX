@@ -37,7 +37,6 @@ namespace XF.Entities
 
         [StringLength(512)]
         public string Address { get; set; }
-
         [Display(Name = "Name")]
         [NotMapped]
         public string FullName
@@ -52,6 +51,7 @@ namespace XF.Entities
                     LastName);
             }
         }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientNote> ClientNotes { get; set; }
 

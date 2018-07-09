@@ -194,8 +194,9 @@
         $('.payment-amount').each(function () {
             paymentsAmount += parseFloat($(this).val());
         });
-
-        var total = ((subtotal - discount + deliveryFee + instalationFee) * (1 + tax)) + snapFee;
+        var subtotalPlusFees = (subtotal - discount + deliveryFee + instalationFee);
+        var totalTaxas = subtotalPlusFees * tax;
+        var total = (subtotalPlusFees * (1 + tax)) + snapFee;
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
@@ -208,7 +209,7 @@
         $('#lblTotal').text(kendo.format('{0:C}', total)).data({ value: total });
         $('#lblPaymentsAmount').text(kendo.format('{0:C}', paymentsAmount)).data({ value: paymentsAmount });
         $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
-        $('#lblTaxDisplay').text(kendo.format('{0:C}', subtotal * tax));
+        $('#lblTaxDisplay').text(kendo.format('{0:C}', totalTaxas));
         XF.getBalance();
     };
 

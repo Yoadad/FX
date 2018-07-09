@@ -28,7 +28,9 @@ namespace XF.Models
             this.PurchasePrice = product.PurchasePrice;
             this.Max = product.Max;
             this.Min = product.Min;
+            this.Display = product.Display;
             this.ProviderName = product.Provider.BusinessName;
+            this.CategoryName = product.Category != null ? product.Category.Name : string.Empty;
         }
         public int Stock { get; set; }
         public string Note { get; set; } 
@@ -40,6 +42,7 @@ namespace XF.Models
             }
         }
         public string ProviderName { get; set; }
+        public string CategoryName { get; set; }
     }
 
     public class ProductStockViewModel

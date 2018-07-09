@@ -18,7 +18,7 @@
         @foreach (var item in Model.GroupBy(p => p.ProviderId))
             {
             <tr>
-                <td colspan="6">
+                <td colspan="8">
                     <h4>
                         @(item.Any() ? item.First().Provider.BusinessName : string.Empty)
                     </h4>
@@ -27,6 +27,8 @@
             <tr>
                 <td class="text-center">Code </td>
                 <td class="text-center">Name</td>
+                <td class="text-center">Category</td>
+                <td class="text-center">Display</td>
                 <td class="text-center">Sell Price</td>
                 <td class="text-center">Purchase Price</td>
                 <td class="text-center">Storage</td>
@@ -40,6 +42,12 @@
                     </td>
                     <td>
                         @product.Name
+                    </td>
+                    <td>
+                        @(product.CategoryId != null ? product.Category.Name : string.Empty)
+                    </td>
+                    <td>
+                        @product.Display
                     </td>
                     <td class="text-right">
                         @string.Format("{0:C}", product.SellPrice)
