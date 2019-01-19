@@ -192,7 +192,7 @@ namespace XF.Controllers
             endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                userId).Where(i => !i.IsDelivery);
+                userId);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             return View(invoices);

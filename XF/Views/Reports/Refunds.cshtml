@@ -1,0 +1,177 @@
+﻿@model XF.Models.ReportSalesModel
+@{
+    ViewBag.Title = "Sales Report";
+    Layout = null;
+    var currentAmount = new decimal(0);
+    var userName = Model.Invoices.Any()
+                ? (Model.Invoices.First().UserId != Model.Invoices.Last().UserId
+                    ? string.Empty
+                    : string.Format("{0} {1}",
+                    Model.Invoices.First().AspNetUser.FirstName,
+                    Model.Invoices.First().AspNetUser.LastName))
+                : string.Empty;
+
+}
+
+@if (ViewBag.HasStyles)
+{
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+<h2 class="text-center">
+    Sales Report
+    <br />
+    <small>@userName</small>
+    <br />
+    <small class="text-right">@ViewBag.StartDate &nbsp;to&nbsp;@ViewBag.EndDate</small>
+    <br />
+</h2>
+<table id="report" class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <strong>
+                    Date
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-center">
+                    <h5>
+                        <strong>
+                            @item.Date.ToString("dddd")
+                        </strong>
+                        <br />
+                        <small>
+                            @item.Date.ToShortDateString()
+                        </small>
+                    </h5>
+                </td>
+            }
+        </tr>
+        <tr>
+            <td>
+                <strong>
+                    Cash
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <em>
+                        @{ currentAmount = item.Amounts.First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                    </em>
+                </td>
+                            }
+        </tr>
+        <tr>
+            <td>
+                <strong>
+                    CC
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <em>
+                        @{ currentAmount = item.Amounts.Skip(1).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                    </em>
+                </td>
+                            }
+        </tr>
+        <tr>
+            <td>
+                <strong>
+                    Debit
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <em>
+                        @{ currentAmount = item.Amounts.Skip(2).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                    </em>
+                </td>
+                            }
+        </tr>
+        <tr>
+            <td>
+                <strong>
+                    Check
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <em>
+                        @{ currentAmount = item.Amounts.Skip(3).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                    </em>
+                </td>
+                            }
+        </tr>
+        @{ var index = 4;}
+        @foreach (var finance in Model.Finances)
+        {
+            <tr>
+                <td>
+                    <strong>
+                        @finance.Name.Replace("Finance-", "")
+                    </strong>
+                </td>
+
+                @foreach (var item in Model.Items)
+                {
+                    <td class="text-right">
+                        <em>
+                            @{ currentAmount = item.Amounts.Skip(index).First();}
+                            @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                        </em>
+                    </td>
+                                }
+                @{ index++;}
+            </tr>
+                    }
+        <tr>
+            <td>
+                <strong>
+                    TOTAL
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <strong>
+                        <em>
+                            @{ currentAmount = item.Amounts.Skip(index).First();}
+                            @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                        </em>
+                    </strong>
+                </td>
+                                }
+        </tr>
+        <tr>
+            <td>
+                <strong>
+                    Sales TAX
+                </strong>
+            </td>
+            @foreach (var item in Model.Items)
+            {
+                <td class="text-right">
+                    <em>
+                        @{ currentAmount = item.Amounts.Skip(index + 1).First();}
+                        @(currentAmount != 0 ? string.Format("{0:c}", currentAmount) : string.Empty)
+                    </em>
+                </td>
+            }
+        </tr>
+
+
+
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>

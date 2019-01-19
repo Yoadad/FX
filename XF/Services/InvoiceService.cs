@@ -35,6 +35,7 @@ namespace XF.Services
             var periods = GetPeriods(invoice, lasttDate);
             var previousPayment = new PeriodPayment();
             var mountsWithFee = 0;
+            var invoiceTotal = invoice.Total == null ? 0 : invoice.Total.Value;
             foreach (var period in periods)
             {
                 var isFirstPeriodPayment = true;
@@ -42,8 +43,8 @@ namespace XF.Services
                 {
                     if (previousPayment.Payment == null)
                     {
-                        periodPayment.BalanceBefore = invoice.Total.Value;
-                        periodPayment.BalanceAfter = invoice.Total.Value - periodPayment.Payment.Amount;
+                        periodPayment.BalanceBefore = invoiceTotal;
+                        periodPayment.BalanceAfter = invoiceTotal - periodPayment.Payment.Amount;
                         periodPayment.Payment.Balance = periodPayment.BalanceAfter;
                         periodPayment.Payment.HasFee = false;
                     }

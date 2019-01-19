@@ -168,8 +168,16 @@ namespace XF.Controllers
                 var model = JsonConvert.DeserializeObject<SalesDetailViewModel>(data);
                 var invoice = db.Invoices.Find(model.Invoice.Id);
                 invoice.InvoiceStatusId = (int)InvoiceStatus.InProgress;
+                invoice.IsDelivery = model.Invoice.IsDelivery;
+                invoice.DeliveryFee = model.Invoice.DeliveryFee;
+                invoice.SNAP = model.Invoice.SNAP;
+                invoice.Date = model.Invoice.Date;
+                invoice.Address = model.Invoice.Address;
+                invoice.InstalationFee = model.Invoice.InstalationFee;
+                invoice.Subtotal = model.Invoice.Subtotal;
+                invoice.Total = model.Invoice.Total;
                 db.Entry(invoice).State = EntityState.Modified;
-                //db.SaveChanges();
+                db.SaveChanges();
                 //
                 foreach (var detail in model.Invoice.InvoiceDetails)
                 {
