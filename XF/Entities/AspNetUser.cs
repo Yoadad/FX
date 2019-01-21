@@ -69,6 +69,8 @@ namespace XF.Entities
                     LastName);
             }
         }
+
+        public decimal Comission { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
 

@@ -12,7 +12,7 @@ namespace XF.Models
         public string RoleId { get; set; }
         public bool IsChecked { get; set; }
     }
-
+    
     public class UserRolesViewModel
     {
         public IEnumerable<KeyValuePair<string,string>> Users { get; set; }

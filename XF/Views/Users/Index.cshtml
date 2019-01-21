@@ -29,49 +29,57 @@
         <th>
             Roles
         </th>
+        <th>
+            Comission
+        </th>
     </tr>
 
-@foreach (var item in Model.Users) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MiddleName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @foreach (var role in Model.Roles)
-            {
-                <div class="checkbox">
-                    <label>
-                        <input class="xf-chk-role"
-                               data-userid="@item.Id"
-                               data-roleid="@role.Id"
-                               type="checkbox"
-                               @(item.AspNetRoles.Any(r => r.Id == role.Id) ? "checked" : string.Empty) />
-                        @role.Name
-                    </label>
-                </div>
-            }
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @foreach (var role in Model.Roles)
+                {
+                    <div class="checkbox">
+                        <label>
+                            <input class="xf-chk-role"
+                                   data-userid="@item.Id"
+                                   data-roleid="@role.Id"
+                                   type="checkbox"
+                                   @(item.AspNetRoles.Any(r => r.Id == role.Id) ? "checked" : string.Empty) />
+                            @role.Name
+                        </label>
+                    </div>
+                }
 
-                    @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
-                    @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-                    @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-</td>
-    </tr>
-}
+            </td>
+            <td style="max-width:100px;">
+                <a href="javascript:;" 
+                   class="xf-lnk-comission"                                    data-userid="@item.Id"
+                   data-userid="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Comission)
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>
 
 
 @section Scripts
 {
-    @Scripts.Render("~/Scripts/UserRoles/UserRoles.js")
-    
+    @Scripts.Render("~/Scripts/UserRoles/UserRoles.js?v=1.0")
+
 }

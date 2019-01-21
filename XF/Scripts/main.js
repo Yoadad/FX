@@ -62,13 +62,22 @@ var XF = XF || {};
 
     };
 
-    XF.prompt = function (text,value, fn) {
+    XF.prompt = function (text, value, fn) {
         XF.promptOnClose = fn;
         $('#txtPromptValue').val(value);
         var html = XF.getHtmlFromTemplate('#promptTemplate', { text: text });
         $('#prompt .content').html(html);
         XF.promptWindow.center().open();
 
+    };
+
+    XF.options = function (options, value,label, fn) {
+        XF.optionsOnClose = fn;
+        var html = XF.getHtmlFromTemplate('#optionsTemplate', options);
+        $('#optionsLabel').text(label);
+        $('#cmbOptionsValue').html(html);
+        $('#cmbOptionsValue').val($.trim(value || ''));
+        XF.optionsWindow.center().open();
     };
 
     XF.format = function (text) {
@@ -119,6 +128,17 @@ var XF = XF || {};
         ],
     }).data("kendoWindow");
 
+    //Options window
+    XF.optionsWindow = $('#options').kendoWindow({
+        width: "300",
+        title: "Application Options",
+        visible: false,
+        modal: true,
+        actions: [
+            "Close"
+        ],
+    }).data("kendoWindow");
+
     $('#btnConfirmCancel').on('click', function () {
         XF.confirmWindow.close();
     });
@@ -135,6 +155,15 @@ var XF = XF || {};
     $('#btnPromptOK').on('click', function () {
         XF.promptWindow.close();
         XF.promptOnClose($('#txtPromptValue').val());
+    });
+
+    $('#btnOptionsCancel').on('click', function () {
+        XF.optionsWindow.close();
+    });
+
+    $('#btnOptionsOK').on('click', function () {
+        XF.optionsWindow.close();
+        XF.optionsOnClose($('#cmbOptionsValue').val());
     });
 
 }(jQuery,XF));

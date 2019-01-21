@@ -282,6 +282,7 @@
     </Compile>
     <Compile Include="Locals\NotesHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ComissionModel.cs" />
     <Compile Include="Models\GridViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoiceItemViewModel.cs" />
@@ -543,6 +544,7 @@
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Reports\Refunds.cshtml" />
+    <Content Include="Views\Templates\Options.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
