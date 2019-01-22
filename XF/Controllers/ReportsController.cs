@@ -209,6 +209,29 @@ namespace XF.Controllers
             return new ViewAsPdf("~/Views/Reports/Profit.cshtml", invoices);
         }
 
+        public ActionResult Comissions(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+            var invoices = GetInvoices(startDate,
+                endDate,
+                userId);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return View(invoices);
+        }
+
+        public ActionResult PrintComissions(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            var invoices = GetInvoices(startDate,
+                endDate,
+                userId).Where(i => !i.IsDelivery);
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            return new ViewAsPdf("~/Views/Reports/Comissions.cshtml", invoices);
+        }
 
         private IEnumerable<SalesItemModel> GetSalesItems(IEnumerable<Invoice> invoices, DateTime startDate, DateTime endDate)
         {

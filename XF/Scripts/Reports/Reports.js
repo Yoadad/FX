@@ -92,6 +92,23 @@
         $('#reportViewer').html(data);
     };
 
+    XF.getComissionsReport = function () {
+        var url = '/Reports/Comissions';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
+        $.get(url, data, XF.getComissionsReportResponse);
+    };
+
+    XF.getComissionsReportResponse = function (data) {
+        $('#reportViewer').html(data);
+    };
+
+
+
 
 
     $('#btnFilter').on('click', function () {
@@ -113,8 +130,10 @@
             XF.getProfitReport();
         }
         else if (reportType == 6) {
-            console.log(':)');
             XF.getSalesRangeReport();
+        }
+        else if (reportType == 7) {
+            XF.getComissionsReport();
         }
     });
 
@@ -145,6 +164,9 @@
         }
         else if (reportType == 6) {
             url = "/Reports/PrintSalesRange?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
+        }
+        else if (reportType == 7) {
+            url = "/Reports/PrintComissions?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         var win = window.open(url, '_blank');
         win.focus();

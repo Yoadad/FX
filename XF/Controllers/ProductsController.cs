@@ -142,6 +142,7 @@ namespace XF.Controllers
             return View(product);
         }
 
+        [Authorize(Roles ="Admin,Super")]
         // GET: Products1/Create
         public ActionResult Create()
         {
@@ -198,6 +199,7 @@ namespace XF.Controllers
         }
 
         // GET: Products1/Edit/5
+        [Authorize(Roles = "Admin,Super")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

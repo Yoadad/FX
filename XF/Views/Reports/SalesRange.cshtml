@@ -36,7 +36,7 @@
             <th class="text-center">Finance</th>
             <th class="text-center">New<br />Layaway</th>
             <th class="text-center">Subtot</th>
-            @*<th class="text-center">Cost</th>*@
+            <th class="text-center">Total</th>
             <th class="text-center">Tax Due</th>
         </tr>
     </thead>
@@ -84,6 +84,9 @@
                 </td>
                 <td class="text-rigth">
                     @(string.Format("{0:C}", item.Subtotal))
+                </td>
+                <td class="text-rigth">
+                    @(string.Format("{0:C}", item.Total))
                 </td>
                 @*<td class="text-rigth">
                     @(string.Format("{0:C}", item.InvoiceDetails.Sum(id=>id.Product.PurchasePrice)))
@@ -153,18 +156,18 @@
                 </div>
 
             </td>
-            @*<td class="text-right">
-                <div>
-                    <strong>
-                        @(string.Format("{0:C}", Model.SelectMany(i => i.InvoiceDetails).Sum(p => p.Product.PurchasePrice)))
-                    </strong>
-                </div>
-
-            </td>*@
             <td class="text-right">
                 <div>
                     <strong>
-                        @(string.Format("{0:C}", Model.Sum(p => p.Subtotal * p.Tax)))
+                        @(string.Format("{0:C}", Model.Sum(i => i.Total)))
+                    </strong>
+                </div>
+
+            </td>
+            <td class="text-right">
+                <div>
+                    <strong>
+                        @(string.Format("{0:C}", Model.Sum(p => p.Total * p.Tax)))
                     </strong>
                 </div>
             </td>

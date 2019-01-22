@@ -545,6 +545,7 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Reports\Refunds.cshtml" />
     <Content Include="Views\Templates\Options.cshtml" />
+    <Content Include="Views\Reports\Comissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
