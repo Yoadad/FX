@@ -277,6 +277,7 @@ namespace XF.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin,Super")]
         public ActionResult Stock(int id)
         {
             var locationsList = db.Locations
