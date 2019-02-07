@@ -45,7 +45,7 @@
                 <td class="text-center">@item.Created.ToShortDateString()</td>
                 <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.Product.PurchasePrice * i.Quantity))</td>
                 <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice * i.Quantity) - item.Discount)</td>
-                <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice * i.Quantity) - item.InvoiceDetails.Sum(i => i.Product.PurchasePrice * i.Quantity))</td>
+                <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice * i.Quantity) - item.Discount - item.InvoiceDetails.Sum(i => i.Product.PurchasePrice * i.Quantity))</td>
                 <td class="text-right">@string.Format("{0:c}", (item.InvoiceDetails.Sum(i => i.UnitPrice * i.Quantity) - item.Discount - item.InvoiceDetails.Sum(i => i.Product.PurchasePrice * i.Quantity)) * item.AspNetUser.Comission)</td>
             </tr>
         }

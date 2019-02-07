@@ -23,13 +23,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
     <File Include="bin/App_Browsers.dll">
-      <publishTime>01/29/2019 23:01:57</publishTime>
+      <publishTime>02/01/2019 00:12:33</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>01/29/2019 23:01:56</publishTime>
+      <publishTime>02/01/2019 00:12:32</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>01/29/2019 23:01:55</publishTime>
+      <publishTime>02/01/2019 00:12:32</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/25/2017 17:26:06</publishTime>
@@ -188,10 +188,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>01/29/2019 23:01:33</publishTime>
+      <publishTime>02/01/2019 00:12:19</publishTime>
     </File>
     <File Include="bin/__browserCapabilitiesCompiler.compiled">
-      <publishTime>01/29/2019 23:01:57</publishTime>
+      <publishTime>02/01/2019 00:12:33</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -353,7 +353,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 18:35:00</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>01/29/2019 23:01:39</publishTime>
+      <publishTime>02/01/2019 00:12:25</publishTime>
     </File>
     <File Include="Rotativa/wkhtmltopdf.exe">
       <publishTime>06/11/2017 18:35:00</publishTime>
@@ -761,7 +761,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/06/2017 00:46:30</publishTime>
     </File>
     <File Include="Views/Reports/Comissions.cshtml">
-      <publishTime>01/21/2019 23:22:03</publishTime>
+      <publishTime>02/01/2019 00:08:15</publishTime>
     </File>
     <File Include="Views/Reports/Daily.cshtml">
       <publishTime>06/18/2018 02:42:25</publishTime>

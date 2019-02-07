@@ -142,7 +142,7 @@ namespace XF.Controllers
             return View(product);
         }
 
-        [Authorize(Roles ="Admin,Super")]
+        [Authorize(Roles = "Admin,Super,Super Seller")]
         // GET: Products1/Create
         public ActionResult Create()
         {
@@ -176,6 +176,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super,Super Seller")]
         public ActionResult Create([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -199,7 +200,7 @@ namespace XF.Controllers
         }
 
         // GET: Products1/Edit/5
-        [Authorize(Roles = "Admin,Super")]
+        [Authorize(Roles = "Admin,Super,Super Seller")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -230,6 +231,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super,Super Seller")]
         public ActionResult Edit([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -370,7 +372,7 @@ namespace XF.Controllers
             return Json(new { Result = false, Message = "There is not product to update" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Admin,Super,Seller")]
+        [Authorize(Roles = "Admin,Super,Seller,Super Seller")]
         public JsonResult ByName([Bind(Include = "filter[filters][0][value]")]string filter)
         {
             var x = this.Request.Params["filter[filters][0][value]"];
