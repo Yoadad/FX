@@ -4,12 +4,29 @@ namespace XF.Entities
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using Dapper;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+    using System.Data;
 
     public partial class XFModel : DbContext
     {
         public XFModel()
             : base("name=XFModel")
         {
+        }
+
+        public IEnumerable<T> GetModelFromQuery<T>(string query, object parameters, int? commandTimeout = null)
+        {
+            using (SqlConnection connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["XFModel"].ConnectionString))
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+                var result = connection.Query<T>(query, parameters, commandType: CommandType.Text, commandTimeout: commandTimeout);
+                return result;
+            }
         }
 
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }

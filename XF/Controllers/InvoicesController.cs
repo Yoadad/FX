@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -126,7 +127,7 @@ namespace XF.Controllers
             var user = db.AspNetUsers.FirstOrDefault(u => u.Id == userid);
             var model = new InvoiceViewModel();
             model.Clients = db.Clients.OrderBy(c => c.FirstName).ToList();
-            model.Products = db.Products.OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p));
+            model.Products = GetProductsModel();
             model.PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList();
             model.PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList();
             model.Tax = decimal.Parse(ConfigService.GetValue("Tax", db));
@@ -141,6 +142,18 @@ namespace XF.Controllers
             model.UserId = user.Id;
 
             return View(model);
+        }
+
+
+        private IEnumerable<ProductItemModel> GetProductsModel()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("select distinct p.*,isnull(s.Stock,0) [Stock]");
+            sb.AppendLine("from Product p");
+            sb.AppendLine("left join Stock s");
+            sb.AppendLine("	on s.ProductId = p.Id");
+            var result = db.GetModelFromQuery<ProductItemModel>(sb.ToString(), new { });
+            return result;
         }
 
         public JsonResult Release(int id, bool isReleased)

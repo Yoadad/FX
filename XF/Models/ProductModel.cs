@@ -45,6 +45,33 @@ namespace XF.Models
         public string CategoryName { get; set; }
     }
 
+
+    public class ProductItemModel
+    {
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public decimal SellPrice { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public int Max { get; set; }
+        public int Min { get; set; }
+        public int ProviderId { get; set; }
+        public string Display { get; set; }
+        public int? CategoryId { get; set; }
+        public string NameCode
+        {
+            get
+            {
+                return string.Format("{0} [{1}]", Name, Code);
+            }
+        }
+        public int Stock { get; set; }
+        public string Note { get; set; }
+        public string ProviderName { get; set; }
+        public string CategoryName { get; set; }
+    }
+    
+
     public class ProductStockViewModel
     {
         public Product Product { get; set; }

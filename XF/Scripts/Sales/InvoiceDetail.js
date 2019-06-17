@@ -179,6 +179,13 @@
                                             .data({ value: inorder });
     };
 
+    XF.roundDecimals = function (value) {
+        var r1 = value.toFixed(3);
+        var r2 = Math.round(r1 * 1000) / 1000;
+        var r3 = Math.round(r2 * 100) / 100;
+        return r3;
+    };
+
     XF.showTotals = function () {
         var subtotal = 0.0;
         var discount = parseFloat($('#txtDiscount').val() || 0.0);
@@ -196,7 +203,7 @@
         });
         var subtotalPlusFees = (subtotal - discount + deliveryFee + instalationFee);
         var totalTaxas = subtotalPlusFees * tax;
-        var total = (subtotalPlusFees * (1 + tax)) + snapFee;
+        var total = XF.roundDecimals((subtotalPlusFees * (1 + tax)) + snapFee);
         var balance = total - paymentsAmount;
         var discountPercent = subtotal == 0 ? 0 : (discount * 100 / subtotal).toFixed(2);
 
