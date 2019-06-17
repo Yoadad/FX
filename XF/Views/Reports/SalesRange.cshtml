@@ -98,7 +98,7 @@
                         @(string.Format("{0:C}", item.InvoiceDetails.Sum(id=>id.Product.PurchasePrice)))
                     </td>*@
                 <td class="text-rigth">
-                    @(string.Format("{0:C}", item.Tax * (item.Subtotal - item.Discount + item.DeliveryFee + item.InstalationFee)))
+                    @(string.Format("{0:C}", item.Tax * (item.Subtotal - (item.Discount ?? 0) + item.DeliveryFee + item.InstalationFee)))
                 </td>
             </tr>
 
@@ -174,7 +174,7 @@
             <td class="text-right">
                 <div>
                     <strong>
-                        @(string.Format("{0:C}", Model.Sum(p => (p.Subtotal - p.Discount) * p.Tax)))
+                        @(string.Format("{0:C}", Model.Sum(p => (p.Subtotal - p.Discount + p.DeliveryFee + p.InstalationFee) * p.Tax)))
                     </strong>
                 </div>
             </td>
