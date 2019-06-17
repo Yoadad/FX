@@ -102,3 +102,4 @@ footer {
 .btn {
     min-width:100px;
 }
+.page-break { display: block; page-break-before: always; }
