@@ -23,13 +23,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
     <File Include="bin/App_Browsers.dll">
-      <publishTime>02/07/2019 00:37:54</publishTime>
+      <publishTime>06/17/2019 17:25:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/07/2019 00:37:54</publishTime>
+      <publishTime>06/17/2019 17:25:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/07/2019 00:37:54</publishTime>
+      <publishTime>06/17/2019 17:25:39</publishTime>
+    </File>
+    <File Include="bin/Dapper.dll">
+      <publishTime>02/22/2019 18:10:07</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/25/2017 17:26:06</publishTime>
@@ -188,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>02/07/2019 00:37:46</publishTime>
+      <publishTime>06/17/2019 17:25:30</publishTime>
     </File>
     <File Include="bin/__browserCapabilitiesCompiler.compiled">
-      <publishTime>02/07/2019 00:37:54</publishTime>
+      <publishTime>06/17/2019 17:25:40</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -263,7 +266,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>12/12/2017 01:32:50</publishTime>
+      <publishTime>06/17/2019 14:54:15</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>06/05/2017 04:22:25</publishTime>
@@ -353,7 +356,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 18:35:00</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/07/2019 00:37:48</publishTime>
+      <publishTime>06/17/2019 17:25:32</publishTime>
     </File>
     <File Include="Rotativa/wkhtmltopdf.exe">
       <publishTime>06/11/2017 18:35:00</publishTime>
@@ -455,7 +458,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>07/09/2018 02:52:43</publishTime>
+      <publishTime>06/16/2019 22:50:14</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>05/26/2018 04:25:51</publishTime>
@@ -602,7 +605,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>07/11/2018 00:45:55</publishTime>
+      <publishTime>06/16/2019 20:00:30</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
@@ -785,7 +788,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2018 21:54:13</publishTime>
     </File>
     <File Include="Views/Reports/SalesRange.cshtml">
-      <publishTime>01/21/2019 22:18:36</publishTime>
+      <publishTime>06/17/2019 15:40:04</publishTime>
     </File>
     <File Include="Views/Roles/Create.cshtml">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -839,7 +842,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/15/2017 16:09:55</publishTime>
     </File>
     <File Include="Views/Shared/_PrintLayout.cshtml">
-      <publishTime>06/15/2017 01:30:26</publishTime>
+      <publishTime>06/17/2019 14:46:49</publishTime>
     </File>
     <File Include="Views/Storages/Create.cshtml">
       <publishTime>03/26/2017 17:40:16</publishTime>
@@ -896,7 +899,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/07/2019 00:37:47</publishTime>
+      <publishTime>06/17/2019 17:25:31</publishTime>
     </File>
   </ItemGroup>
 </Project>
