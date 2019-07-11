@@ -11,7 +11,7 @@ using XF.Entities;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
     public class LogsController : Controller
     {
         private XFModel db = new XFModel();

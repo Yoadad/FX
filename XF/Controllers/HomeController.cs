@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
     public class HomeController : Controller
     {
+
         public ActionResult Index()
         {
             return View();

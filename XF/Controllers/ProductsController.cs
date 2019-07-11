@@ -21,7 +21,7 @@ using XF.Services;
 namespace XF.Controllers
 {
 
-    [Authorize]
+    [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
     public class ProductsController : Controller
     {
         private XFModel db = new XFModel();
@@ -40,7 +40,7 @@ namespace XF.Controllers
                 .Where(p => p.Stocks.Any(s => s.StockQuantity > 0));
             return new ViewAsPdf("~/Views/Products/PrintInventory.cshtml", products);
         }
-
+        [Authorize(Roles = "Admin,Super,Manager")]
         public ActionResult Inventory()
         {
             ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
@@ -142,7 +142,7 @@ namespace XF.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "Admin,Super,Super Seller")]
+        [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
         // GET: Products1/Create
         public ActionResult Create()
         {
@@ -176,7 +176,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,Super,Super Seller")]
+        [Authorize(Roles = "Admin,Super,Super Seller,Manager")]
         public ActionResult Create([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -200,7 +200,7 @@ namespace XF.Controllers
         }
 
         // GET: Products1/Edit/5
-        [Authorize(Roles = "Admin,Super,Super Seller")]
+        [Authorize(Roles = "Admin,Super,Super Seller,Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -231,7 +231,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,Super,Super Seller")]
+        [Authorize(Roles = "Admin,Super,Super Seller,Manager")]
         public ActionResult Edit([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -279,7 +279,7 @@ namespace XF.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Admin,Super")]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public ActionResult Stock(int id)
         {
             var locationsList = db.Locations
@@ -321,7 +321,7 @@ namespace XF.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Super")]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public JsonResult SetStock(int productId, int locationId, int stock)
         {
             if (productId > 0)
@@ -343,7 +343,7 @@ namespace XF.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Super")]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public JsonResult AddStock(int productId, int stock)
         {
             if (productId > 0)
@@ -358,7 +358,7 @@ namespace XF.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Super")]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public JsonResult RemoveStock(int productId, int stock)
         {
             if (productId > 0)
@@ -372,7 +372,7 @@ namespace XF.Controllers
             return Json(new { Result = false, Message = "There is not product to update" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Admin,Super,Seller,Super Seller")]
+        [Authorize(Roles = "Admin,Super,Seller,Super Seller,Manager")]
         public JsonResult ByName([Bind(Include = "filter[filters][0][value]")]string filter)
         {
             var x = this.Request.Params["filter[filters][0][value]"];

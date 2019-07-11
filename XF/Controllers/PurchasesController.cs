@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
     public class PurchasesController : Controller
     {
         private XFModel db = new XFModel();

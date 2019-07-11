@@ -10,7 +10,7 @@ using XF.Models;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

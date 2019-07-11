@@ -17,7 +17,7 @@ using XF.Services;
 
 namespace XF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
     public class InvoicesController : Controller
     {
         private XFModel db = new XFModel();
