@@ -250,6 +250,23 @@ namespace XF.Entities
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Storage)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Provider>()
+                  .HasMany(e => e.Supplies)
+                  .WithRequired(e => e.Provider)
+                  .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Supply>()
+                .Property(e => e.Amount)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Utility>()
+                .Property(e => e.OriginalAmount)
+                .HasPrecision(13, 2);
+
+            modelBuilder.Entity<Utility>()
+                .Property(e => e.PaidAmount)
+                .HasPrecision(13, 2);
         }
     }
 }
