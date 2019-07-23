@@ -1,0 +1,123 @@
+﻿
+@model IEnumerable<XF.Entities.Utility>
+
+@{
+    ViewBag.Title = "Utilities";
+}
+
+<h2>Utilities</h2>
+
+<p class="text-right">
+    <a href="javascript:XF.addUtilityWindow.center().open();" class="btn btn-primary">Add New</a>
+</p>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<div id="AddWindow">
+
+    <div class="form-group" style="width:100%;">
+        <div class="form-group">
+            <label for="txtDescription">Description:</label>
+            <input type="text" id="txtDescription" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="txtType">Type:</label>
+            <input type="text" id="txtType" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtDate">Date:</label>
+            <input type="date" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtNumber">Number:</label>
+            <input type="text" id="txtNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtName">Name:</label>
+            <input type="text" id="txtName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtSplit">Split:</label>
+            <input type="text" id="txtSplit" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="txtOriginalAmount">Original Amount:</label>
+            <input type="number" id="txtOriginalAmount" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="txtPaidAmount">Paid Amount:</label>
+            <input type="number" id="txtPaidAmount" class="form-control" />
+        </div>
+
+        <p class="text-right">
+            <input type="button" class="btn btn-primary" id="btnSaveUtility" value="Save" /> &nbsp;
+            <a href="javascript:XF.addUtilityWindow.close()">Cancel</a>
+        </p>
+
+    </div>
+
+</div>
+
+<div id="EditWindow">
+    <div class="form-group">
+        <label for="txtEditDescription">Description:</label>
+        <input type="text" id="txtEditDescription" class="form-control" />
+    </div>
+
+    <div class="form-group" style="width:100%;">
+        <input type="hidden" id="hfId" />
+        <div class="form-group">
+            <label for="txtEditType">Type:</label>
+            <input type="text" id="txtEditType" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditDate">Date:</label>
+            <input type="date" id="txtEditDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditNumber">Number:</label>
+            <input type="text" id="txtEditNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditName">Name:</label>
+            <input type="text" id="txtEditName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditSplit">Split:</label>
+            <input type="text" id="txtEditSplit" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditOriginalAmount">Original Amount:</label>
+            <input type="number" id="txtEditOriginalAmount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditPaidAmount">Paid Amount:</label>
+            <input type="number" id="txtEditPaidAmount" class="form-control" />
+        </div>
+        <p class="text-right">
+            <input type="button" class="btn btn-primary" id="btnEditUtility" value="Save" /> &nbsp;
+            <a href="javascript:XF.editUtilityWindow.close()">Cancel</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script type="text/html" id="actionsUtilityTemplate">
+
+    <a href="javascript:XF.getUtility(#=data.Id#);">Edit</a>
+    &nbsp;|&nbsp;
+    <a href="javascript:XF.deleteUtility(#:data.Id#);">Delete</a>
+
+</script>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Utilities/Utilities.js?v=1")
+}

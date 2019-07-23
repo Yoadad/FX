@@ -134,6 +134,29 @@
                                 </h3>
                             </li>
                         }
+
+                        @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super") || this.User.IsInRole("Manager"))
+                        {
+
+                        @*Supplies*@
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Supplies/Index','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-industry" aria-hidden="true"></i>&nbsp; Supplies
+                                </a>
+                            </h3>
+                        </li>
+                        @*Utilities*@
+
+                        <li class="xf-list-item">
+                            <h3>
+                                <a href="javascript:window.open('/Utilities/Index','_blank','width=1100,height=550,menubar=false')">
+                                    <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp; Utilities
+                                </a>
+                            </h3>
+                        </li>
+
+                        }
                     </ul>
                 }
             </div>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<XF.Entities.Supply>
+@{
+    ViewBag.Title = "Supplies";
+    Layout = null;
+}
+
+@if (ViewBag.HasStyles)
+{
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+<h2 class="text-center">
+    Supplies
+    <br />
+    <small class="text-right">@ViewBag.StartDate &nbsp;to&nbsp;@ViewBag.EndDate</small>
+    <br />
+</h2>
+<table id="report" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">Provider</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Number</th>
+            <th class="text-center">Name</th>
+            <th class="text-right">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model.GroupBy(s=>s.ProviderId))
+        {
+            foreach (XF.Entities.Supply supply in item) {
+                <tr>
+                    <td class="text-center">@supply.Provider.BusinessName</td>
+                    <td class="text-center">@supply.Type</td>
+                    <td class="text-center">@supply.Date.ToString("MM/dd/yyyyy")</td>
+                    <td class="text-center">@supply.Number</td>
+                    <td class="text-center">@supply.Name</td>
+                    <td class="text-right">@supply.Amount</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="5" class="text-right">
+                    <strong>
+                        Total @item.First().Provider.BusinessName :
+                    </strong>
+                </td>
+                <td class="text-right">
+                    <strong>
+                        @item.Sum(g => g.Amount)
+                    </strong>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="text-right">
+                <strong>
+                    Total:
+                </strong>
+            </td>
+
+            <td class="text-right">
+                <div>
+                    <strong>
+                        @(string.Format("{0:C}", Model.Sum(s => s.Amount)))
+                    </strong>
+                </div>
+            </td>
+    </tfoot>
+</table>

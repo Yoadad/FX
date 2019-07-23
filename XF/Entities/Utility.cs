@@ -32,5 +32,8 @@ namespace XF.Entities
 
         [Column(TypeName = "numeric")]
         public decimal PaidAmount { get; set; }
+        [StringLength(256)]
+        public string Description { get; set; }
+
     }
 }

@@ -268,5 +268,9 @@ namespace XF.Entities
                 .Property(e => e.PaidAmount)
                 .HasPrecision(13, 2);
         }
+
+        public System.Data.Entity.DbSet<XF.Entities.Supply> Supplies { get; set; }
+
+        public System.Data.Entity.DbSet<XF.Entities.Utility> Utilities { get; set; }
     }
 }

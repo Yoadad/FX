@@ -68,8 +68,6 @@ namespace XF.Controllers
             ViewBag.UserID = userId;
             return View(invoices);
         }
-
-
         public ActionResult PrintSalesRange(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
@@ -83,6 +81,7 @@ namespace XF.Controllers
             ViewBag.UserID = userId;
             return new ViewAsPdf("~/Views/Reports/SalesRange.cshtml", invoices);
         }
+
         public ActionResult PrintDaily(DateTime date, bool hasStyles, string userId)
         {
             ViewBag.HasStyles = hasStyles;
@@ -280,6 +279,71 @@ namespace XF.Controllers
 
             return items;
         }
+
+        public ActionResult Supplies(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+
+            var supplies = db.Supplies
+               .Where(s => s.Date >= startDate && s.Date <= endDate)
+               .Include(s => s.Provider)
+               .ToList();
+
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            ViewBag.UserID = userId;
+            return View(supplies);
+        }
+        public ActionResult PrintSupplies(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+
+            var supplies = db.Supplies
+               .Where(s => s.Date >= startDate && s.Date <= endDate)
+               .Include(s=>s.Provider)
+               .ToList();
+
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            ViewBag.UserID = userId;
+            return new ViewAsPdf("~/Views/Reports/Supplies.cshtml", supplies);
+        }
+
+        public ActionResult Utilities(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+
+            var utilities = db.Utilities
+               .Where(u => u.Date >= startDate && u.Date <= endDate)
+               .ToList();
+
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            ViewBag.UserID = userId;
+            return View(utilities);
+        }
+        public ActionResult PrintUtilities(DateTime startDate, DateTime endDate, bool hasStyles, string userId)
+        {
+            ViewBag.HasStyles = hasStyles;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+
+            var utilities = db.Utilities
+               .Where(s => s.Date >= startDate && s.Date <= endDate)
+               .ToList();
+
+            ViewBag.StartDate = startDate.ToLongDateString();
+            ViewBag.EndDate = endDate.ToLongDateString();
+            ViewBag.UserID = userId;
+            return new ViewAsPdf("~/Views/Reports/Utilities.cshtml", utilities);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

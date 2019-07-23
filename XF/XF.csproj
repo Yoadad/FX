@@ -253,7 +253,9 @@
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StoragesController.cs" />
+    <Compile Include="Controllers\SuppliesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\UtilitiesController.cs" />
     <Compile Include="Entities\AspNetRole.cs" />
     <Compile Include="Entities\AspNetUser.cs" />
     <Compile Include="Entities\AspNetUserClaim.cs" />
@@ -299,6 +301,7 @@
     <Compile Include="Models\RolesModel.cs" />
     <Compile Include="Models\SalesItemModelcs.cs" />
     <Compile Include="Models\SalesModel.cs" />
+    <Compile Include="Models\SuppliesModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -406,7 +409,9 @@
     <Content Include="Scripts\Sales\InvoiceDetail.js" />
     <Content Include="Scripts\Sales\SalesPoint.js" />
     <Content Include="Scripts\Sales\SalesService.js" />
+    <Content Include="Scripts\Supplies\supplies.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
+    <Content Include="Scripts\Utilities\utilities.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -551,6 +556,14 @@
     <Content Include="Views\Reports\Refunds.cshtml" />
     <Content Include="Views\Templates\Options.cshtml" />
     <Content Include="Views\Reports\Comissions.cshtml" />
+    <Content Include="Views\Supplies\Create.cshtml" />
+    <Content Include="Views\Supplies\Delete.cshtml" />
+    <Content Include="Views\Supplies\Details.cshtml" />
+    <Content Include="Views\Supplies\Edit.cshtml" />
+    <Content Include="Views\Supplies\Index.cshtml" />
+    <Content Include="Views\Utilities\Index.cshtml" />
+    <Content Include="Views\Reports\Supplies.cshtml" />
+    <Content Include="Views\Reports\Utilities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

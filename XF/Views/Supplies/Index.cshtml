@@ -1,0 +1,113 @@
+﻿@model IEnumerable<XF.Entities.Supply>
+
+@{
+    ViewBag.Title = "Supplies";
+}
+
+<h2>Supplies</h2>
+
+<p class="text-right">
+    <a href="javascript:XF.addSupplyWindow.center().open();" class="btn btn-primary">Add New</a>
+</p>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<div id="AddWindow">
+
+    <div class="form-group" style="width:100%;">
+
+        <div class="form-group">            
+            <label for="txtType">Type:</label>
+            <input type="text" id="txtType" class="form-control" />
+        </div>
+        <div class="form-group">            
+            <label for="txtDate">Date:</label>
+            <input type="date" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtNumber">Number:</label>
+            <input type="text" id="txtNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtName">Name:</label>
+            <input type="text" id="txtName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtAmount">Amount:</label>
+            <input type="number" id="txtAmount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="cmbProviderId">ProviderId:</label>
+            <select type="text" id="cmbProviderId" class="form-control">
+                @foreach (XF.Entities.Provider provider in ViewBag.Providers)
+                {
+                <option value="@provider.Id">@provider.BusinessName</option>
+                }
+            </select>
+        </div>
+        <p class="text-right">
+            <input type="button" class="btn btn-primary" id="btnSaveSupply" value="Save" /> &nbsp;
+            <a href="javascript:XF.addSupplyWindow.close()">Cancel</a>
+        </p>
+
+    </div>
+
+</div>
+
+<div id="EditWindow">
+
+    <div class="form-group" style="width:100%;">
+        <input type="hidden" id="hfId" />
+        <div class="form-group">
+            <label for="txtEditType">Type:</label>
+            <input type="text" id="txtEditType" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditDate">Date:</label>
+            <input type="date" id="txtEditDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditNumber">Number:</label>
+            <input type="text" id="txtEditNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditName">Name:</label>
+            <input type="text" id="txtEditName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="txtEditAmount">Amount:</label>
+            <input type="number" id="txtEditAmount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="cmbEditProviderId">ProviderId:</label>
+            <select type="text" id="cmbEditProviderId" class="form-control">
+                @foreach (XF.Entities.Provider provider in ViewBag.Providers)
+                {
+                    <option value="@provider.Id">@provider.BusinessName</option>
+                }
+            </select>
+        </div>
+        <p class="text-right">
+            <input type="button" class="btn btn-primary" id="btnEditSupply" value="Save" /> &nbsp;
+            <a href="javascript:XF.editSupplyWindow.close()">Cancel</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script type="text/html" id="actionsSupplyTemplate">
+
+    <a href="javascript:XF.getSupply(#=data.Id#);">Edit</a>
+    &nbsp;|&nbsp;
+    <a href="javascript:XF.deleteSupply(#:data.Id#);">Delete</a>
+    
+</script>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Supplies/supplies.js?v=1")
+}

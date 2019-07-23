@@ -107,9 +107,35 @@
         $('#reportViewer').html(data);
     };
 
+    XF.getSuppliesReport = function () {
+        var url = '/Reports/Supplies';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
+        $.get(url, data, XF.getSuppliesReportResponse);
+    };
 
+    XF.getSuppliesReportResponse = function (data) {
+        $('#reportViewer').html(data);
+    };
 
+    XF.getUtilitiesReport = function () {
+        var url = '/Reports/Utilities';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            hasStyles: false,
+            userId: $('#ddlUser').val()
+        };
+        $.get(url, data, XF.getUtilitiesReportResponse);
+    };
 
+    XF.getUtilitiesReportResponse = function (data) {
+        $('#reportViewer').html(data);
+    };
 
     $('#btnFilter').on('click', function () {
         $('#reportViewer').html('<span class="label label-warning">Loading...</div>');
@@ -134,6 +160,12 @@
         }
         else if (reportType == 7) {
             XF.getComissionsReport();
+        }
+        else if (reportType == 8) {
+            XF.getSuppliesReport();
+        }
+        else if (reportType == 9) {
+            XF.getUtilitiesReport();
         }
     });
 
@@ -167,6 +199,12 @@
         }
         else if (reportType == 7) {
             url = "/Reports/PrintComissions?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
+        }
+        else if (reportType == 8) {
+            url = "/Reports/PrintSupplies?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
+        }
+        else if (reportType == 9) {
+            url = "/Reports/PrintUtilities?startDate=" + $('#txtStartDate').val() + "&endDate=" + $('#txtEndDate').val() + '&hasStyles=true&userId=' + $('#ddlUser').val();
         }
         var win = window.open(url, '_blank');
         win.focus();
