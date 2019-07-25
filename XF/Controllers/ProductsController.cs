@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -265,6 +266,9 @@ namespace XF.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.CanDelete = !product.InvoiceDetails.Any();
+
             return View(product);
         }
 
@@ -273,9 +277,17 @@ namespace XF.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
+            try
+            {
+                Product product = db.Products.Find(id);
+                db.Products.Remove(product);
+                db.SaveChanges();
+
+            }
+            catch (DbUpdateException ex)
+            {
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 

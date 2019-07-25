@@ -128,7 +128,7 @@ namespace XF.Controllers
             var model = new InvoiceViewModel();
             model.Clients = db.Clients.OrderBy(c => c.FirstName).ToList();
             model.Products = GetProductsModel();
-            model.PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList();
+            model.PaymentTypes = db.PaymentTypes.Where(pt=>pt.Id > 1).OrderBy(pt => pt.Id).ToList();
             model.PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList();
             model.Tax = decimal.Parse(ConfigService.GetValue("Tax", db));
             model.Invoice = db.Invoices

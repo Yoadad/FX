@@ -23,13 +23,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
     <File Include="bin/App_Browsers.dll">
-      <publishTime>07/22/2019 06:14:42</publishTime>
+      <publishTime>07/22/2019 22:03:29</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>07/22/2019 06:14:41</publishTime>
+      <publishTime>07/22/2019 22:03:28</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>07/22/2019 06:14:41</publishTime>
+      <publishTime>07/22/2019 22:03:28</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>02/22/2019 18:10:07</publishTime>
@@ -191,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>07/22/2019 06:14:32</publishTime>
+      <publishTime>07/22/2019 20:16:11</publishTime>
     </File>
     <File Include="bin/__browserCapabilitiesCompiler.compiled">
-      <publishTime>07/22/2019 06:14:42</publishTime>
+      <publishTime>07/22/2019 22:03:29</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -356,7 +356,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 18:35:00</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>07/22/2019 06:14:34</publishTime>
+      <publishTime>07/22/2019 22:03:22</publishTime>
     </File>
     <File Include="Rotativa/wkhtmltopdf.exe">
       <publishTime>06/11/2017 18:35:00</publishTime>
@@ -449,7 +449,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/04/2017 13:13:40</publishTime>
     </File>
     <File Include="Scripts/Reports/Reports.js">
-      <publishTime>07/22/2019 05:59:11</publishTime>
+      <publishTime>07/22/2019 20:08:47</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -473,13 +473,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/23/2017 00:14:23</publishTime>
     </File>
     <File Include="Scripts/Supplies/supplies.js">
-      <publishTime>07/22/2019 05:32:39</publishTime>
+      <publishTime>07/22/2019 19:56:51</publishTime>
     </File>
     <File Include="Scripts/UserRoles/UserRoles.js">
       <publishTime>01/21/2019 00:32:26</publishTime>
     </File>
     <File Include="Scripts/Utilities/utilities.js">
-      <publishTime>07/22/2019 02:51:41</publishTime>
+      <publishTime>07/22/2019 19:54:47</publishTime>
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>07/22/2019 01:53:21</publishTime>
@@ -779,7 +779,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/01/2017 00:29:54</publishTime>
     </File>
     <File Include="Views/Reports/Index.cshtml">
-      <publishTime>07/22/2019 05:56:20</publishTime>
+      <publishTime>07/22/2019 20:07:00</publishTime>
     </File>
     <File Include="Views/Reports/PickUp.cshtml">
       <publishTime>07/01/2017 00:37:34</publishTime>
@@ -794,10 +794,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2018 21:54:13</publishTime>
     </File>
     <File Include="Views/Reports/SalesRange.cshtml">
-      <publishTime>07/03/2019 23:30:47</publishTime>
+      <publishTime>07/22/2019 22:03:03</publishTime>
     </File>
     <File Include="Views/Reports/Supplies.cshtml">
       <publishTime>07/22/2019 06:10:23</publishTime>
+    </File>
+    <File Include="Views/Reports/Utilities.cshtml">
+      <publishTime>07/22/2019 20:02:44</publishTime>
     </File>
     <File Include="Views/Roles/Create.cshtml">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -842,7 +845,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Views/Shared/_HomeLayout.cshtml">
-      <publishTime>07/22/2019 06:11:48</publishTime>
+      <publishTime>07/22/2019 19:53:38</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>01/20/2019 14:14:18</publishTime>
@@ -917,7 +920,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/24/2019 23:40:10</publishTime>
     </File>
     <File Include="Views/Utilities/Index.cshtml">
-      <publishTime>07/18/2019 05:23:44</publishTime>
+      <publishTime>07/22/2019 19:46:02</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -926,7 +929,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/22/2019 06:14:32</publishTime>
+      <publishTime>07/22/2019 22:03:21</publishTime>
     </File>
   </ItemGroup>
 </Project>

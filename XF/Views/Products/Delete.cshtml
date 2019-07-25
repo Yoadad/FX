@@ -65,7 +65,15 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @if (ViewBag.CanDelete)
+            {
+                <input type="submit" value="Delete" class="btn btn-default" /> 
+                <span>|</span>
+            }
+            else
+            {
+                <strong style="color:red;">Is not possible delete this product, it is related with some invoices</strong>
+            }
             @Html.ActionLink("Back to List", "Index")
         </div>
     }

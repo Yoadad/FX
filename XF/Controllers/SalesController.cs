@@ -29,7 +29,7 @@ namespace XF.Controllers
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
                 Products = db.Products.Where(p => p.Provider.IsActive).OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
-                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
+                PaymentTypes = db.PaymentTypes.Where(pt=>pt.Id > 1).OrderBy(pt => pt.Id).ToList(),
                 PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db)),
                 UserName = user == null ? string.Empty : user.FullName,
@@ -46,7 +46,7 @@ namespace XF.Controllers
             {
                 Clients = db.Clients.OrderBy(c => c.FirstName).ToList(),
                 Products = db.Products.Where(p => p.Provider.IsActive).OrderBy(p => p.Code).ToList().Select(p => GetProductItemModel(p)),
-                PaymentTypes = db.PaymentTypes.OrderBy(pt => pt.Id).ToList(),
+                PaymentTypes = db.PaymentTypes.Where(pt => pt.Id > 1).OrderBy(pt => pt.Id).ToList(),
                 PaymentOptions = db.PaymentOptions.OrderBy(po => po.Id).ToList(),
                 Tax = float.Parse(ConfigService.GetValue("Tax", db)),
                 UserName = user == null ? string.Empty : user.FullName,
