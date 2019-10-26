@@ -93,6 +93,9 @@
             DeliveryFee: $('#txtDeliveryFee').val(),
             InstalationFee: $('#txtInstalationFee').val()
         };
+        if ($('#txtCreated').size() > 0) {
+            result.Created = new Date($('#txtCreated').val());
+        }
         return result;
     };
 

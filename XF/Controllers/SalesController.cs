@@ -176,6 +176,10 @@ namespace XF.Controllers
                 invoice.InstalationFee = model.Invoice.InstalationFee;
                 invoice.Subtotal = model.Invoice.Subtotal;
                 invoice.Total = model.Invoice.Total;
+                if (model.Invoice.Created > DateTime.MinValue)
+                {
+                    invoice.Created = model.Invoice.Created;
+                }
                 db.Entry(invoice).State = EntityState.Modified;
                 db.SaveChanges();
                 //

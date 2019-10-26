@@ -1,5 +1,5 @@
 ﻿@model XF.Models.InvoiceViewModel
-
+@using Microsoft.AspNet.Identity
 <input type="hidden" id="hfInvoiceId" value="@Model.Invoice.Id" />
 <input type="hidden" id="hfEmail" value="@Model.Invoice.Client.Email" />
 <br />
@@ -21,7 +21,17 @@
         <small>
             By: @Model.Invoice.AspNetUser.FullName
             &nbsp;&nbsp;&nbsp;
-            @Model.Invoice.Created.ToShortDateString()
+            @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Super")))
+            {
+                <label>
+                    Date:&nbsp;
+                    <input type="date" id="txtCreated" name="created" value="@Model.Invoice.Created.ToString("yyyy-MM-dd")" class="form-control" style="width:233px; display:block;float:right;margin-top:-8px;" />
+                </label>
+            }
+            else
+            {
+                @Model.Invoice.Created.ToShortDateString()
+            }
         </small>
     </h4>
 </div>
