@@ -62,7 +62,8 @@ namespace XF.Controllers
             endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                userId);
+                userId)
+                .Where(i=> i.Total - i.Payments.Sum(p=>p.Amount) < 1);
             ViewBag.StartDate = startDate.ToLongDateString();
             ViewBag.EndDate = endDate.ToLongDateString();
             ViewBag.UserID = userId;
