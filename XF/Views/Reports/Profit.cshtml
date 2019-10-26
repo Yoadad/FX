@@ -2,13 +2,13 @@
 @{
     ViewBag.Title = "Profit Report";
     Layout = null;
-    var userName = Model.Any()
-                ? (Model.First().UserId == Model.Last().UserId
-                    ? string.Empty
-                    : string.Format("{0} {1}",
-                    Model.First().AspNetUser.FirstName,
-                    Model.First().AspNetUser.LastName))
-                : string.Empty;
+
+    var group = Model.GroupBy(g => g.UserId);
+    var userName = group.Count() == 1
+        ? (string.Format("{0} {1}",
+            Model.First().AspNetUser.FirstName,
+            Model.First().AspNetUser.LastName))
+        : string.Empty;
 
 }
 
