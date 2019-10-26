@@ -86,7 +86,10 @@
                 .Sum(p => p.Amount)))
                 </td>
                 <td class="text-rigth">
-                    @(string.Format("{0:C}", (item.PaymentTypeId > 2 && item.PaymentTypeId < 10 ? (item.Total - (item.SNAP ?? 0)) : 0)))
+                    @*@(string.Format("{0:C}", (item.PaymentTypeId > 2 && item.PaymentTypeId < 10 ? (item.Total - (item.SNAP ?? 0)) : 0)))*@
+                    @(string.Format("{0:C}", item.Payments
+                .Where(p => p.PaymentOptionId == 5)
+                .Sum(p => p.Amount)))
                 </td>
                 <td class="text-rigth">
                     @(string.Format("{0:C}", (item.PaymentTypeId == 1 ? item.Total : 0)))

@@ -41,8 +41,8 @@
                 <td class="text-center">@item.Created.ToShortDateString()</td>
                 <td class="text-center">@item.Id</td>
                 <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.Product.PurchasePrice))</td>
-                <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice))</td>
-                <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice) - item.InvoiceDetails.Sum(i => i.Product.PurchasePrice))</td>
+                <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice) - item.Discount)</td>
+                <td class="text-right">@string.Format("{0:c}", item.InvoiceDetails.Sum(i => i.UnitPrice) - item.Discount - item.InvoiceDetails.Sum(i => i.Product.PurchasePrice))</td>
             </tr>
         }
     </tbody>
@@ -51,8 +51,8 @@
             <td class="text-center"></td>
             <td class="text-right"><strong>TOTALS</strong> </td>
             <td class="text-right"><strong>@string.Format("{0:c}", Model.Sum(i => i.InvoiceDetails.Sum(id => id.Product.PurchasePrice)))</strong></td>
-            <td class="text-right"><strong>@string.Format("{0:c}", Model.Sum(i => i.InvoiceDetails.Sum(id => id.UnitPrice)))</strong></td>
-            <td class="text-right"><strong>@string.Format("{0:c}", Model.Sum(i => i.InvoiceDetails.Sum(id => id.UnitPrice)) - Model.Sum(i => i.InvoiceDetails.Sum(id => id.Product.PurchasePrice)))</strong></td>
+            <td class="text-right"><strong>@string.Format("{0:c}", Model.Sum(i => i.InvoiceDetails.Sum(id => id.UnitPrice) - i.Discount))</strong></td>
+            <td class="text-right"><strong>@string.Format("{0:c}", Model.Sum(i => i.InvoiceDetails.Sum(id => id.UnitPrice) - i.Discount) - Model.Sum(i => i.InvoiceDetails.Sum(id => id.Product.PurchasePrice)))</strong></td>
         </tr>
     </tfoot>
 </table>

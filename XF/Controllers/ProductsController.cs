@@ -41,7 +41,7 @@ namespace XF.Controllers
                 .Where(p => p.Stocks.Any(s => s.StockQuantity > 0));
             return new ViewAsPdf("~/Views/Products/PrintInventory.cshtml", products);
         }
-        [Authorize(Roles = "Admin,Super,Manager")]
+        [Authorize(Roles = "Admin,Super,Manager,Super Seller,Seller")]
         public ActionResult Inventory()
         {
             ViewBag.PageSize = XF.Services.ConfigService.GetValue("PageSize", db);
@@ -143,7 +143,7 @@ namespace XF.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "Admin,Super,Super Seller,Seller,Manager")]
+        [Authorize(Roles = "Admin,Super,Super Seller,Manager")]
         // GET: Products1/Create
         public ActionResult Create()
         {
@@ -201,7 +201,7 @@ namespace XF.Controllers
         }
 
         // GET: Products1/Edit/5
-        [Authorize(Roles = "Admin,Super,Super Seller,Manager")]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -232,7 +232,7 @@ namespace XF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,Super,Super Seller,Manager")]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public ActionResult Edit([Bind(Include = "Id,Code,Name,Display,SellPrice,PurchasePrice,Max,Min,ProviderId,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
@@ -255,6 +255,7 @@ namespace XF.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin,Super,Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -275,6 +276,7 @@ namespace XF.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Super,Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             try
