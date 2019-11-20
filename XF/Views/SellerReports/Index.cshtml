@@ -1,0 +1,41 @@
+﻿@Styles.Render("/Content/reporting.css")
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Sales Comission</h2>
+    </div>
+    <div class="col-sm-3">
+        <label>
+            Start Date:
+            <input type="date" class="form-control" id="txtStartDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </label>
+    </div>
+    <div class="col-sm-3">
+        <label>
+            End Date:
+            <input type="date" class="form-control" id="txtEndDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </label>
+
+    </div>
+    <div class="col-sm-6 text-right">
+        <a href="javascript:;" id="btnFilter" class="btn btn-primary">Filter</a>
+        &nbsp;&nbsp;
+        <a href="javascript:;" id="btnPrint" class="btn btn-primary">Print</a>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="reportViewer" class="report"></div>
+    </div>
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/Scripts/reporting.js")
+    @Scripts.Render("~/Scripts/pako.min.js")
+    @Scripts.Render("~/Scripts/jszip.min.js")
+    @Scripts.Render("~/Scripts/SellerReports/SalesComission.js?v=1.0")
+
+}

@@ -251,6 +251,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\SellerReportsController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StoragesController.cs" />
     <Compile Include="Controllers\SuppliesController.cs" />
@@ -301,6 +302,7 @@
     <Compile Include="Models\RolesModel.cs" />
     <Compile Include="Models\SalesItemModelcs.cs" />
     <Compile Include="Models\SalesModel.cs" />
+    <Compile Include="Models\SellerComissionModel.cs" />
     <Compile Include="Models\SuppliesModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -336,10 +338,19 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fontawesome-all.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\LICENSE.txt" />
     <Content Include="Content\Images\Ximenas_transparent.png" />
+    <Content Include="Content\jszip.min.js" />
+    <Content Include="Content\kendo.all.min.js" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common-bootstrap.min.css" />
     <Content Include="Content\kendo.dataviz.bootstrap.min.css" />
+    <Content Include="Content\kendo.dataviz.min.css" />
+    <Content Include="Content\kendo.timezones.min.js" />
+    <Content Include="Content\nr-768.min.js" />
+    <Content Include="Content\pako.min.js" />
+    <Content Include="Content\reporting.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fa-brands-400.svg" />
     <Content Include="fonts\fa-regular-400.svg" />
@@ -361,6 +372,24 @@
     <Content Include="fonts\fa-solid-900.ttf" />
     <Content Include="fonts\fa-solid-900.woff" />
     <Content Include="fonts\fa-solid-900.woff2" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\DejaVuSans-Bold.ttf" />
+    <Content Include="Content\fonts\DejaVuSans-BoldOblique.ttf" />
+    <Content Include="Content\fonts\DejaVuSans-ExtraLight.ttf" />
+    <Content Include="Content\fonts\DejaVuSans-Oblique.ttf" />
+    <Content Include="Content\fonts\DejaVuSans.ttf" />
+    <Content Include="Content\fonts\DejaVuSansMono-Bold.ttf" />
+    <Content Include="Content\fonts\DejaVuSansMono-BoldOblique.ttf" />
+    <Content Include="Content\fonts\DejaVuSansMono-Oblique.ttf" />
+    <Content Include="Content\fonts\DejaVuSansMono.ttf" />
+    <Content Include="Content\fonts\DejaVuSerif-Bold.ttf" />
+    <Content Include="Content\fonts\DejaVuSerif-BoldItalic.ttf" />
+    <Content Include="Content\fonts\DejaVuSerif-Italic.ttf" />
+    <Content Include="Content\fonts\DejaVuSerif.ttf" />
     <None Include="Resources\PurchaseOrdersEmailTemplate.html" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
@@ -387,12 +416,15 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\kendo.timezones.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Notes\NoteList.js" />
     <Content Include="Scripts\Notes\notes.js" />
+    <Content Include="Scripts\nr-768.min.js" />
+    <Content Include="Scripts\pako.min.js" />
     <Content Include="Scripts\Products\InventoryList.js" />
     <Content Include="Scripts\PurchaseOrders\OrderDetail.js" />
     <Content Include="Scripts\PurchaseOrders\PurchasesOrdersList.js" />
@@ -401,6 +433,7 @@
     <Content Include="Scripts\jquery.reporting.js" />
     <Content Include="Scripts\PurchaseOrders\PurchaseOrders.js" />
     <Content Include="Scripts\PurchaseSpecialOrders\PurchaseSpecialOrders.js" />
+    <Content Include="Scripts\reporting.js" />
     <Content Include="Scripts\Reports\Reports.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -409,6 +442,7 @@
     <Content Include="Scripts\Sales\InvoiceDetail.js" />
     <Content Include="Scripts\Sales\SalesPoint.js" />
     <Content Include="Scripts\Sales\SalesService.js" />
+    <Content Include="Scripts\SellerReports\SalesComission.js" />
     <Content Include="Scripts\Supplies\supplies.js" />
     <Content Include="Scripts\UserRoles\UserRoles.js" />
     <Content Include="Scripts\Utilities\utilities.js" />
@@ -564,6 +598,7 @@
     <Content Include="Views\Utilities\Index.cshtml" />
     <Content Include="Views\Reports\Supplies.cshtml" />
     <Content Include="Views\Reports\Utilities.cshtml" />
+    <Content Include="Views\SellerReports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

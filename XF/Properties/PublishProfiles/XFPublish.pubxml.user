@@ -23,13 +23,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
     <File Include="bin/App_Browsers.dll">
-      <publishTime>07/27/2019 20:09:40</publishTime>
+      <publishTime>11/20/2019 01:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>07/27/2019 20:09:40</publishTime>
+      <publishTime>11/20/2019 01:53:29</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>07/27/2019 20:09:40</publishTime>
+      <publishTime>11/20/2019 01:53:29</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>02/22/2019 18:10:07</publishTime>
@@ -191,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:10</publishTime>
     </File>
     <File Include="bin/XF.dll">
-      <publishTime>07/27/2019 20:09:30</publishTime>
+      <publishTime>11/20/2019 01:53:03</publishTime>
     </File>
     <File Include="bin/__browserCapabilitiesCompiler.compiled">
-      <publishTime>07/27/2019 20:09:41</publishTime>
+      <publishTime>11/20/2019 01:53:30</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>04/15/2017 22:44:51</publishTime>
@@ -253,17 +253,98 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/fontawesome-all.min.css">
       <publishTime>06/18/2018 02:57:21</publishTime>
     </File>
+    <File Include="Content/fonts/DejaVuSans-Bold.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSans-BoldOblique.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSans-ExtraLight.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSans-Oblique.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSans.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSansMono-Bold.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSansMono-BoldOblique.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSansMono-Oblique.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSansMono.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSerif-Bold.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSerif-BoldItalic.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSerif-Italic.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/DejaVuSerif.ttf">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.eot">
+      <publishTime>11/19/2019 18:01:25</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.svg">
+      <publishTime>11/19/2019 18:01:25</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.ttf">
+      <publishTime>11/19/2019 18:01:25</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.woff">
+      <publishTime>11/19/2019 18:01:25</publishTime>
+    </File>
+    <File Include="Content/fonts/fontawesome-webfont.woff2">
+      <publishTime>11/19/2019 18:01:25</publishTime>
+    </File>
+    <File Include="Content/fonts/FontAwesome.otf">
+      <publishTime>11/19/2019 18:01:25</publishTime>
+    </File>
+    <File Include="Content/fonts/LICENSE.txt">
+      <publishTime>11/19/2019 18:06:53</publishTime>
+    </File>
     <File Include="Content/Images/Ximenas_transparent.png">
       <publishTime>06/30/2017 02:21:40</publishTime>
     </File>
+    <File Include="Content/jszip.min.js">
+      <publishTime>11/19/2019 18:51:51</publishTime>
+    </File>
+    <File Include="Content/kendo.all.min.js">
+      <publishTime>11/19/2019 18:51:52</publishTime>
+    </File>
     <File Include="Content/kendo.bootstrap.min.css">
-      <publishTime>05/03/2017 23:40:31</publishTime>
+      <publishTime>11/19/2019 18:51:54</publishTime>
     </File>
     <File Include="Content/kendo.common-bootstrap.min.css">
-      <publishTime>03/25/2017 17:26:04</publishTime>
+      <publishTime>11/19/2019 18:51:55</publishTime>
     </File>
     <File Include="Content/kendo.dataviz.bootstrap.min.css">
-      <publishTime>03/25/2017 17:26:04</publishTime>
+      <publishTime>11/19/2019 18:51:55</publishTime>
+    </File>
+    <File Include="Content/kendo.dataviz.min.css">
+      <publishTime>11/19/2019 18:51:56</publishTime>
+    </File>
+    <File Include="Content/kendo.timezones.min.js">
+      <publishTime>11/19/2019 18:51:57</publishTime>
+    </File>
+    <File Include="Content/nr-768.min.js">
+      <publishTime>11/19/2019 18:28:38</publishTime>
+    </File>
+    <File Include="Content/pako.min.js">
+      <publishTime>11/19/2019 18:51:58</publishTime>
+    </File>
+    <File Include="Content/reporting.css">
+      <publishTime>11/20/2019 00:00:33</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>06/17/2019 14:54:15</publishTime>
@@ -356,7 +437,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/11/2017 18:35:00</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>07/27/2019 20:09:32</publishTime>
+      <publishTime>11/20/2019 01:53:10</publishTime>
     </File>
     <File Include="Rotativa/wkhtmltopdf.exe">
       <publishTime>06/11/2017 18:35:00</publishTime>
@@ -409,8 +490,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery.validate.unobtrusive.min.js">
       <publishTime>03/25/2017 17:26:04</publishTime>
     </File>
+    <File Include="Scripts/jszip.min.js">
+      <publishTime>11/19/2019 12:18:19</publishTime>
+    </File>
     <File Include="Scripts/kendo.all.min.js">
-      <publishTime>03/25/2017 17:26:05</publishTime>
+      <publishTime>11/19/2019 19:59:04</publishTime>
     </File>
     <File Include="Scripts/kendo.timezones.min.js">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -426,6 +510,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/Notes/notes.js">
       <publishTime>05/21/2017 21:42:50</publishTime>
+    </File>
+    <File Include="Scripts/nr-768.min.js">
+      <publishTime>11/19/2019 12:18:19</publishTime>
+    </File>
+    <File Include="Scripts/pako.min.js">
+      <publishTime>11/19/2019 12:18:19</publishTime>
     </File>
     <File Include="Scripts/Products/InventoryList.js">
       <publishTime>07/09/2018 05:19:16</publishTime>
@@ -448,6 +538,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/PurchaseSpecialOrders/PurchaseSpecialOrders.js">
       <publishTime>06/04/2017 13:13:40</publishTime>
     </File>
+    <File Include="Scripts/reporting.js">
+      <publishTime>11/20/2019 01:36:28</publishTime>
+    </File>
     <File Include="Scripts/Reports/Reports.js">
       <publishTime>07/22/2019 20:08:47</publishTime>
     </File>
@@ -458,7 +551,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoiceDetail.js">
-      <publishTime>06/16/2019 22:50:14</publishTime>
+      <publishTime>10/26/2019 10:33:59</publishTime>
     </File>
     <File Include="Scripts/Sales/InvoicesList.js">
       <publishTime>05/26/2018 04:25:51</publishTime>
@@ -472,6 +565,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/Sales/SalesService.js">
       <publishTime>06/23/2017 00:14:23</publishTime>
     </File>
+    <File Include="Scripts/SellerReports/SalesComission.js">
+      <publishTime>11/20/2019 01:47:49</publishTime>
+    </File>
     <File Include="Scripts/Supplies/supplies.js">
       <publishTime>07/22/2019 19:56:51</publishTime>
     </File>
@@ -482,7 +578,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2019 19:54:47</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>07/22/2019 01:53:21</publishTime>
+      <publishTime>11/19/2019 18:28:48</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>03/25/2017 17:26:05</publishTime>
@@ -611,7 +707,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/02/2017 15:24:15</publishTime>
     </File>
     <File Include="Views/Invoices/Details.cshtml">
-      <publishTime>06/16/2019 20:00:30</publishTime>
+      <publishTime>10/26/2019 10:21:07</publishTime>
     </File>
     <File Include="Views/Invoices/Edit.cshtml">
       <publishTime>04/02/2017 15:24:16</publishTime>
@@ -785,7 +881,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/01/2017 00:37:34</publishTime>
     </File>
     <File Include="Views/Reports/Profit.cshtml">
-      <publishTime>12/14/2017 00:40:18</publishTime>
+      <publishTime>10/25/2019 21:22:28</publishTime>
     </File>
     <File Include="Views/Reports/Refunds.cshtml">
       <publishTime>07/10/2018 22:48:33</publishTime>
@@ -794,7 +890,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2018 21:54:13</publishTime>
     </File>
     <File Include="Views/Reports/SalesRange.cshtml">
-      <publishTime>07/27/2019 19:55:45</publishTime>
+      <publishTime>10/25/2019 23:13:10</publishTime>
     </File>
     <File Include="Views/Reports/Supplies.cshtml">
       <publishTime>07/22/2019 06:10:23</publishTime>
@@ -838,6 +934,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Sales/Quotation.cshtml">
       <publishTime>06/05/2017 02:07:58</publishTime>
     </File>
+    <File Include="Views/SellerReports/Index.cshtml">
+      <publishTime>11/20/2019 01:11:53</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
@@ -845,7 +944,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/25/2017 17:26:05</publishTime>
     </File>
     <File Include="Views/Shared/_HomeLayout.cshtml">
-      <publishTime>07/22/2019 19:53:38</publishTime>
+      <publishTime>11/19/2019 12:45:26</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>01/20/2019 14:14:18</publishTime>
