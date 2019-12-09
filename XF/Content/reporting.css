@@ -26,9 +26,15 @@
 .table {
 	font-size:10px;
 }
+.table>thead>tr>th {
+	margin:0;
+	padding:1px;
+}
 .table>tbody>tr>td {
 	margin:0;
 	padding:1px;
+    padding-left:5px;
+    padding-right:5px;
 	border:none;
 }
 .table-bordered>tbody>tr>td {
@@ -40,7 +46,15 @@
 	margin:0;
 	padding:1px;
 }
-
+.table>tfoot>tr>td {
+	margin:0;
+	padding:1px;
+    padding-left:5px;
+    padding-right:5px;
+	border:none;
+    border-top:solid 1px #ddd;
+    
+}
 
 .pdf-header {
 position: absolute;

@@ -106,7 +106,8 @@
             $('#lblBalance').text('Loading...');
             var url = '/Invoices/GetInvoiceBalance';
             var data = { jsonInvoice: JSON.stringify(invoice) };
-            $.getJSON(url, data, XF.getBalanceResponse);
+            $.post(url, data, XF.getBalanceResponse,'json');
+            //$.getJSON(url, data, XF.getBalanceResponse);
         }
     };
 
@@ -220,7 +221,7 @@
         $('#lblPaymentsAmount').text(kendo.format('{0:C}', paymentsAmount)).data({ value: paymentsAmount });
         $('#lblBalance').text(kendo.format('{0:C}', balance)).data({ value: balance });
         $('#lblTaxDisplay').text(kendo.format('{0:C}', totalTaxas));
-        XF.getBalance();
+        //XF.getBalance();
     };
 
     //Binding events

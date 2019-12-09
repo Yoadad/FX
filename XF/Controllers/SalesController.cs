@@ -293,9 +293,9 @@ namespace XF.Controllers
             var model = new InvoiceBalanceModel()
             {
                 Invoice = invoice,
-                Balance = invoice.InvoiceStatusId == 1 || fixedInvoice.Payments.Count() == 0
+                Balance = invoice.InvoiceStatusId == 1 && !fixedInvoice.Payments.Any()
                 ? invoice.Total.Value
-                : invoiceService.GetInvoiceBalances(invoice).Payments.Last().Balance,
+                : invoice.Total.Value - invoice.Payments.Sum(p=>p.Amount),
                 Taxas = (invoice.Tax ?? 0) * ((invoice.Subtotal ?? 0) - (invoice.Discount ?? 0) + (invoice.DeliveryFee ?? 0) + (invoice.InstalationFee ?? 0))
             };
             model.Balance = model.Balance < new decimal(0.09) ? 0 : model.Balance;

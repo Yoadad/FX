@@ -1,0 +1,81 @@
+﻿@Styles.Render("/Content/reporting.css")
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Reports</h2>
+    </div>
+    <div class="col-sm-2">
+        <label>
+            Reports:
+            <select id="cmbReports" class="form-control">
+                @*<option value="1">Daily</option>
+                <option value="2">Delivery</option>
+                <option value="3">Pick Up</option>
+                <option value="4">Sales</option>*@
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                {
+                    @*<option value="5">Profit</option>*@
+                }
+                <option value="6">Sales by Date</option>
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
+                {
+                    @*<option value="7">Comissions</option>*@
+                }
+                @*<option value="8">Supplies</option>
+                <option value="9">Utilities</option>*@
+                <option value="10">Seller Comission</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="col-sm-2">
+        <label>
+            Start Date:
+            <input type="date" class="form-control" id="txtStartDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </label>
+    </div>
+    <div class="col-sm-2">
+        <label>
+            End Date:
+            <input type="date" class="form-control" id="txtEndDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </label>
+    </div>
+    <div class="col-sm-2">
+        <label>
+            User:
+            <select id="ddlUser" class="form-control">
+                <option value="">All Sellers</option>
+                @foreach (KeyValuePair<string, string> user in ViewBag.Users)
+                {
+                    <option value="@user.Key">@user.Value</option>
+                }
+            </select>
+        </label>
+    </div>
+
+    <div class="col-sm-3 text-right">
+        <a href="javascript:;" id="btnFilter" class="btn btn-primary">Filter</a>
+        &nbsp;&nbsp;
+        <a href="javascript:;" id="btnPrint" class="btn btn-primary">Print</a>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="reportViewer" class="report"></div>
+    </div>
+</div>
+
+<script type="text/html" id="template-footer-template">
+    <strong>#=kendo.toString(data.value,"c")#</strong>
+</script>
+
+@section scripts{
+
+    @Scripts.Render("~/Scripts/reporting.js")
+    @Scripts.Render("~/Scripts/pako.min.js")
+    @Scripts.Render("~/Scripts/jszip.min.js")
+    @Scripts.Render("~/Scripts/Reports/ReportsBeta.js?v=1.0")
+
+}

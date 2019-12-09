@@ -161,6 +161,35 @@ var REPORTING = REPORTING || {};
             result += '</tbody>';
             return result;
         };
+        RPT.getHtmlDetailFooter = function (detail) {
+            if (detail.footer) {
+                var result = '<tfoot>';
+                result += '<tr>';
+                for (var i = 0; i < detail.fields.length; i++) {
+                    result += '<td class="text-right foot">';
+                    for (var j = 0; j < detail.footer.length; j++) {
+                        if (detail.fields[i].name == detail.footer[j].name) {
+                            var footerResult = RPT.getSumFooter(detail, detail.footer[j].name);
+                            var template = detail.footer[j].template;
+                            result += RPT.getHtmlTemplate(template, { value: footerResult});
+                        }
+                    }
+                    result += '</td>';
+                }
+                result += '</tr>';
+                result += '</tfoot>';
+                return result;
+            }
+            return '';
+        };
+
+        RPT.getSumFooter = function (detail, fieldName) {
+            var sum = 0;
+            for (var i = 0; i < detail.data.length; i++) {
+                sum += detail.data[i][fieldName];
+            }
+            return sum;
+        }
 
         RPT.sortDetailByGroupings = function (detail) {
             if (detail.grouping) {
@@ -208,11 +237,12 @@ var REPORTING = REPORTING || {};
             return detail.data;
         };
 
-        RPT.isGroupingCurrentData = function (data, currentData) {
+        RPT.isGroupingCurrentData = function (data, currentData, detail) {
             var result = detail.grouping.length > 0;
-            for (var j = 0; j < detail.grouping.length; j++) {
+            for (var i = 0; i < detail.grouping.length; i++) {
                 if (data[detail.grouping[i]] != currentData[detail.grouping[i]]) {
                     result = false;
+                    break;
                 }
             }
             return result;
@@ -224,7 +254,7 @@ var REPORTING = REPORTING || {};
             var currentData = detail.data[0];
             result[index] = [];
             for (var j = 0; j < detail.data.length; j++) {
-                if (isGroupingCurrentData(detail.data[i], currentData)) {
+                if (RPT.isGroupingCurrentData(detail.data[i], currentData, detail)) {
                     result[index].push(detail.data[i]);
                 }
                 else {
@@ -427,7 +457,14 @@ var REPORTING = REPORTING || {};
                 RPT.drawDetail(RPT.sections[i]);
                 RPT.columnIndex = 0;
                 RPT.fixDetailColumns();
+                RPT.setLastDetailFooter(RPT.sections[i]);
             }
+        };
+
+        RPT.setLastDetailFooter = function (section) {
+            var detailFooterHtml = RPT.getHtmlDetailFooter(section.detail);
+            $('.reporting-detail-column table:last').append(detailFooterHtml);
+            console.log(detailFooterHtml);
         };
 
         RPT.fixHeightDetailColumns = function ($detail, count) {

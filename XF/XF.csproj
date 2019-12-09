@@ -248,6 +248,7 @@
     <Compile Include="Controllers\PurchaseOrderStatusController.cs" />
     <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="Controllers\PurchaseSpecialOrdersController.cs" />
+    <Compile Include="Controllers\ReportsBetaController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -435,6 +436,7 @@
     <Content Include="Scripts\PurchaseSpecialOrders\PurchaseSpecialOrders.js" />
     <Content Include="Scripts\reporting.js" />
     <Content Include="Scripts\Reports\Reports.js" />
+    <Content Include="Scripts\Reports\ReportsBeta.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Sales\InvoicesList.js" />
@@ -599,6 +601,7 @@
     <Content Include="Views\Reports\Supplies.cshtml" />
     <Content Include="Views\Reports\Utilities.cshtml" />
     <Content Include="Views\SellerReports\Index.cshtml" />
+    <Content Include="Views\ReportsBeta\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

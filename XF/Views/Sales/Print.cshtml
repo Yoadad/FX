@@ -2,7 +2,8 @@
 @{
     var maxRows = 9;
     var rowsCount = Model.Invoice.InvoiceDetails.Count();
-    var rowsNumber = rowsCount > maxRows ? 0 : maxRows - rowsCount;
+    var payCount = Model.Invoice.Payments.Count();
+    var rowsNumber = (rowsCount + payCount) > maxRows ? 0 : maxRows - rowsCount - payCount;
     ViewBag.Title = "Print";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
 }

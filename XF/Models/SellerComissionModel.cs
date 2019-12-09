@@ -7,6 +7,7 @@ namespace XF.Models
 {
     public class SellerComissionModel
     {
+        public string Seller { get; set; }
         public string Client { get; set; }
         public int InvoiceId{ get; set; }
         public DateTime Date{ get; set; }

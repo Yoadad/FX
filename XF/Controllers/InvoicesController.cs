@@ -221,9 +221,10 @@ namespace XF.Controllers
             try
             {
                 var invoice = JsonConvert.DeserializeObject<Invoice>(jsonInvoice);
+                var invoiceData = db.Invoices.Find(invoice.Id);
                 var invoiceService = new InvoiceService();
-                var result = invoiceService.GetInvoiceBalances(invoice);
-                return Json(new { Result = true, Data = new { Balance = result.Payments.Last().Balance, HasFee = result.Payments.Any(p => p.HasFee) } }, JsonRequestBehavior.AllowGet);
+                var data = new { Balance = invoice.Total.Value - invoice.Payments.Sum(p => p.Amount), HasFee = invoiceData.Payments.Any(p => p.HasFee) };
+                return Json(new { Result = true, Data = data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

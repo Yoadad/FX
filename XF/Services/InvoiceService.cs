@@ -13,62 +13,10 @@ namespace XF.Services
         public Invoice GetFixedInvoice(Invoice invoice)
         {
             invoice.Total = ((invoice.Subtotal - invoice.Discount + invoice.DeliveryFee + invoice.InstalationFee) * (1 + invoice.Tax)) + invoice.SNAP;
-            invoice = GetInvoiceBalances(invoice);
             return invoice;
         }
         public Invoice GetInvoiceBalances(Invoice invoice)
         {
-            if (invoice.InvoiceStatusId == 1 || invoice.Payments.Count() == 0)
-            {
-                return invoice;
-            }
-            var result = new Invoice()
-            {
-                Id = invoice.Id,
-                Total = invoice.Total
-            };
-            var limitDays = 90;
-            var fee = new decimal(0.10);
-            var firstPayment = invoice.Payments.OrderBy(p => p.Date).First();
-            var lastPayment = invoice.Payments.OrderBy(p => p.Date).Last();
-            var lasttDate = lastPayment.Date;
-            var periods = GetPeriods(invoice, lasttDate);
-            var previousPayment = new PeriodPayment();
-            var mountsWithFee = 0;
-            var invoiceTotal = invoice.Total == null ? 0 : invoice.Total.Value;
-            foreach (var period in periods)
-            {
-                var isFirstPeriodPayment = true;
-                foreach (var periodPayment in period.Payments)
-                {
-                    if (previousPayment.Payment == null)
-                    {
-                        periodPayment.BalanceBefore = invoiceTotal;
-                        periodPayment.BalanceAfter = invoiceTotal - periodPayment.Payment.Amount;
-                        periodPayment.Payment.Balance = periodPayment.BalanceAfter;
-                        periodPayment.Payment.HasFee = false;
-                    }
-                    else
-                    {
-                        var applyFee = periodPayment.Payment.Date > firstPayment.Date.AddDays(limitDays);
-                        periodPayment.Payment.HasFee = applyFee && (isFirstPeriodPayment || !previousPayment.Payment.HasFee);
-                        periodPayment.BalanceBefore = previousPayment.BalanceAfter;
-                        var b = (1 + (periodPayment.Payment.HasFee ? fee : 0));
-
-                        periodPayment.Payment.Balance = periodPayment.BalanceAfter = periodPayment.BalanceBefore * (decimal)(Math.Pow(Convert.ToDouble(b), Convert.ToDouble(mountsWithFee + 1))) - periodPayment.Payment.Amount;
-
-                        result.Payments.Add(periodPayment.Payment);
-                    }
-                    previousPayment = periodPayment;
-                    isFirstPeriodPayment = false;
-                    result.Payments.Add(periodPayment.Payment);
-                }
-                mountsWithFee = !period.HasPayments
-                    && period.StartDate > firstPayment.Date.AddDays(limitDays)
-                    ? mountsWithFee + 1
-                    : 0;
-            }
-            invoice.Payments = result.Payments;
             return invoice;
         }
 
