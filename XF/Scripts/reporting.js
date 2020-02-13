@@ -464,7 +464,6 @@ var REPORTING = REPORTING || {};
         RPT.setLastDetailFooter = function (section) {
             var detailFooterHtml = RPT.getHtmlDetailFooter(section.detail);
             $('.reporting-detail-column table:last').append(detailFooterHtml);
-            console.log(detailFooterHtml);
         };
 
         RPT.fixHeightDetailColumns = function ($detail, count) {
