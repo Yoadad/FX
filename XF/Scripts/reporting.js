@@ -162,7 +162,7 @@ var REPORTING = REPORTING || {};
             return result;
         };
         RPT.getHtmlDetailFooter = function (detail) {
-            if (detail.footer) {
+            if (detail && detail.footer) {
                 var result = '<tfoot>';
                 result += '<tr>';
                 for (var i = 0; i < detail.fields.length; i++) {

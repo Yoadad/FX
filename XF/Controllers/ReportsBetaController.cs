@@ -99,30 +99,7 @@ namespace XF.Controllers
             {
                 startDate = startDate.Date;
                 endDate = endDate.Date.AddDays(1);
-                var sb = new StringBuilder();
-                sb.AppendLine("select	concat(c.FirstName,' ',c.LastName) [Client],");
-                sb.AppendLine("		i.Id [InvoiceId],");
-                sb.AppendLine("		i.Created [Date],");
-                sb.AppendLine("		i.Subtotal - i.Discount [SellPrice],");
-                sb.AppendLine("     (i.Subtotal - i.Discount - (select sum(p.PurchasePrice) [Precio]");
-                sb.AppendLine("	    						from InvoiceDetail id");
-                sb.AppendLine("	    						join Product p");
-                sb.AppendLine("	    							on p.Id = id.ProductId");
-                sb.AppendLine("	    						where id.InvoiceID = i.Id))*u.Comission [Comission],");
-                sb.AppendLine("		concat(u.FirstName, ' ', u.LastName) [Seller]");
-                sb.AppendLine("from Invoice i");
-                sb.AppendLine("join [dbo].[AspNetUsers] u");
-                sb.AppendLine("	on i.UserId = u.Id");
-                sb.AppendLine("join Client c");
-                sb.AppendLine("	on c.Id = i.ClientId");
-                sb.AppendLine("where i.Created >=  @startDate");
-                sb.AppendLine("and i.Created < @endDate");
-                if (!string.IsNullOrWhiteSpace(sellerId))
-                {
-                    sb.AppendLine("and i.UserId = @userId");
-                }
-                sb.AppendLine("order by u.FirstName,u.LastName,i.Created");
-                var result = db.GetModelFromQuery<SellerComissionModel>(sb.ToString(), new { startDate = startDate, endDate = endDate, userId = sellerId });
+                var result = db.GetModelFromProcedure<SellerComissionModel>("get_SellerComission", new { startDate = startDate, endDate = endDate, userId = sellerId });
                 var data = new
                 {
                     StartDate = startDate.ToLongDateString(),
@@ -136,10 +113,74 @@ namespace XF.Controllers
             catch (Exception ex)
             {
                 return Json(new { Response = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
-                throw;
             }
         }
 
+        public JsonResult Sales(DateTime startDate, DateTime endDate, string sellerId)
+        {
+            try
+            {
+                startDate = startDate.Date;
+                endDate = endDate.Date;
+                var invoices = GetInvoices(startDate,
+                    endDate,
+                    sellerId);
+                var data = new
+                {
+                    StartDate = startDate.ToLongDateString(),
+                    EndDate = endDate.ToLongDateString(),
+                    Detail = GetSalesItems(invoices, startDate, endDate)
+                };
 
+                return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        private IEnumerable<SalesItemModel> GetSalesItems(IEnumerable<Invoice> invoices, DateTime startDate, DateTime endDate)
+        {
+            var items = new List<SalesItemModel>();
+
+            DateTime currentDate = startDate.Date;
+
+            while (currentDate <= endDate.Date)
+            {
+                var amounts = new List<decimal>();
+                var invoicesInThisDate = invoices
+                    .Where(i => i.Created >= currentDate && i.Created < currentDate.AddDays(1));
+                //Cash
+                amounts.Add(invoicesInThisDate.Sum(i => i.Payments.Where(p => p.PaymentOptionId == 1).Sum(p => p.Amount)));
+                //CC
+                amounts.Add(invoicesInThisDate.Sum(i => i.Payments.Where(p => p.PaymentOptionId == 2).Sum(p => p.Amount)));
+                //Debit
+                amounts.Add(invoicesInThisDate.Sum(i => i.Payments.Where(p => p.PaymentOptionId == 3).Sum(p => p.Amount)));
+                //Check
+                amounts.Add(invoicesInThisDate.Sum(i => i.Payments.Where(p => p.PaymentOptionId == 4).Sum(p => p.Amount)));
+
+                //Finances
+                foreach (var finance in db.PaymentTypes.Where(p => p.Name.Contains("Finance")).OrderBy(f => f.Id))
+                {
+                    amounts.Add(invoicesInThisDate.Where(i => i.PaymentTypeId == finance.Id).Sum(i => i.Payments.Where(p => p.PaymentOptionId == 5).Sum(p => p.Amount)));
+                }
+
+                //Totals
+                var total = amounts.Sum();
+                amounts.Add(total);
+                //Taxes
+                amounts.Add(invoicesInThisDate.Sum(i => i.Payments.Sum(p => p.Amount * i.Tax.Value)));
+
+                var item = new SalesItemModel()
+                {
+                    Date = currentDate,
+                    Amounts = amounts
+                };
+                currentDate = currentDate.AddDays(1);
+                items.Add(item);
+            }
+
+            return items;
+        }
     }
 }

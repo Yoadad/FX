@@ -9,9 +9,9 @@
             Reports:
             <select id="cmbReports" class="form-control">
                 @*<option value="1">Daily</option>
-                <option value="2">Delivery</option>
-                <option value="3">Pick Up</option>
-                <option value="4">Sales</option>*@
+                    <option value="2">Delivery</option>
+                    <option value="3">Pick Up</option>*@
+                <option value="4">Sales</option>
                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
                 {
                     @*<option value="5">Profit</option>*@
@@ -22,7 +22,7 @@
                     @*<option value="7">Comissions</option>*@
                 }
                 @*<option value="8">Supplies</option>
-                <option value="9">Utilities</option>*@
+                    <option value="9">Utilities</option>*@
                 <option value="10">Seller Comission</option>
             </select>
         </label>
@@ -69,6 +69,91 @@
 
 <script type="text/html" id="template-footer-template">
     <strong>#=kendo.toString(data.value,"c")#</strong>
+</script>
+
+<script type="text/html" id="page-sales-template">
+
+    #
+    var items = ["Cash","CC","Debit","Check","Progressive leasing","Snap Financial","Mariner Finance","Finance Acima","TOTAL","Sales TAX"];
+    var pageSize = 12;
+    var n = data.Detail.length;
+    var pages = Math.ceil(n / pageSize);
+    var idx = 0;
+    #
+
+    <table class="table table-striped">
+        <tbody>
+            #for (var j = 0; j < pages; j++)
+            {
+            #
+
+            <tr>
+                <td class="text-right">
+                    <h5>
+                        <strong>
+                            Date:
+                        </strong>
+                    </h5>
+                </td>
+                #for (var i = 0; i < pageSize; i++){
+                idx = i + pageSize*j;
+                if(idx < n){
+                #
+                <td class="text-center">
+                    <h5>
+                        <strong>
+                            #=data.Detail[idx].DayOfWeek#
+                        </strong>
+                        <br />
+                        <small>
+                            #=data.Detail[idx].Short#
+                        </small>
+                    </h5>
+                </td>
+                #   }
+                }#
+            </tr>
+
+
+            #for(var k = 0; k < items.length; k++)
+            {
+            #
+
+            <tr>
+                <td>
+                    <strong>
+                        #=items[k]#
+                    </strong>
+                </td>
+                #for (var i = 0; i < pageSize; i++)
+                {
+                idx = i + pageSize*j;
+                if(idx < n){
+                #
+
+                <td class="text-right">
+                    #if(items[k]=="TOTAL"){#
+                    <strong>
+                        #=kendo.toString(data.Detail[i + pageSize*j].Amounts[k],'c')#
+                    </strong>
+                    #}else{#
+                        #=kendo.toString(data.Detail[i + pageSize*j].Amounts[k],'c')#
+                    #}#
+                </td>
+                #
+                }
+                }#
+            </tr>
+
+
+
+            #}#
+
+
+            #
+            }#
+        </tbody>
+    </table>
 </script>
 
 @section scripts{

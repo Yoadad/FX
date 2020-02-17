@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Inventory";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
+    ViewBag.TotalStorage = Model
+                            .Where(i => i.Stocks.Any(s => s.LocationId == 1))
+                            .Sum(i => i.Stocks.Sum(s => s.StockQuantity) * i.PurchasePrice);
+    ViewBag.TotalFloor = Model
+                            .Where(i => i.Stocks.Any(s => s.LocationId == 2))
+                            .Sum(i => i.Stocks.Sum(s => s.StockQuantity) * i.PurchasePrice);
 }
 
 
@@ -71,6 +77,21 @@
             }
 
         }
+        <tr>
+            <td colspan="6" class="text-right">
+                <strong>Total cost items</strong>
+            </td>
+            <td class="text-right">
+                <strong>
+                    @string.Format("{0:c}",ViewBag.TotalStorage)
+                </strong>
+            </td>
+            <td class="text-right">
+                <strong>
+                    @string.Format("{0:c}", ViewBag.TotalFloor)
+                </strong>
+            </td>
+        </tr>
 
     </tbody>
 </table>

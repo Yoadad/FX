@@ -16,6 +16,13 @@ namespace XF.Models
                 return Date.ToString("dddd");
             }
         }
+        public string Short
+        {
+            get
+            {
+                return Date.ToShortDateString();
+            }
+        }
         public IEnumerable<decimal> Amounts { get; set; }
     }
 

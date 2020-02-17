@@ -28,6 +28,18 @@ namespace XF.Entities
                 return result;
             }
         }
+        public IEnumerable<T> GetModelFromProcedure<T>(string query, object parameters, int? commandTimeout = null)
+        {
+            using (SqlConnection connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["XFModel"].ConnectionString))
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+                var result = connection.Query<T>(query, parameters, commandType: CommandType.StoredProcedure, commandTimeout: commandTimeout);
+                return result;
+            }
+        }
 
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }

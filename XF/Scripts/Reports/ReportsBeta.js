@@ -14,7 +14,7 @@
     XF.getSellerComissionResponse = function (data) {
         if (data.Response) {
             var sections = XF.getSectionsByReport(10, data.Data);//10 == seller comission
-            XF.setData(data.Data,sections);
+            XF.setData(data.Data, sections);
         }
         else {
             XF.alert(data.Message, 'danger', 'danger');
@@ -39,10 +39,33 @@
         }
     };
 
-    XF.getSectionsByReport = function (reportId,data) {
+    XF.getSales = function () {
+        var url = '/ReportsBeta/Sales';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            sellerId: $('#ddlUser').val()
+        };
+        $.getJSON(url, data, XF.getSalesResponse);
+    };
+
+    XF.getSalesResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(4, data.Data);//4 == sales
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
+
+    XF.getSectionsByReport = function (reportId, data) {
         var sections;
         if (reportId == 6) {
             sections = XF.getSectionsSalesByDate(data);
+        }
+        if (reportId == 4) {
+            sections = XF.getSectionsSales(data);
         }
         else if (reportId == 10) {
             sections = XF.getSectionsSellerComission(data);
@@ -50,14 +73,11 @@
         return sections;
     };
 
-
-
-
-    XF.setData = function (data,sections) {
+    XF.setData = function (data, sections) {
         $('.report').reporting({
             data: data,
             sections: sections,
-            orientation: 'portrait',
+            orientation: $('#cmbReports').val() == 4 ? 'landscape':'portrait',
             urlProxy: "/ReportsBeta/PdfToPrintInTab",
             height: 550
         });
@@ -77,7 +97,7 @@
                             titleTemplate: '<th class="text-left">Seller</th>',
                             template: '<td class="text-left"><strong>#=data.Seller#</strong></td>'
                         }
-                        ,{
+                        , {
                             name: 'Client',
                             titleTemplate: '<th class="text-left">Client Name</th>',
                             template: '<td class="text-left"><strong>#=data.Client#</strong></td>'
@@ -116,7 +136,7 @@
                 , detail: {
                     columnNumber: 1
                     , data: data.Detail
-                    , footer: [ { name: 'Cash', template: $('#template-footer-template').html() },
+                    , footer: [{ name: 'Cash', template: $('#template-footer-template').html() },
                                 { name: 'CC', template: $('#template-footer-template').html() },
                                 { name: 'Debit', template: $('#template-footer-template').html() },
                                 { name: 'Check', template: $('#template-footer-template').html() },
@@ -125,7 +145,7 @@
                                 { name: 'Subtototal', template: $('#template-footer-template').html() },
                                 { name: 'Total', template: $('#template-footer-template').html() },
                                 { name: 'TaxDue', template: $('#template-footer-template').html() },
-                            ]
+                    ]
                     , fields: [
                         {
                             name: 'Seller',
@@ -199,6 +219,23 @@
         return sections;
     };
 
+    XF.getSectionsSales = function (data) {
+        var sections = [
+            {
+                contents: [
+                    { template: '<h3 class="text-center">Sales Report<br /><br /> <small> #=data.StartDate# &nbsp;to&nbsp;#=data.EndDate# </small>  </h3>' }
+                ]
+            },
+            {
+                contents: [
+                    { template: $('#page-sales-template').html() }
+                ]
+            }
+        ];
+        return sections;
+    };
+
+
     $('#btnPrint').on('click', function () {
         $('.report').reporting('open-pdf');
     });
@@ -206,7 +243,10 @@
     $('#btnFilter').on('click', function () {
         $('.report').html('');
         var selectedReport = $('#cmbReports').val();
-        if (selectedReport == 6) {
+        if (selectedReport == 4) {
+            XF.getSales();
+        }
+        else if (selectedReport == 6) {
             XF.getSalesByDate();
         }
         else if (selectedReport == 10) {
