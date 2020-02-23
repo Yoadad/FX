@@ -34,7 +34,6 @@ namespace XF.Controllers
             Response.Headers.Add("Content-Disposition", "inline; filename=" + fileName);
             return File(fileContent, contentType);
         }
-
         private IEnumerable<Invoice> GetInvoices(DateTime startDate, DateTime endDate, string userID)
         {
             endDate = endDate.Date.AddDays(1);
@@ -49,12 +48,50 @@ namespace XF.Controllers
                 .ToList()
                 .Where(i => string.IsNullOrWhiteSpace(userID) || i.UserId == userID)
                 .ToList();
+            endDate = endDate.Date.AddDays(-1);
             return invoices;
         }
+
+        public JsonResult Daily(DateTime date,string sellerId)
+        {
+            var startDate = date.Date;
+            var endDate = date.Date;
+            var invoices = GetInvoices(startDate,
+                endDate,
+                sellerId).Select(i => new {
+                    Seller = i.AspNetUser.FullName,
+                    InvoiceId = i.Id,
+                    Customer = i.Client.FullName,
+                    Cash = i.Payments
+                            .Where(p => p.PaymentOptionId == 1)
+                            .Sum(p => p.Amount),
+                    CC = i.Payments
+                            .Where(p => p.PaymentOptionId == 2)
+                            .Sum(p => p.Amount),
+                    Debit = i.Payments
+                            .Where(p => p.PaymentOptionId == 3)
+                            .Sum(p => p.Amount),
+                    Check = i.Payments
+                            .Where(p => p.PaymentOptionId == 4)
+                            .Sum(p => p.Amount),
+                    Finance = (i.PaymentTypeId > 2 && i.PaymentTypeId < 10 ? i.Total : 0),
+                    NewLayaway = (i.PaymentTypeId == 1 ? i.Total : 0),
+                    Total = (((i.Subtotal - i.Discount + i.DeliveryFee + i.InstalationFee) * (1 + i.Tax)) + i.SNAP),
+                    TaxDue = ((i.Subtotal - i.Discount + i.DeliveryFee + i.InstalationFee) * (i.Tax))
+                });
+            var data = new
+            {
+                Date = startDate.ToLongDateString(),
+                Seller = string.IsNullOrWhiteSpace(sellerId) ? string.Empty : invoices.FirstOrDefault().Seller,
+                Detail = invoices.ToList()
+            };
+            return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult Delivery(DateTime startDate, DateTime endDate)
         {
             startDate = startDate.Date;
-            endDate = endDate.Date.AddDays(1).Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
                 string.Empty).Where(i => i.IsDelivery)
@@ -66,7 +103,7 @@ namespace XF.Controllers
             var data = new
             {
                 StartDate = startDate.ToLongDateString(),
-                EndDate = endDate.AddDays(-1).ToLongDateString(),
+                EndDate = endDate.ToLongDateString(),
                 Detail = invoices.ToList()
             };
             return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
@@ -74,7 +111,7 @@ namespace XF.Controllers
         public JsonResult PickUp(DateTime startDate, DateTime endDate)
         {
             startDate = startDate.Date;
-            endDate = endDate.Date.AddDays(1).Date;
+            endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
                 string.Empty).Where(i => !i.IsDelivery)
@@ -86,7 +123,7 @@ namespace XF.Controllers
             var data = new
             {
                 StartDate = startDate.ToLongDateString(),
-                EndDate = endDate.AddDays(-1).ToLongDateString(),
+                EndDate = endDate.ToLongDateString(),
                 Detail = invoices.ToList()
             };
             return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
@@ -121,7 +158,7 @@ namespace XF.Controllers
                 var data = new
                 {
                     StartDate = startDate.ToLongDateString(),
-                    EndDate = endDate.AddDays(-1).ToLongDateString(),
+                    EndDate = endDate.ToLongDateString(),
                     Detail = invoices.ToList()
                 };
 
@@ -142,7 +179,7 @@ namespace XF.Controllers
                 var data = new
                 {
                     StartDate = startDate.ToLongDateString(),
-                    EndDate = endDate.AddDays(-1).ToLongDateString(),
+                    EndDate = endDate.ToLongDateString(),
                     Detail = result,
                     TotalSellPrice = result.Sum(r => r.SellPrice),
                     TotalComission = result.Sum(r => r.Comission)

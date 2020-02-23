@@ -87,7 +87,25 @@
     };
     XF.getPickUpByDateResponse = function (data) {
         if (data.Response) {
-            var sections = XF.getSectionsByReport(3, data.Data);//2 == pick up
+            var sections = XF.getSectionsByReport(3, data.Data);//3 == pick up
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
+
+    XF.getDaily = function () {
+        var url = '/ReportsBeta/Daily';
+        var data = {
+            date: $('#txtStartDate').val(),
+            sellerId: $('#ddlUser').val()
+        };
+        $.getJSON(url, data, XF.getDailyResponse);
+    };
+    XF.getDailyResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(1, data.Data);//1 == Daily
             XF.setData(data.Data, sections);
         }
         else {
@@ -98,7 +116,10 @@
     /////////////////////////////
     XF.getSectionsByReport = function (reportId, data) {
         var sections;
-        if (reportId == 2 || reportId == 3) {
+        if (reportId == 1 ) {
+            sections = XF.getSectionsDaily(data);
+        }
+        else if (reportId == 2 || reportId == 3) {
             sections = XF.getSectionsDeliveryOrPickUp(data);
         }
         else if (reportId == 4) {
@@ -275,6 +296,86 @@
         return sections;
     };
 
+    XF.getSectionsDaily = function (data) {
+        var sections = [
+            {
+                contents: [{ template: '<h2 class="text-center">Daily Balance <br /><small>#=data.Seller#</small><br /><small class="text-right">#=data.Date#</small><br /></h2>' }]
+                , detail: {
+                    columnNumber: 1
+                    , data: data.Detail
+                    , footer: [{ name: 'Cash', template: $('#template-footer-template').html() },
+                                { name: 'CC', template: $('#template-footer-template').html() },
+                                { name: 'Debit', template: $('#template-footer-template').html() },
+                                { name: 'Check', template: $('#template-footer-template').html() },
+                                { name: 'Finance', template: $('#template-footer-template').html() },
+                                { name: 'NewLayaway', template: $('#template-footer-template').html() },
+                                { name: 'Subtototal', template: $('#template-footer-template').html() },
+                                { name: 'Total', template: $('#template-footer-template').html() },
+                                { name: 'TaxDue', template: $('#template-footer-template').html() },
+                    ]
+                    , fields: [
+                        {
+                            name: 'Seller',
+                            titleTemplate: '<th class="text-left" style="width:233px;">Seller</th>',
+                            template: '<td class="text-left"><strong>#=data.Seller#</strong></td>'
+                        }
+                        , {
+                            name: 'InvoiceId',
+                            titleTemplate: '<th class="text-center">Inv ID</th>',
+                            template: '<td class="text-center"><strong>#=data.InvoiceId#</strong></td>'
+                        }
+                        , {
+                            name: 'Customer',
+                            titleTemplate: '<th class="text-left">Customer</th>',
+                            template: '<td class="text-left"><strong>#=data.Customer#</strong></td>'
+                        }
+                        , {
+                            name: 'Cash',
+                            titleTemplate: '<th class="text-center">Cash</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Cash,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'CC',
+                            titleTemplate: '<th class="text-center">CC</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.CC,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Debit',
+                            titleTemplate: '<th class="text-center">Debit</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Debit,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Check',
+                            titleTemplate: '<th class="text-center">Check</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Check,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Finance',
+                            titleTemplate: '<th class="text-center">Finance</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Finance,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'NewLayaway',
+                            titleTemplate: '<th class="text-center">New<br/>Layaway</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.NewLayaway,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Total',
+                            titleTemplate: '<th class="text-center">Total</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Total,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'TaxDue',
+                            titleTemplate: '<th class="text-center">Tax Due</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.TaxDue,\'c\')#</strong></td>'
+                        }
+                    ]
+                }
+            }
+        ];
+        return sections;
+    };
+
     XF.getSectionsDeliveryOrPickUp = function (data) {
         var sections = [
             {
@@ -310,10 +411,12 @@
     });
 
     $('#btnFilter').on('click', function () {
-        $('.report').html('');
+        $('.report').html('<h5>Loading...</h5>');
         var selectedReport = $('#cmbReports').val();
-
-        if (selectedReport == 2) {
+        if (selectedReport == 1) {
+            XF.getDaily();
+        }
+        else if (selectedReport == 2) {
             XF.getDeliveryByDate();
         }
         else if (selectedReport == 3) {
