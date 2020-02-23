@@ -69,7 +69,7 @@
     };
     XF.getDeliveryByDateResponse = function (data) {
         if (data.Response) {
-            var sections = XF.getSectionsByReport(2, data.Data);//6 == sales by date
+            var sections = XF.getSectionsByReport(2, data.Data);//2 == delivery
             XF.setData(data.Data, sections);
         }
         else {
@@ -77,12 +77,29 @@
         }
     };
 
+    XF.getPickUpByDate = function () {
+        var url = '/ReportsBeta/PickUp';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val()
+        };
+        $.getJSON(url, data, XF.getPickUpByDateResponse);
+    };
+    XF.getPickUpByDateResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(3, data.Data);//2 == pick up
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
 
     /////////////////////////////
     XF.getSectionsByReport = function (reportId, data) {
         var sections;
-        if (reportId == 2) {
-            sections = XF.getSectionsDelivery(data);
+        if (reportId == 2 || reportId == 3) {
+            sections = XF.getSectionsDeliveryOrPickUp(data);
         }
         else if (reportId == 4) {
             sections = XF.getSectionsSales(data);
@@ -258,7 +275,7 @@
         return sections;
     };
 
-    XF.getSectionsDelivery = function (data) {
+    XF.getSectionsDeliveryOrPickUp = function (data) {
         var sections = [
             {
                 contents: [{ template: '<h2 class="text-center">Delivery Items<br /><small>#=data.StartDate# &nbsp;to&nbsp;#=data.EndDate#</small><br/></h2>' }]
@@ -268,7 +285,7 @@
                     , fields: [
                         {
                             name: 'ClientName',
-                            titleTemplate: '<th class="text-center">Client\'s Name</th>',
+                            titleTemplate: '<th class="text-center" style="width:233px;">Client\'s Name</th>',
                             template: '<td class="text-left"><strong>#=data.ClientName#</strong></td>'
                         }
                         , {
@@ -295,8 +312,12 @@
     $('#btnFilter').on('click', function () {
         $('.report').html('');
         var selectedReport = $('#cmbReports').val();
+
         if (selectedReport == 2) {
             XF.getDeliveryByDate();
+        }
+        else if (selectedReport == 3) {
+            XF.getPickUpByDate();
         }
         else if (selectedReport == 4) {
             XF.getSales();

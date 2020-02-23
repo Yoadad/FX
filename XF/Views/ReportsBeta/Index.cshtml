@@ -9,8 +9,8 @@
             Reports:
             <select id="cmbReports" class="form-control">
                 @*<option value="1">Daily</option>*@
-                    <option value="2">Delivery</option>
-                    @*<option value="3">Pick Up</option>*@
+                <option value="2">Delivery</option>
+                <option value="3">Pick Up</option>
                 <option value="4">Sales</option>
                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
                 {

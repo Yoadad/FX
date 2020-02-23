@@ -71,6 +71,26 @@ namespace XF.Controllers
             };
             return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult PickUp(DateTime startDate, DateTime endDate)
+        {
+            startDate = startDate.Date;
+            endDate = endDate.Date.AddDays(1).Date;
+            var invoices = GetInvoices(startDate,
+                endDate,
+                string.Empty).Where(i => !i.IsDelivery)
+                .Select(i => new {
+                    ClientName = i.Client.FullName,
+                    InvoiceId = i.Id,
+                    Date = i.Date.ToLongDateString()
+                });
+            var data = new
+            {
+                StartDate = startDate.ToLongDateString(),
+                EndDate = endDate.AddDays(-1).ToLongDateString(),
+                Detail = invoices.ToList()
+            };
+            return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SalesRange(DateTime startDate, DateTime endDate,string sellerId)
         {
             try
