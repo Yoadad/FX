@@ -59,13 +59,36 @@
         }
     };
 
+    XF.getDeliveryByDate = function () {
+        var url = '/ReportsBeta/Delivery';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val()
+        };
+        $.getJSON(url, data, XF.getDeliveryByDateResponse);
+    };
+    XF.getDeliveryByDateResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(2, data.Data);//6 == sales by date
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
+
+
+    /////////////////////////////
     XF.getSectionsByReport = function (reportId, data) {
         var sections;
-        if (reportId == 6) {
-            sections = XF.getSectionsSalesByDate(data);
+        if (reportId == 2) {
+            sections = XF.getSectionsDelivery(data);
         }
-        if (reportId == 4) {
+        else if (reportId == 4) {
             sections = XF.getSectionsSales(data);
+        }
+        else if (reportId == 6) {
+            sections = XF.getSectionsSalesByDate(data);
         }
         else if (reportId == 10) {
             sections = XF.getSectionsSellerComission(data);
@@ -235,6 +258,35 @@
         return sections;
     };
 
+    XF.getSectionsDelivery = function (data) {
+        var sections = [
+            {
+                contents: [{ template: '<h2 class="text-center">Delivery Items<br /><small>#=data.StartDate# &nbsp;to&nbsp;#=data.EndDate#</small><br/></h2>' }]
+                , detail: {
+                    columnNumber: 1
+                    , data: data.Detail
+                    , fields: [
+                        {
+                            name: 'ClientName',
+                            titleTemplate: '<th class="text-center">Client\'s Name</th>',
+                            template: '<td class="text-left"><strong>#=data.ClientName#</strong></td>'
+                        }
+                        , {
+                            name: 'InvoiceId',
+                            titleTemplate: '<th class="text-center">Invoice ID</th>',
+                            template: '<td class="text-center"><strong>#=data.InvoiceId#</strong></td>'
+                        }
+                        , {
+                            name: 'Date',
+                            titleTemplate: '<th class="text-center">Date Of Delivery</th>',
+                            template: '<td class="text-center"><strong>#=data.Date#</strong></td>'
+                        }
+                    ]
+                }
+            }
+        ];
+        return sections;
+    };
 
     $('#btnPrint').on('click', function () {
         $('.report').reporting('open-pdf');
@@ -243,7 +295,10 @@
     $('#btnFilter').on('click', function () {
         $('.report').html('');
         var selectedReport = $('#cmbReports').val();
-        if (selectedReport == 4) {
+        if (selectedReport == 2) {
+            XF.getDeliveryByDate();
+        }
+        else if (selectedReport == 4) {
             XF.getSales();
         }
         else if (selectedReport == 6) {

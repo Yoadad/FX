@@ -8,9 +8,9 @@
         <label>
             Reports:
             <select id="cmbReports" class="form-control">
-                @*<option value="1">Daily</option>
+                @*<option value="1">Daily</option>*@
                     <option value="2">Delivery</option>
-                    <option value="3">Pick Up</option>*@
+                    @*<option value="3">Pick Up</option>*@
                 <option value="4">Sales</option>
                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
                 {
@@ -161,6 +161,6 @@
     @Scripts.Render("~/Scripts/reporting.js")
     @Scripts.Render("~/Scripts/pako.min.js")
     @Scripts.Render("~/Scripts/jszip.min.js")
-    @Scripts.Render("~/Scripts/Reports/ReportsBeta.js?v=2.0")
+    @Scripts.Render("~/Scripts/Reports/ReportsBeta.js?v=2.1")
 
 }
