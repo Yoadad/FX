@@ -14,12 +14,12 @@
                 <option value="4">Sales</option>
                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
                 {
-                    @*<option value="5">Profit</option>*@
+                    <option value="5">Profit</option>
                 }
                 <option value="6">Sales by Date</option>
                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Super"))
                 {
-                    @*<option value="7">Comissions</option>*@
+                    <option value="7">Comissions</option>
                 }
                 @*<option value="8">Supplies</option>
                     <option value="9">Utilities</option>*@
@@ -35,7 +35,7 @@
         </label>
     </div>
     <div class="col-sm-2">
-        <label>
+        <label id="lblEndDate">
             End Date:
             <input type="date" class="form-control" id="txtEndDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         </label>

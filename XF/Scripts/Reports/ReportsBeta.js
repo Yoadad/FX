@@ -59,6 +59,46 @@
         }
     };
 
+    XF.getProfit = function () {
+        var url = '/ReportsBeta/Profit';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            sellerId: $('#ddlUser').val()
+        };
+        $.getJSON(url, data, XF.getProfitResponse);
+    };
+
+    XF.getProfitResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(5, data.Data);//5 == profit
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
+
+    XF.getComission = function () {
+        var url = '/ReportsBeta/Comission';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            sellerId: $('#ddlUser').val()
+        };
+        $.getJSON(url, data, XF.getComissionResponse);
+    };
+
+    XF.getComissionResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(7, data.Data);//7 == comission
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
+
     XF.getDeliveryByDate = function () {
         var url = '/ReportsBeta/Delivery';
         var data = {
@@ -125,8 +165,14 @@
         else if (reportId == 4) {
             sections = XF.getSectionsSales(data);
         }
+        else if (reportId == 5) {
+            sections = XF.getSectionsProfit(data);
+        }
         else if (reportId == 6) {
             sections = XF.getSectionsSalesByDate(data);
+        }
+        else if (reportId == 7) {
+            sections = XF.getSectionsComission(data);
         }
         else if (reportId == 10) {
             sections = XF.getSectionsSellerComission(data);
@@ -406,6 +452,106 @@
         return sections;
     };
 
+    XF.getSectionsProfit = function (data) {
+        var sections = [
+            {
+                contents: [{ template: '<h2 class="text-center">    Profit Report    <br />    <small>#=data.StartDate# &nbsp;to&nbsp;#=data.EndDate#</small>    <br /></h2>' }]
+                , detail: {
+                    columnNumber: 1
+                    , data: data.Detail
+                    , footer: [ { name: 'PurchasePrice', template: $('#template-footer-template').html() },
+                                { name: 'SellPrice', template: $('#template-footer-template').html() },
+                                { name: 'Profit', template: $('#template-footer-template').html() }
+                    ]
+                    , fields: [
+                        {
+                            name: 'Date',
+                            titleTemplate: '<th class="text-center">Date</th>',
+                            template: '<td class="text-left"><strong>#=data.Date#</strong></td>'
+                        }
+                        , {
+                            name: 'InvoiceId',
+                            titleTemplate: '<th class="text-center">Invoice ID</th>',
+                            template: '<td class="text-center"><strong>#=data.InvoiceId#</strong></td>'
+                        }
+                        , {
+                            name: 'PurchasePrice',
+                            titleTemplate: '<th class="text-center">Purchase Price</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.PurchasePrice,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'SellPrice',
+                            titleTemplate: '<th class="text-center">Sell Price</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.SellPrice,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Profit',
+                            titleTemplate: '<th class="text-center">Profit</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Profit,\'c\')#</strong></td>'
+                        }
+
+                    ]
+                }
+            }
+        ];
+        return sections;
+    };
+
+    XF.getSectionsComission = function (data) {
+        var sections = [
+            {
+                contents: [{ template: '<h2 class="text-center">    Comissions Report    <br />  <br />    <small>#=data.StartDate# &nbsp;to&nbsp;#=data.EndDate#</small>    <br /></h2>' }]
+                , detail: {
+                    columnNumber: 1
+                    , data: data.Detail
+                    , footer: [ { name: 'PurchasePrice', template: $('#template-footer-template').html() },
+                                { name: 'SellPrice', template: $('#template-footer-template').html() },
+                                { name: 'Profit', template: $('#template-footer-template').html() },
+                                { name: 'Comission', template: $('#template-footer-template').html() }
+                    ]
+                    , fields: [
+                        {
+                            name: 'Seller',
+                            titleTemplate: '<th class="text-left" style="width:233px;">Seller</th>',
+                            template: '<td class="text-left"><strong>#=data.Seller#</strong></td>'
+                        }
+                        , {
+                            name: 'InvoiceId',
+                            titleTemplate: '<th class="text-center">Invoice Id</th>',
+                            template: '<td class="text-center"><strong>#=data.InvoiceId#</strong></td>'
+                        }
+                        , {
+                            name: 'Date',
+                            titleTemplate: '<th class="text-center">Date</th>',
+                            template: '<td class="text-center"><strong>#=data.Date#</strong></td>'
+                        }
+                        , {
+                            name: 'PurchasePrice',
+                            titleTemplate: '<th class="text-center">Purchase Price</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.PurchasePrice,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'SellPrice',
+                            titleTemplate: '<th class="text-center">Sell Price</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.SellPrice,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Profit',
+                            titleTemplate: '<th class="text-center">Profit</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Profit,\'c\')#</strong></td>'
+                        }
+                        , {
+                            name: 'Comission',
+                            titleTemplate: '<th class="text-center">Comission</th>',
+                            template: '<td class="text-right"><strong>#=kendo.toString(data.Comission,\'c\')#</strong></td>'
+                        }
+                    ]
+                }
+            }
+        ];
+        return sections;
+    };
+
     $('#btnPrint').on('click', function () {
         $('.report').reporting('open-pdf');
     });
@@ -425,11 +571,27 @@
         else if (selectedReport == 4) {
             XF.getSales();
         }
+        else if (selectedReport == 5) {
+            XF.getProfit();
+        }
         else if (selectedReport == 6) {
             XF.getSalesByDate();
+        }
+        else if (selectedReport == 7) {
+            XF.getComission();
         }
         else if (selectedReport == 10) {
             XF.getSellerComission();
         }
     });
+
+    $('#cmbReports').on('change', function () {
+        $('#lblEndDate').hide();
+        if ($(this).val() > 1) {
+            $('#lblEndDate').show();
+        }
+    });
+
+    $('#lblEndDate').hide();
+
 })(jQuery, XF);

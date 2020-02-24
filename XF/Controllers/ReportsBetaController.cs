@@ -51,7 +51,6 @@ namespace XF.Controllers
             endDate = endDate.Date.AddDays(-1);
             return invoices;
         }
-
         public JsonResult Daily(DateTime date,string sellerId)
         {
             var startDate = date.Date;
@@ -87,7 +86,6 @@ namespace XF.Controllers
             };
             return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult Delivery(DateTime startDate, DateTime endDate)
         {
             startDate = startDate.Date;
@@ -169,12 +167,67 @@ namespace XF.Controllers
                 return Json(new { Response = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult Profit(DateTime startDate, DateTime endDate, string sellerId)
+        {
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+            var invoices = GetInvoices(startDate,
+                endDate,
+                sellerId).Select(i=>new {
+                    Date = i.Created.ToShortDateString(),
+                    InvoiceId = i.Id,
+                    PurchasePrice = i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice),
+                    SellPrice = (i.InvoiceDetails.Sum(ii => ii.UnitPrice) - i.Discount),
+                    Profit = (i.InvoiceDetails.Sum(ii => ii.UnitPrice) - i.Discount - i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice))
+                });
+
+            var data = new
+            {
+                StartDate = startDate.ToLongDateString(),
+                EndDate = endDate.ToLongDateString(),
+                Detail = invoices.ToList()
+            };
+
+            return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Comission(DateTime startDate, DateTime endDate, string sellerId)
+        {
+            try
+            {
+                startDate = startDate.Date;
+                endDate = endDate.Date;
+                startDate = startDate.Date;
+                endDate = endDate.Date;
+                var invoices = GetInvoices(startDate,
+                    endDate,
+                    sellerId).Select(i=>new {
+                        Seller = i.AspNetUser.FullName,
+                        InvoiceId = i.Id,
+                        Date = i.Created.ToShortDateString(),
+                        PurchasePrice = (i.InvoiceDetails.Sum(ii =>ii.Product.PurchasePrice * ii.Quantity)),
+                        SellPrice = (i.InvoiceDetails.Sum(ii => ii.UnitPrice * ii.Quantity) - i.Discount),
+                        Profit = (i.InvoiceDetails.Sum(ii => ii.UnitPrice * ii.Quantity) - i.Discount - i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice * ii.Quantity)),
+                        Comission = ((i.InvoiceDetails.Sum(ii => ii.UnitPrice * ii.Quantity) - i.Discount - i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice * ii.Quantity)) * i.AspNetUser.Comission)
+                    });
+                var data = new
+                {
+                    StartDate = startDate.ToLongDateString(),
+                    EndDate = endDate.ToLongDateString(),
+                    Detail = invoices.ToList()
+                };
+                return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult SellerComission(DateTime startDate, DateTime endDate, string sellerId)
         {
             try
             {
                 startDate = startDate.Date;
-                endDate = endDate.Date.AddDays(1);
+                endDate = endDate.Date;
                 var result = db.GetModelFromProcedure<SellerComissionModel>("get_SellerComission", new { startDate = startDate, endDate = endDate, userId = sellerId });
                 var data = new
                 {
@@ -258,6 +311,5 @@ namespace XF.Controllers
 
             return items;
         }
-
     }
 }
