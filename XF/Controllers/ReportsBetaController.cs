@@ -51,13 +51,14 @@ namespace XF.Controllers
             endDate = endDate.Date.AddDays(-1);
             return invoices;
         }
-        public JsonResult Daily(DateTime date,string sellerId)
+        public JsonResult Daily(DateTime date, string sellerId)
         {
             var startDate = date.Date;
             var endDate = date.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                sellerId).Select(i => new {
+                sellerId).Select(i => new
+                {
                     Seller = i.AspNetUser.FullName,
                     InvoiceId = i.Id,
                     Customer = i.Client.FullName,
@@ -93,10 +94,11 @@ namespace XF.Controllers
             var invoices = GetInvoices(startDate,
                 endDate,
                 string.Empty).Where(i => i.IsDelivery)
-                .Select(i=>new {
-                    ClientName= i.Client.FullName,
+                .Select(i => new
+                {
+                    ClientName = i.Client.FullName,
                     InvoiceId = i.Id,
-                    Date= i.Date.ToLongDateString()
+                    Date = i.Date.ToLongDateString()
                 });
             var data = new
             {
@@ -113,7 +115,8 @@ namespace XF.Controllers
             var invoices = GetInvoices(startDate,
                 endDate,
                 string.Empty).Where(i => !i.IsDelivery)
-                .Select(i => new {
+                .Select(i => new
+                {
                     ClientName = i.Client.FullName,
                     InvoiceId = i.Id,
                     Date = i.Date.ToLongDateString()
@@ -126,7 +129,7 @@ namespace XF.Controllers
             };
             return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SalesRange(DateTime startDate, DateTime endDate,string sellerId)
+        public JsonResult SalesRange(DateTime startDate, DateTime endDate, string sellerId)
         {
             try
             {
@@ -173,7 +176,8 @@ namespace XF.Controllers
             endDate = endDate.Date;
             var invoices = GetInvoices(startDate,
                 endDate,
-                sellerId).Select(i=>new {
+                sellerId).Select(i => new
+                {
                     Date = i.Created.ToShortDateString(),
                     InvoiceId = i.Id,
                     PurchasePrice = i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice),
@@ -200,11 +204,12 @@ namespace XF.Controllers
                 endDate = endDate.Date;
                 var invoices = GetInvoices(startDate,
                     endDate,
-                    sellerId).Select(i=>new {
+                    sellerId).Select(i => new
+                    {
                         Seller = i.AspNetUser.FullName,
                         InvoiceId = i.Id,
                         Date = i.Created.ToShortDateString(),
-                        PurchasePrice = (i.InvoiceDetails.Sum(ii =>ii.Product.PurchasePrice * ii.Quantity)),
+                        PurchasePrice = (i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice * ii.Quantity)),
                         SellPrice = (i.InvoiceDetails.Sum(ii => ii.UnitPrice * ii.Quantity) - i.Discount),
                         Profit = (i.InvoiceDetails.Sum(ii => ii.UnitPrice * ii.Quantity) - i.Discount - i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice * ii.Quantity)),
                         Comission = ((i.InvoiceDetails.Sum(ii => ii.UnitPrice * ii.Quantity) - i.Discount - i.InvoiceDetails.Sum(ii => ii.Product.PurchasePrice * ii.Quantity)) * i.AspNetUser.Comission)
@@ -311,5 +316,49 @@ namespace XF.Controllers
 
             return items;
         }
+
+        public JsonResult Supplies(DateTime startDate, DateTime endDate, string sellerId)
+        {
+            try
+            {
+                startDate = startDate.Date;
+                endDate = endDate.Date.AddDays(1);
+
+                var supplies = db.Supplies
+                   .Where(s => s.Date >= startDate && s.Date < endDate)
+                   .Include(s => s.Provider)
+                   .ToList()
+                   .Select(s => new
+                   {
+                       Id = s.Id,
+                       Name = s.Name,
+                       Number = s.Number,
+                       Type = s.Type,
+                       Amount = s.Amount,
+                       Date = s.Date.ToString("MM/dd/yyyy"),
+                       ProviderId = s.ProviderId,
+                       ProviderBusinessName = s.Provider.BusinessName
+                   });
+                var detail = supplies.GroupBy(s => s.ProviderId).ToArray();
+                var total = supplies.Sum(s => s.Amount);
+                endDate = endDate.Date.AddDays(-1);
+                var data = new
+                {
+                    StartDate = startDate.ToLongDateString(),
+                    EndDate = endDate.ToLongDateString(),
+                    Detail = detail,
+                    Total = total
+                };
+                return Json(new { Response = true, Data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
     }
 }

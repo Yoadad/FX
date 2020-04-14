@@ -2,6 +2,25 @@
 
 (function ($, XF) {
 
+    XF.getSupplies = function () {
+        var url = '/ReportsBeta/Supplies';
+        var data = {
+            startDate: $('#txtStartDate').val(),
+            endDate: $('#txtEndDate').val(),
+            sellerId: $('#ddlUser').val()
+        };
+        $.getJSON(url, data, XF.getgetSuppliesResponse);
+    };
+    XF.getgetSuppliesResponse = function (data) {
+        if (data.Response) {
+            var sections = XF.getSectionsByReport(8, data.Data);//8 == utilities
+            XF.setData(data.Data, sections);
+        }
+        else {
+            XF.alert(data.Message, 'danger', 'danger');
+        }
+    };
+
     XF.getSellerComission = function () {
         var url = '/ReportsBeta/SellerComission';
         var data = {
@@ -156,7 +175,7 @@
     /////////////////////////////
     XF.getSectionsByReport = function (reportId, data) {
         var sections;
-        if (reportId == 1 ) {
+        if (reportId == 1) {
             sections = XF.getSectionsDaily(data);
         }
         else if (reportId == 2 || reportId == 3) {
@@ -174,6 +193,9 @@
         else if (reportId == 7) {
             sections = XF.getSectionsComission(data);
         }
+        else if (reportId == 8) {
+            sections = XF.getSectionsSupplies(data);
+        }
         else if (reportId == 10) {
             sections = XF.getSectionsSellerComission(data);
         }
@@ -184,7 +206,7 @@
         $('.report').reporting({
             data: data,
             sections: sections,
-            orientation: $('#cmbReports').val() == 4 ? 'landscape':'portrait',
+            orientation: $('#cmbReports').val() == 4 ? 'landscape' : 'portrait',
             urlProxy: "/ReportsBeta/PdfToPrintInTab",
             height: 550
         });
@@ -459,7 +481,7 @@
                 , detail: {
                     columnNumber: 1
                     , data: data.Detail
-                    , footer: [ { name: 'PurchasePrice', template: $('#template-footer-template').html() },
+                    , footer: [{ name: 'PurchasePrice', template: $('#template-footer-template').html() },
                                 { name: 'SellPrice', template: $('#template-footer-template').html() },
                                 { name: 'Profit', template: $('#template-footer-template').html() }
                     ]
@@ -504,7 +526,7 @@
                 , detail: {
                     columnNumber: 1
                     , data: data.Detail
-                    , footer: [ { name: 'PurchasePrice', template: $('#template-footer-template').html() },
+                    , footer: [{ name: 'PurchasePrice', template: $('#template-footer-template').html() },
                                 { name: 'SellPrice', template: $('#template-footer-template').html() },
                                 { name: 'Profit', template: $('#template-footer-template').html() },
                                 { name: 'Comission', template: $('#template-footer-template').html() }
@@ -552,6 +574,62 @@
         return sections;
     };
 
+    XF.getSectionsSupplies = function (data) {
+        var sections = [
+            {
+                contents: [{ template: '<h2 class="text-center">Supplies<br /><br /><small>#=data.StartDate# &nbsp;to&nbsp;#=data.EndDate#</small><br /></h2>' }]
+            }
+        ];
+        for (var i=0; i < data.Detail.length; i++) {
+            var currentDetail = {
+                contents: []
+                    , detail: {
+                        columnNumber: 1
+                        , data: data.Detail[i]
+                        , customFooterTemplate: $('#detail-footer-template').html()
+                        , fields: [
+                            {
+                                name: 'ProviderBusinessName',
+                                titleTemplate: '<th class="text-center" style="width:233px;">Provider</th>',
+                                template: '<td class="text-left"><strong>#=data.ProviderBusinessName#</strong></td>'
+                            },
+                            {
+                                name: 'Type',
+                                titleTemplate: '<th class="text-center" style="width:233px;">Type</th>',
+                                template: '<td class="text-center"><strong>#=data.Type#</strong></td>'
+                            },
+                            {
+                                name: 'Date',
+                                titleTemplate: '<th class="text-center" style="width:233px;">Date</th>',
+                                template: '<td class="text-center"><strong>#=data.Date#</strong></td>'
+                            },
+                            {
+                                name: 'Number',
+                                titleTemplate: '<th class="text-center" style="width:233px;">Number</th>',
+                                template: '<td class="text-center"><strong>#=data.Number#</strong></td>'
+                            },
+                            {
+                                name: 'Name',
+                                titleTemplate: '<th class="text-center" style="width:233px;">Name</th>',
+                                template: '<td class="text-center"><strong>#=data.Name#</strong></td>'
+                            },
+                            {
+                                name: 'Amount',
+                                titleTemplate: '<th class="text-center" style="width:233px;">Paid Amount</th>',
+                                template: '<td class="text-right"><strong>#=kendo.toString(data.Amount,\'c\')#</strong></td>'
+                            }
+
+                        ]
+                    }
+            };
+            sections.push(currentDetail);
+        }
+        sections.push({
+            contents: [{ template: $('#grand-total-template').html() }]
+        });
+        return sections;
+    };
+
     $('#btnPrint').on('click', function () {
         $('.report').reporting('open-pdf');
     });
@@ -579,6 +657,9 @@
         }
         else if (selectedReport == 7) {
             XF.getComission();
+        }
+        else if (selectedReport == 8) {
+            XF.getSupplies();
         }
         else if (selectedReport == 10) {
             XF.getSellerComission();

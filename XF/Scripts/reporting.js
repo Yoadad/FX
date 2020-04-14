@@ -169,9 +169,9 @@ var REPORTING = REPORTING || {};
                     result += '<td class="text-right foot">';
                     for (var j = 0; j < detail.footer.length; j++) {
                         if (detail.fields[i].name == detail.footer[j].name) {
-                            var footerResult = RPT.getSumFooter(detail, detail.footer[j].name);
+                            var footerResult = RPT.getFooterResult(detail, detail.footer[j].name);
                             var template = detail.footer[j].template;
-                            result += RPT.getHtmlTemplate(template, { value: footerResult});
+                            result += RPT.getHtmlTemplate(template, { value: footerResult,detail: detail});
                         }
                     }
                     result += '</td>';
@@ -182,6 +182,14 @@ var REPORTING = REPORTING || {};
             }
             return '';
         };
+        RPT.getHtmlCustomDetailFooter = function (detail) {
+            var result = '';
+            if (detail && detail.customFooterTemplate) {
+                var template = detail.customFooterTemplate;
+                var result = RPT.getHtmlTemplate(template,{ detail: detail });
+            }
+            return result;
+        };
 
         RPT.getSumFooter = function (detail, fieldName) {
             var sum = 0;
@@ -189,6 +197,29 @@ var REPORTING = REPORTING || {};
                 sum += detail.data[i][fieldName];
             }
             return sum;
+        }
+        RPT.getMinFooter = function (detail, fieldName) {
+            var min = detail.data[0][fieldName];
+            for (var i = 0; i < detail.data.length; i++) {
+                if (detail.data[i][fieldName] < min) {
+                    min = detail.data[i][fieldName];
+                }
+            }
+            return min;
+        }
+
+        RPT.getFooterResult = function (detail, fieldName) {
+            if (!detail || !detail.data || detail.data.length == 0 || detail.data[0].length == 0) {
+                return;
+            }
+            var firstData = detail.data[0][fieldName];
+            if (typeof firstData === 'number') {
+                return RPT.getSumFooter(detail,fieldName);
+            }
+            else if (typeof firstData === 'string') {
+                return RPT.getMinFooter(detail, fieldName);
+            }
+            return null;
         }
 
         RPT.sortDetailByGroupings = function (detail) {
@@ -463,6 +494,7 @@ var REPORTING = REPORTING || {};
 
         RPT.setLastDetailFooter = function (section) {
             var detailFooterHtml = RPT.getHtmlDetailFooter(section.detail);
+            detailFooterHtml += RPT.getHtmlCustomDetailFooter(section.detail);
             $('.reporting-detail-column table:last').append(detailFooterHtml);
         };
 
